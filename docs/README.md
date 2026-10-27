@@ -25,7 +25,7 @@ See [security](security.md), [design](design.md), and [deployment gates](deploym
 ## Container publication
 
 The `portal-image` workflow builds and checks linux/amd64 images on pull requests;
-only merged `main` (or a manual run on main) publishes to
+only a push to `main` that creates a release publishes to
 `ghcr.io/perkforge/perkforge-portal`. It uses the repository's short-lived
 `GITHUB_TOKEN` with contents read and packages write; no PAT or stored registry
 credential is required. Actions and the official Node base are pinned by digest/SHA.
@@ -44,7 +44,7 @@ or household use. GHCR initially creates packages private even for a public repo
 a package administrator must set this package public after its first publication,
 then verify anonymous pulls. Do not create cluster pull credentials for this testing
 choice. The workflow does not change package visibility or repository settings.
-Merging this workflow is required for the first main publication. Review the resulting
+Merge this workflow, then review and merge its generated release PR for the first publication. Review the resulting
 registry digest before proposing tenant/platform pins; publication does not activate
 portal, provision Keycloak, or change cluster permissions.
 
@@ -69,12 +69,20 @@ release-please also treats `perf` as a patch. Use Conventional Commit squash-mer
 subjects and preserve breaking-change footers in the final squash message. A PR title
 alone does not change versioning if the merged commit has a different subject.
 
-Merge ordinary PRs to publish source-SHA images and update the pending release PR.
+Merge ordinary PRs to build/test and update the pending release PR; they publish no image.
 Review and manually merge that release PR to create a GitHub release/tag and publish
 `vMAJOR.MINOR.PATCH` pointing to the same registry digest as its source-SHA image.
-The workflow uses the same run because GITHUB_TOKEN-created tags do not trigger another
-workflow. Retrying main publication reuses an existing source image, verifies its source
-label, and fills in a missing version tag; conflicting version digests fail closed.
+The release PR merge produces a push to main. Only when release-please reports
+`release_created` does that same workflow publish both source-SHA and version tags.
+PRs, feature branches, manual dispatches and tag pushes never publish. Manual runs
+remain available for checks only. GITHUB_TOKEN-created tags need no separate trigger.
+If publication fails, use **Re-run failed jobs** on the original main-push run while
+its image artifact is retained (one day), preserving the successful release job's
+outputs. Re-running all jobs can yield `release_created=false` and skip publication;
+a manual dispatch cannot recover publication. Do not create another version or bypass
+the trigger restriction automatically. An expired artifact requires a reviewed recovery
+plan. A retry reuses the existing SHA image, verifies its source label and rejects a
+conflicting version digest.
 No floating major/minor/latest tags or automatic merges are created.
 
 The read-only check job builds/tests the image. Only the publish job has packages write.
@@ -92,3 +100,11 @@ changes. No release API is called by these tests. Workflow publication/retry beh
 still requires the first approved main run; actionlint is syntax checking, not that
 integration test. The repository currently has Actions-created PRs disabled; its
 owner must enable that setting before release-please can open a release PR.
+
+For this initial rollout: enable **Settings → Actions → General → Workflow permissions
+→ Allow GitHub Actions to create and approve pull requests**, then merge the workflow
+PR. The `feat` change should propose a **0.2.0** release PR from the 0.1.0 baseline
+(unless other eligible commits are merged first). Run checks on that release branch,
+review its changelog/version updates, and merge it. That second main push publishes
+`v0.2.0` and its full-SHA tag. No image is published by the first merge alone.
+The workflow never approves or merges PRs despite the combined GitHub setting label.

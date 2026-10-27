@@ -29,3 +29,7 @@ Future GitLab/Keycloak mutation operations have no routes, credentials, grants,
 or feature switches here. Adding them requires explicit authorization, least
 privilege scopes, per-operation authorization, CSRF, audit redaction and threat
 review. The portal remains a Home household application, not platform administration.
+
+Deployment ownership: application source/image build stays here; Helm/Fleet app
+definitions live in perkforge-tenant-portal; platform foundations/security and
+registration live in perkforge-platform. See deployment.md.

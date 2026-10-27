@@ -21,6 +21,9 @@ test('bounded sessions expire, cannot resurrect, and redirect is fixed', () => {
   for (const path of ['//evil.test', 'https://evil.test', '/\\evil.test', '/admin', '/']) assert.equal(safeReturn(path), '/');
 });
 test('configuration fails closed and adapter cannot connect', () => {
+  assert.equal(readConfig({}).listenHost, '127.0.0.1');
+  assert.equal(readConfig({ LISTEN_HOST: '0.0.0.0' }).listenHost, '0.0.0.0');
+  assert.throws(() => readConfig({ LISTEN_HOST: 'public.invalid' }));
   assert.throws(() => readConfig({ PORTAL_ORIGIN: 'http://portal.test' }));
   assert.throws(() => readConfig({ TENANT_SOURCE: 'live' }));
   assert.throws(() => readConfig({ OIDC_ISSUER: 'https://issuer.test' }));

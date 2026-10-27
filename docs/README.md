@@ -6,11 +6,12 @@ GitLab is **disabled**. No live tenant data, credentials, client registrations o
 ## Local development
 
 Use Node 24 LTS and npm. `npm ci`, `npm run check`, then `npm start`.
-The server binds only `127.0.0.1:3000` and serves the Vite build. The disconnected UI
+By default the server binds `127.0.0.1:3000` and serves the Vite build. The disconnected UI
 can be inspected at http://127.0.0.1:3000; authentication requires an independently
 approved HTTPS reverse proxy at `PORTAL_ORIGIN` because cookies are always Secure.
 Copy `.env.example` to ignored `.env` only when identity configuration is approved.
-No development option disables TLS, cookie security, or token verification.
+No development option disables cookie security or token verification.
+The tenant repo owns Kubernetes/Fleet definitions; this app repo provides its Dockerfile.
 `TENANT_SOURCE=mock` produces one explicitly labeled fixture after authentication.
 `TENANT_SOURCE=disabled` (default) returns an empty directory with disconnected metadata.
 Any other mode fails startup. No GitLab network client exists.

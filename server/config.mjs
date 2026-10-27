@@ -1,4 +1,6 @@
 export function readConfig(env = process.env) {
+  const listenHost = env.LISTEN_HOST || '127.0.0.1';
+  if (!['127.0.0.1', '0.0.0.0'].includes(listenHost)) throw new Error('Unsupported listen address');
   const origin = env.PORTAL_ORIGIN || 'https://localhost:3443';
   const url = new URL(origin);
   if (url.protocol !== 'https:' || url.origin !== origin) throw new Error('PORTAL_ORIGIN must be an HTTPS origin');
@@ -7,5 +9,5 @@ export function readConfig(env = process.env) {
   if (issuer && (!env.OIDC_CLIENT_ID || !env.OIDC_CLIENT_SECRET || !env.OIDC_AUDIENCE)) throw new Error('Incomplete OIDC configuration');
   const mode = env.TENANT_SOURCE || 'disabled';
   if (!['disabled', 'mock'].includes(mode)) throw new Error('GitLab live access is not implemented');
-  return { origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode };
+  return { listenHost, origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode };
 }

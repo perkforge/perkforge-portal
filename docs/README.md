@@ -39,11 +39,13 @@ Tags are not registry-enforced immutable: deployment must use the registry diges
 the successful run summary. An Actions rebuild need not match the earlier local
 Podman image digest. No `latest` tag or automatic deployment is configured.
 
-**Public images are approved for testing only.** Revisit visibility before production
-or household use. GHCR initially creates packages private even for a public repository;
-a package administrator must set this package public after its first publication,
-then verify anonymous pulls. Do not create cluster pull credentials for this testing
-choice. The workflow does not change package visibility or repository settings.
+**Keep the GHCR package private.** The earlier public-testing choice was withdrawn.
+GitHub Actions still publishes with its repository GITHUB_TOKEN. For Kubernetes pulls,
+the platform provisions a separate read-only registry credential as a namespaced
+imagePullSecret, and the tenant chart references its name. No credential belongs in
+Git, image layers, workflow logs or chat. Credential creation and authenticated pull
+verification require separate approval; this documentation does not provision them.
+The workflow does not change package visibility or repository settings.
 Merge this workflow, then review and merge its generated release PR for the first publication. Review the resulting
 registry digest before proposing tenant/platform pins; publication does not activate
 portal, provision Keycloak, or change cluster permissions.
@@ -89,22 +91,32 @@ The read-only check job builds/tests the image. Only the publish job has package
 The separate release job needs contents, pull-requests and issues write for release PRs,
 tags/releases and labels, as documented by release-please. These rights are reviewable
 in this PR; no repository settings are changed automatically. GitHub may require the
-owner to enable Actions creating PRs. GITHUB_TOKEN-created release PRs do not trigger
-normal PR CI: run `portal-image` manually on the release branch for read-only checks
-before merging (publishing and release jobs are main-only). No PAT is required.
+owner to enable Actions creating PRs; this repository's setting is now enabled with
+read-only default token permissions. For a bot-created release PR, GitHub creates
+approval-required `pull_request` runs. In the PR merge box, select **Approve workflows
+to run**, then wait for those existing runs before merging. Do not start a duplicate
+manual workflow merely because checks have not started. Dispatch remains a checks-only
+fallback when specifically needed; it is not the normal release review flow.
+
+This was verified for release PR #3: automatic runs
+[40586116015](https://github.com/perkforge/perkforge-portal/actions/runs/40586116015)
+and [40586115946](https://github.com/perkforge/perkforge-portal/actions/runs/40586115946)
+were created, then expired without approval. A separate manual validation passed before
+merge. The earlier claim that GITHUB_TOKEN categorically suppresses PR checks was
+incorrect. See [GitHub's current trigger rules](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow).
+No extra token, GitHub App, reopen, or diagnostic commit is necessary.
 
 Offline release tests use release-please 17.3.0, the version bundled by the pinned
 action, with a fake GitHub file reader. Nine cases verify actual release-PR eligibility
 and bump behavior, including both breaking forms, squash subjects and no-release
 changes. No release API is called by these tests. Workflow publication/retry behavior
 still requires the first approved main run; actionlint is syntax checking, not that
-integration test. The repository currently has Actions-created PRs disabled; its
-owner must enable that setting before release-please can open a release PR.
+integration test. The owner has enabled Actions-created PRs; workflow-run approval is a separate step.
 
 For this initial rollout: enable **Settings → Actions → General → Workflow permissions
 → Allow GitHub Actions to create and approve pull requests**, then merge the workflow
 PR. The `feat` change should propose a **0.2.0** release PR from the 0.1.0 baseline
-(unless other eligible commits are merged first). Run checks on that release branch,
-review its changelog/version updates, and merge it. That second main push publishes
+(unless other eligible commits are merged first). Approve the existing release PR workflow runs, review its changelog/version updates,
+and merge it once they pass. That second main push publishes
 `v0.2.0` and its full-SHA tag. No image is published by the first merge alone.
 The workflow never approves or merges PRs despite the combined GitHub setting label.

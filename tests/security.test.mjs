@@ -5,11 +5,14 @@ import { Sessions, validateAccess, safeReturn } from '../server/security.mjs';
 import { buildApp } from '../server/app.mjs';
 import { readConfig } from '../server/config.mjs';
 import { listTenants } from '../server/tenants.mjs';
-const config = { origin: 'https://portal.test', issuer: 'https://issuer.test', audience: 'portal-api', clientId: 'portal', mode: 'mock' };
+const config = { origin: 'https://portal.test', issuer: 'https://issuer.test', audience: 'portal-api', clientId: 'portal', mode: 'mock', accessPolicy: 'home' };
 const { privateKey, publicKey } = await generateKeyPair('RS256');
 async function token(overrides = {}) { return new SignJWT({ sub: 'user', azp: 'portal', groups: ['/tenants/home/viewers'], resource_access: { 'portal-api': { roles: ['tenant-reader'] } }, ...overrides }).setProtectedHeader({ alg: 'RS256' }).setIssuer(config.issuer).setAudience(config.audience).setIssuedAt().setExpirationTime('5m').sign(privateKey); }
 test('JWT rejects wrong issuer/audience/role/group/client/expiry/signature', async () => {
   assert.equal((await validateAccess(await token(), publicKey, config)).sub, 'user');
+  for (const group of ['/tenants/home/admins', '/tenants/home/developers', '/tenants/home/viewers']) {
+    assert.equal((await validateAccess(await token({ groups: [group] }), publicKey, config)).sub, 'user');
+  }
   for (const overrides of [{ resource_access: {} }, { groups: ['/tenants/other/viewers'] }, { azp: 'other' }]) await assert.rejects(validateAccess(await token(overrides), publicKey, config));
   for (const changes of [{ issuer: 'https://wrong.test' }, { audience: 'other' }]) await assert.rejects(validateAccess(await token(), publicKey, { ...config, ...changes }));
   const expired = await new SignJWT({ sub: 'user' }).setProtectedHeader({ alg: 'RS256' }).setIssuer(config.issuer).setAudience(config.audience).setIssuedAt().setExpirationTime(1).sign(privateKey);
@@ -20,6 +23,27 @@ test('bounded sessions expire, cannot resurrect, and redirect is fixed', () => {
   let now = 0; const s = new Sessions(1, () => now); const id = s.create({}, 10); assert.throws(() => s.create({}, 10)); now = 10; assert.equal(s.get(id), undefined); s.create({}, 10);
   for (const path of ['//evil.test', 'https://evil.test', '/\\evil.test', '/admin', '/']) assert.equal(safeReturn(path), '/');
 });
+test('platform-admins policy enforces exact signed group and API role on every API/session path', async t => {
+  const trial = { ...config, accessPolicy: 'platform-admins' };
+  const sessions = new Sessions();
+  const app = await buildApp(trial, { static: false, sessions, verify: value => validateAccess(value, publicKey, trial) });
+  t.after(() => app.close());
+  for (const groups of [['/platform/admins'], ['/platform/developers'], ['/tenants/home/admins'], ['/tenants/home/viewers'], [], ['/platform'], ['/platform/admins-extra']]) {
+    const access = await token({ groups });
+    const allowed = groups.includes('/platform/admins');
+    const id = sessions.create({ token: access, csrf: 'csrf' }, 10000);
+    const cookie = `__Host-portal=${id}`;
+    assert.equal((await app.inject({ url: '/api/tenants', headers: { authorization: `Bearer ${access}` } })).statusCode, allowed ? 200 : 403);
+    assert.equal((await app.inject({ url: '/bff/tenants', headers: { cookie } })).statusCode, allowed ? 200 : 403);
+    assert.equal((await app.inject({ url: '/auth/session', headers: { cookie } })).json().authenticated, allowed);
+  }
+  for (const changes of [{ resource_access: {} }, { azp: 'other' }, { groups: '/platform/admins' }]) {
+    await assert.rejects(validateAccess(await token({ groups: ['/platform/admins'], ...changes }), publicKey, trial));
+  }
+  await assert.rejects(validateAccess(await token({ groups: ['/platform/admins'] }), publicKey, { ...trial, accessPolicy: 'unknown' }));
+  for (const accessPolicy of [undefined, null, '', [], {}]) await assert.rejects(validateAccess(await token(), publicKey, { ...config, accessPolicy }));
+  await assert.rejects(validateAccess(await token({ groups: ['/platform/admins'] }), publicKey, config)); // Home remains separate.
+});
 test('configuration fails closed and adapter cannot connect', () => {
   assert.equal(readConfig({}).listenHost, '127.0.0.1');
   assert.equal(readConfig({ LISTEN_HOST: '0.0.0.0' }).listenHost, '0.0.0.0');
@@ -27,6 +51,12 @@ test('configuration fails closed and adapter cannot connect', () => {
   assert.throws(() => readConfig({ PORTAL_ORIGIN: 'http://portal.test' }));
   assert.throws(() => readConfig({ TENANT_SOURCE: 'live' }));
   assert.throws(() => readConfig({ OIDC_ISSUER: 'https://issuer.test' }));
+  assert.equal(readConfig({}).accessPolicy, 'home');
+  assert.equal(readConfig({ PORTAL_ACCESS_POLICY: 'platform-admins' }).accessPolicy, 'platform-admins');
+  assert.throws(() => readConfig({ PORTAL_ACCESS_POLICY: 'all' }));
+  const configured = { OIDC_ISSUER: config.issuer, OIDC_CLIENT_ID: config.clientId, OIDC_CLIENT_SECRET: 'fixture', OIDC_AUDIENCE: config.audience };
+  assert.throws(() => readConfig(configured));
+  assert.equal(readConfig({ ...configured, PORTAL_ACCESS_POLICY: 'home' }).accessPolicy, 'home');
   assert.deepEqual(listTenants().tenants, []); assert.equal(listTenants('mock').source.connected, false); assert.equal(listTenants('mock').tenants.length, 1);
 });
 test('cookie session, bearer boundary, CSRF, logout and replay', async t => {

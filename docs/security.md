@@ -15,9 +15,21 @@ production. Tests alone inject a loopback provider.
 
 Access tokens must use RS256, match issuer and API audience, carry sub/iat/exp,
 match the portal's authorized client (`azp`), contain the API client role
-`tenant-reader`, and contain a Home group (`/tenants/home/admins`, `developers`, or
+`tenant-reader`, and, under the `home` policy, contain a Home group (`/tenants/home/admins`, `developers`, or
 `viewers`). Realm admin roles do not bypass these checks. Keycloak group and
 client-role mappers plus API audience mapper must be separately reviewed/provisioned.
+
+`PORTAL_ACCESS_POLICY=platform-admins` selects the initial Big Bang trial policy:
+only the exact signed `/platform/admins` group is accepted. The API audience,
+`azp`, `tenant-reader` client role and signature/expiry checks still apply. Platform
+developers, tenant admins/viewers, parent/lookalike groups and ungranted users fail
+closed on callback, bearer API and session/BFF paths. Unknown policies fail startup.
+SSO configuration must explicitly select a policy; a missing or malformed policy
+fails closed. The `home` policy preserves the household group rules above; it does not
+implicitly accept platform admins. This is application access only: the portal
+has no Kubernetes admin credentials or permissions and does not forward user tokens
+to the Kubernetes API. Existing household SSO deployments must explicitly set
+`PORTAL_ACCESS_POLICY=home` when adopting this image; the updated chart supplies it.
 
 `GET /api/tenants` requires a bearer token and rejects cookie-only requests.
 `GET /bff/tenants` translates the server-side session into a bearer-authenticated

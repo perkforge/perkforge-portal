@@ -35,6 +35,7 @@ test('platform-admins policy enforces exact signed group and API role on every A
     const cookie = `__Host-portal=${id}`;
     assert.equal((await app.inject({ url: '/api/tenants', headers: { authorization: `Bearer ${access}` } })).statusCode, allowed ? 200 : 403);
     assert.equal((await app.inject({ url: '/bff/tenants', headers: { cookie } })).statusCode, allowed ? 200 : 403);
+    assert.equal((await app.inject({ url: '/bff/architecture-context', headers: { cookie } })).statusCode, allowed ? 200 : 403);
     assert.equal((await app.inject({ url: '/auth/session', headers: { cookie } })).json().authenticated, allowed);
   }
   for (const changes of [{ resource_access: {} }, { azp: 'other' }, { groups: '/platform/admins' }]) {

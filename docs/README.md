@@ -120,3 +120,5 @@ PR. The `feat` change should propose a **0.2.0** release PR from the 0.1.0 basel
 and merge it once they pass. That second main push publishes
 `v0.2.0` and its full-SHA tag. No image is published by the first merge alone.
 The workflow never approves or merges PRs despite the combined GitHub setting label.
+
+See [Platform Explorer](architecture-explorer.md) for visual architecture, boundary views and model review.

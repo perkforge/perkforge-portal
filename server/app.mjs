@@ -92,6 +92,16 @@ export async function buildApp(config, options = {}) {
     const result = await app.inject({ method: 'GET', url: '/api/tenants', headers: { authorization: `Bearer ${s.token}` } });
     return reply.code(result.statusCode).type('application/json').send(result.body);
   });
-  if (options.static !== false) await app.register(staticFiles, { root: fileURLToPath(new URL('../dist', import.meta.url)), index: 'index.html' });
+  // Audience-specific guidance is authorized server-side on every request. The
+  // client bundle contains only the separate, explicitly sanitized public model.
+  app.get('/bff/architecture-context', async (req, reply) => {
+    const s = session(req);
+    if (!s?.token) return reply.code(401).send({ error: 'Sign in to view workspace context' });
+    try { await verify(s.token); } catch { return reply.code(403).send({ error: 'Access denied' }); }
+    return config.accessPolicy === 'platform-admins'
+      ? { audience: 'Platform engineering workspace', views: ['platformBoundary', 'foundation', 'identity'], notice: 'Review platform scope, shared-service responsibilities and proposed authorization boundaries. This is sanitized documentation; no administrative controls or restricted inventory are provided.' }
+      : { audience: 'Tenant workspace', views: ['tenantBoundary', 'identity'], notice: 'Review the generic tenant boundary and shared responsibilities. No other tenant inventory or administrative operational detail is available. Your resource access is decided by application policy and Kubernetes RBAC.' };
+  });
+  if (options.static !== false) await app.register(staticFiles, { root: fileURLToPath(new URL('../dist', import.meta.url)), index: 'index.html', cacheControl: false });
   return app;
 }

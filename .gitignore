@@ -3,3 +3,6 @@ dist/
 .env
 .evidence/
 *.pem
+
+dist-architecture/
+src/architecture/likec4.generated.*

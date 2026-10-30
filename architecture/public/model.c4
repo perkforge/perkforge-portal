@@ -1,0 +1,236 @@
+// Generated from src/architecture/catalog.json. Public-safe content only.
+specification {
+  element system
+  tag current
+  tag planned
+  tag unverified
+}
+model {
+  platform = system "Platform foundation" {
+    #unverified
+    description "UNVERIFIED: Shared reference platform and proposed assessment scope. Explore the packages and management plane."
+    link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/README.md "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Proposed: Platform Engineering + portal maintainers"
+      review "2026-10-30 · source inspection; maintainer approval pending"
+    }
+    style { color slate }
+    rke2 = system "RKE2" {
+      #unverified
+      description "UNVERIFIED: Kubernetes runtime foundation. Hosts platform services and scoped tenant workloads."
+      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/infrastructure/README.md "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+    flux = system "Flux" {
+      #unverified
+      description "UNVERIFIED: Reconciles reviewed desired state from Git. Use Git changes for application reconciliation."
+      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/big-bang-bootstrap/README.md "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+    bigbang = system "Big Bang" {
+      #unverified
+      description "UNVERIFIED: Curates platform packages and their configuration. Select reviewed packages for the target."
+      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/applications.md "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+    rancher = system "Rancher · PE only" {
+      #unverified
+      description "UNVERIFIED: Platform engineering cluster lifecycle management. Reserved for authorized platform administrators."
+      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/README.md "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+    keycloak = system "Keycloak" {
+      #unverified
+      description "UNVERIFIED: Shared identity provider and signed identity claims. Sign in to appropriately configured applications."
+      link https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/security.md "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+    headlamp = system "Headlamp" {
+      #unverified
+      description "UNVERIFIED: Tenant-facing Kubernetes UI in the reference design. Inspect only resources authorized by Kubernetes RBAC."
+      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/profiles.md "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+    openbao = system "OpenBao · planned" {
+      #planned
+      description "PLANNED: Optional future secrets management capability. Not selected or represented as deployed."
+      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/applications.md "Source / evidence limits"
+      metadata {
+        status "planned"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color amber }
+    }
+  }
+  tenant = system "Example tenant boundary" {
+    #unverified
+    description "UNVERIFIED: Generic tenant scope; no real tenant inventory. Understand workload, data and responsibility separation."
+    link https://github.com/perkforge/perkforge-platform/issues/21 "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Proposed: Platform Engineering + portal maintainers"
+      review "2026-10-30 · source inspection; maintainer approval pending"
+    }
+    style { color slate }
+    workload = system "Tenant workloads" {
+      #unverified
+      description "UNVERIFIED: Application execution within a scoped tenant design. Use approved artifact identities and reviewed application configuration."
+      link https://github.com/perkforge/perkforge-platform/issues/21 "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+    data = system "Tenant data" {
+      #unverified
+      description "UNVERIFIED: Logical data scope with tenant-owned classification and retention. Store and access data through authorized applications."
+      link https://github.com/perkforge/perkforge-platform/issues/21 "Source / evidence limits"
+      metadata {
+        status "unverified"
+        owner "Proposed: Platform Engineering + portal maintainers"
+        review "2026-10-30 · source inspection; maintainer approval pending"
+      }
+      style { color slate }
+    }
+  }
+  portal = system "PerkForge Portal" {
+    #current
+    description "CURRENT: Visual documentation and a session-protected tenant directory. Explore sanitized documentation; sign in for your scoped workspace."
+    link https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/README.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Proposed: Platform Engineering + portal maintainers"
+      review "2026-10-30 · source inspection; maintainer approval pending"
+    }
+    style { color green }
+  }
+  external = system "External image source" {
+    #planned
+    description "PLANNED: Untrusted upstream artifact origin for the proposed intake journey. Resolve an allowlisted source to immutable platform digests."
+    link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
+    metadata {
+      status "planned"
+      owner "Proposed: Platform Engineering + portal maintainers"
+      review "2026-10-30 · source inspection; maintainer approval pending"
+    }
+    style { color amber }
+  }
+  gitlab = system "GitLab CI + Trivy · planned" {
+    #planned
+    description "PLANNED: Future isolated validation and CVE scanning before publication. Scan every copied platform; retain SBOM and gate evidence."
+    link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
+    metadata {
+      status "planned"
+      owner "Proposed: Platform Engineering + portal maintainers"
+      review "2026-10-30 · source inspection; maintainer approval pending"
+    }
+    style { color amber }
+  }
+  harbor = system "Harbor · planned" {
+    #planned
+    description "PLANNED: Future approved image and chart registry. Publish exact validated content through a protected publisher."
+    link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
+    metadata {
+      status "planned"
+      owner "Proposed: Platform Engineering + portal maintainers"
+      review "2026-10-30 · source inspection; maintainer approval pending"
+    }
+    style { color amber }
+  }
+  platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
+  platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
+  platform.rancher -> platform.rke2 "UNVERIFIED: PE cluster lifecycle management only" { #unverified }
+  platform.keycloak -> platform.headlamp "UNVERIFIED: identity claims; RBAC decides access" { #unverified }
+  platform.headlamp -> tenant.workload "UNVERIFIED: user-scoped Kubernetes API requests" { #unverified }
+  platform.flux -> tenant.workload "UNVERIFIED: reconciles reviewed application desired state" { #unverified }
+  tenant.workload -> tenant.data "UNVERIFIED: application data access within reviewed policy" { #unverified }
+  portal -> platform.keycloak "CURRENT: OIDC code + PKCE; server validates signed access token" { #current }
+  external -> gitlab "PLANNED: allowlisted digest intake + per-platform scan" { #planned }
+  gitlab -> harbor "PLANNED: protected publish after verified gate evidence" { #planned }
+  harbor -> tenant.workload "PLANNED: approved digest image pull; runtime fetches bytes" { #planned }
+  gitlab -> platform.flux "PLANNED: reviewed Git promotion of approved artifact references" { #planned }
+}
+views {
+  view index {
+    title "The whole platform"
+    description "A map of the reference design, from shared foundations to tenant workloads."
+    include platform, tenant, portal, external, gitlab, harbor
+    autoLayout LeftRight
+  }
+  view foundation of platform {
+    title "Inside the foundation"
+    description "Big Bang supplies packages. Flux reconciles applications. Rancher stays with platform engineering."
+    include platform.rke2, platform.flux, platform.bigbang, platform.rancher, platform.keycloak, platform.headlamp, platform.openbao
+    autoLayout LeftRight
+  }
+  view identity {
+    title "Identity is a starting point"
+    description "Keycloak supplies identity. Each application and Kubernetes enforce their own authorization decisions."
+    include portal, platform.keycloak, platform.headlamp, tenant.workload, tenant.data
+    autoLayout LeftRight
+  }
+  view platformBoundary {
+    title "Platform authorization scope"
+    description "Proposed shared-platform assessment scope and dependencies. Scope remains subject to authorizing-official review."
+    include platform.rke2, platform.flux, platform.bigbang, platform.rancher, platform.keycloak, platform.headlamp, platform.openbao, portal, tenant, external, gitlab, harbor
+    autoLayout LeftRight
+  }
+  view tenantBoundary of tenant {
+    title "Inside a tenant boundary"
+    description "A generic tenant scope with shared services outside it. A box does not enforce isolation."
+    include tenant.workload, tenant.data, platform.headlamp, platform.keycloak, platform.flux
+    autoLayout LeftRight
+  }
+  view intake {
+    title "From external image to workload"
+    description "External image → GitLab validation / Trivy → Harbor → Flux desired-state review → workloads. Flux carries references, while the runtime pulls bytes from Harbor."
+    include external, gitlab, harbor, platform.flux, tenant.workload
+    autoLayout LeftRight
+  }
+  dynamic view intakeWalkthrough {
+    title "Bring in an external image · planned"
+    external -> gitlab "PLANNED: Validate and scan"
+    gitlab -> harbor "PLANNED: Publish exact content"
+    harbor -> platform.flux "PLANNED: Review desired state"
+    platform.flux -> tenant.workload "PLANNED: Run and verify"
+  }
+  dynamic view identityWalkthrough {
+    title "Follow a sign-in · current"
+    portal -> platform.keycloak "CURRENT: Verify identity and policy"
+    platform.keycloak -> portal "CURRENT: Read scoped data"
+  }
+}

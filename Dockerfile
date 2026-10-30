@@ -6,6 +6,8 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY tsconfig.json index.html ./
 COPY src ./src
+COPY architecture/public ./architecture/public
+COPY scripts/architecture-model.mjs ./scripts/architecture-model.mjs
 RUN npm run build
 RUN npm prune --omit=dev
 

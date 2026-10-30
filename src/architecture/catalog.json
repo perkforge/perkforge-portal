@@ -1,0 +1,396 @@
+{
+  "owner": "Proposed: Platform Engineering + portal maintainers",
+  "reviewed": "2026-10-30 \u00b7 source inspection; maintainer approval pending",
+  "disclosure": "Sanitized educational model \u00b7 no live inventory",
+  "platformRevision": "a70bf98016a36a660523f22a80baff1517807cb0",
+  "portalRevision": "89f3637e472802bf4be1ffcf99fea367ebae56e1",
+  "nodes": [
+    {
+      "id": "platform",
+      "title": "Platform foundation",
+      "status": "unverified",
+      "purpose": "Shared reference platform and proposed assessment scope.",
+      "usage": "Explore the packages and management plane.",
+      "configuration": "Platform Git owns shared configuration.",
+      "runbook": "Validate target-specific readiness before adoption.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/README.md",
+      "parent": null
+    },
+    {
+      "id": "platform.rke2",
+      "title": "RKE2",
+      "status": "unverified",
+      "purpose": "Kubernetes runtime foundation.",
+      "usage": "Hosts platform services and scoped tenant workloads.",
+      "configuration": "Infrastructure Ansible owns provisioning inputs.",
+      "runbook": "Review prerequisites, readiness and recovery before operating.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/infrastructure/README.md",
+      "parent": "platform"
+    },
+    {
+      "id": "platform.flux",
+      "title": "Flux",
+      "status": "unverified",
+      "purpose": "Reconciles reviewed desired state from Git.",
+      "usage": "Use Git changes for application reconciliation.",
+      "configuration": "Platform bootstrap selects sources and reconciliation scopes.",
+      "runbook": "Review source identity and reconciliation evidence; this portal cannot reconcile.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/big-bang-bootstrap/README.md",
+      "parent": "platform"
+    },
+    {
+      "id": "platform.bigbang",
+      "title": "Big Bang",
+      "status": "unverified",
+      "purpose": "Curates platform packages and their configuration.",
+      "usage": "Select reviewed packages for the target.",
+      "configuration": "Package values, prerequisites and pinned source belong in platform Git.",
+      "runbook": "Render and test the actual selected packages before adoption.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/applications.md",
+      "parent": "platform"
+    },
+    {
+      "id": "platform.rancher",
+      "title": "Rancher \u00b7 PE only",
+      "status": "unverified",
+      "purpose": "Platform engineering cluster lifecycle management.",
+      "usage": "Reserved for authorized platform administrators.",
+      "configuration": "Not an application GitOps owner or tenant UI.",
+      "runbook": "Follow reviewed infrastructure guidance; no administrative controls here.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/README.md",
+      "parent": "platform"
+    },
+    {
+      "id": "platform.keycloak",
+      "title": "Keycloak",
+      "status": "unverified",
+      "purpose": "Shared identity provider and signed identity claims.",
+      "usage": "Sign in to appropriately configured applications.",
+      "configuration": "Each relying party validates audience, client, roles and group policy.",
+      "runbook": "Review identity configuration and access tests; SSO alone grants no resource access.",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/security.md",
+      "parent": "platform"
+    },
+    {
+      "id": "platform.headlamp",
+      "title": "Headlamp",
+      "status": "unverified",
+      "purpose": "Tenant-facing Kubernetes UI in the reference design.",
+      "usage": "Inspect only resources authorized by Kubernetes RBAC.",
+      "configuration": "Keep user identity and namespace permissions scoped; no token fallback.",
+      "runbook": "Verify permitted and denied operations for the actual target.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/profiles.md",
+      "parent": "platform"
+    },
+    {
+      "id": "platform.openbao",
+      "title": "OpenBao \u00b7 planned",
+      "status": "planned",
+      "purpose": "Optional future secrets management capability.",
+      "usage": "Not selected or represented as deployed.",
+      "configuration": "Requires explicit package selection and reviewed prerequisites.",
+      "runbook": "Plan unseal, backup, recovery and access validation before adoption.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/applications.md",
+      "parent": "platform"
+    },
+    {
+      "id": "tenant",
+      "title": "Example tenant boundary",
+      "status": "unverified",
+      "purpose": "Generic tenant scope; no real tenant inventory.",
+      "usage": "Understand workload, data and responsibility separation.",
+      "configuration": "Enrollment Git owns foundations; application Git owns deployments.",
+      "runbook": "Require current positive and negative isolation evidence.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/21",
+      "parent": null
+    },
+    {
+      "id": "tenant.workload",
+      "title": "Tenant workloads",
+      "status": "unverified",
+      "purpose": "Application execution within a scoped tenant design.",
+      "usage": "Use approved artifact identities and reviewed application configuration.",
+      "configuration": "Namespace, service accounts and permissions require enforced policy.",
+      "runbook": "Validate runtime, network, quota, admission and recovery boundaries.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/21",
+      "parent": "tenant"
+    },
+    {
+      "id": "tenant.data",
+      "title": "Tenant data",
+      "status": "unverified",
+      "purpose": "Logical data scope with tenant-owned classification and retention.",
+      "usage": "Store and access data through authorized applications.",
+      "configuration": "Storage and backup policies require target-specific review.",
+      "runbook": "Demonstrate restore and cross-tenant denial; namespace labels are insufficient.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/21",
+      "parent": "tenant"
+    },
+    {
+      "id": "portal",
+      "title": "PerkForge Portal",
+      "status": "current",
+      "purpose": "Visual documentation and a session-protected tenant directory.",
+      "usage": "Explore sanitized documentation; sign in for your scoped workspace.",
+      "configuration": "React + Fastify BFF; GitLab integration is disabled.",
+      "runbook": "Run local checks; identity and deployment require separate review.",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/README.md",
+      "parent": null
+    },
+    {
+      "id": "external",
+      "title": "External image source",
+      "status": "planned",
+      "purpose": "Untrusted upstream artifact origin for the proposed intake journey.",
+      "usage": "Resolve an allowlisted source to immutable platform digests.",
+      "configuration": "No imported image execution or Docker socket.",
+      "runbook": "Reject missing coverage or identity drift.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/79",
+      "parent": null
+    },
+    {
+      "id": "gitlab",
+      "title": "GitLab CI + Trivy \u00b7 planned",
+      "status": "planned",
+      "purpose": "Future isolated validation and CVE scanning before publication.",
+      "usage": "Scan every copied platform; retain SBOM and gate evidence.",
+      "configuration": "Protected publisher separated from untrusted MR validation.",
+      "runbook": "Fail on stale DB, findings per policy, errors, tampering or incomplete evidence.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/79",
+      "parent": null
+    },
+    {
+      "id": "harbor",
+      "title": "Harbor \u00b7 planned",
+      "status": "planned",
+      "purpose": "Future approved image and chart registry.",
+      "usage": "Publish exact validated content through a protected publisher.",
+      "configuration": "Scoped robot permissions and immutable tags require review.",
+      "runbook": "Verify read-back digests; later rescans complement intake gates.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/79",
+      "parent": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "platform.flux",
+      "target": "platform.bigbang",
+      "title": "reconciles selected package configuration",
+      "status": "unverified"
+    },
+    {
+      "source": "platform.bigbang",
+      "target": "platform.rke2",
+      "title": "defines curated packages on Kubernetes",
+      "status": "unverified"
+    },
+    {
+      "source": "platform.rancher",
+      "target": "platform.rke2",
+      "title": "PE cluster lifecycle management only",
+      "status": "unverified"
+    },
+    {
+      "source": "platform.keycloak",
+      "target": "platform.headlamp",
+      "title": "identity claims; RBAC decides access",
+      "status": "unverified"
+    },
+    {
+      "source": "platform.headlamp",
+      "target": "tenant.workload",
+      "title": "user-scoped Kubernetes API requests",
+      "status": "unverified"
+    },
+    {
+      "source": "platform.flux",
+      "target": "tenant.workload",
+      "title": "reconciles reviewed application desired state",
+      "status": "unverified"
+    },
+    {
+      "source": "tenant.workload",
+      "target": "tenant.data",
+      "title": "application data access within reviewed policy",
+      "status": "unverified"
+    },
+    {
+      "source": "portal",
+      "target": "platform.keycloak",
+      "title": "OIDC code + PKCE; server validates signed access token",
+      "status": "current"
+    },
+    {
+      "source": "external",
+      "target": "gitlab",
+      "title": "allowlisted digest intake + per-platform scan",
+      "status": "planned"
+    },
+    {
+      "source": "gitlab",
+      "target": "harbor",
+      "title": "protected publish after verified gate evidence",
+      "status": "planned"
+    },
+    {
+      "source": "harbor",
+      "target": "tenant.workload",
+      "title": "approved digest image pull; runtime fetches bytes",
+      "status": "planned"
+    },
+    {
+      "source": "gitlab",
+      "target": "platform.flux",
+      "title": "reviewed Git promotion of approved artifact references",
+      "status": "planned"
+    }
+  ],
+  "views": [
+    {
+      "id": "index",
+      "title": "The whole platform",
+      "kicker": "01 / PANORAMA",
+      "summary": "A map of the reference design, from shared foundations to tenant workloads.",
+      "nodes": [
+        "platform",
+        "tenant",
+        "portal",
+        "external",
+        "gitlab",
+        "harbor"
+      ]
+    },
+    {
+      "id": "foundation",
+      "title": "Inside the foundation",
+      "kicker": "02 / SYSTEMS",
+      "summary": "Big Bang supplies packages. Flux reconciles applications. Rancher stays with platform engineering.",
+      "nodes": [
+        "platform.rke2",
+        "platform.flux",
+        "platform.bigbang",
+        "platform.rancher",
+        "platform.keycloak",
+        "platform.headlamp",
+        "platform.openbao"
+      ]
+    },
+    {
+      "id": "identity",
+      "title": "Identity is a starting point",
+      "kicker": "03 / TRUST & DATA FLOW",
+      "summary": "Keycloak supplies identity. Each application and Kubernetes enforce their own authorization decisions.",
+      "nodes": [
+        "portal",
+        "platform.keycloak",
+        "platform.headlamp",
+        "tenant.workload",
+        "tenant.data"
+      ]
+    },
+    {
+      "id": "platformBoundary",
+      "title": "Platform authorization scope",
+      "kicker": "04 / SECURITY",
+      "summary": "Proposed shared-platform assessment scope and dependencies. Scope remains subject to authorizing-official review.",
+      "nodes": [
+        "platform.rke2",
+        "platform.flux",
+        "platform.bigbang",
+        "platform.rancher",
+        "platform.keycloak",
+        "platform.headlamp",
+        "platform.openbao",
+        "portal",
+        "tenant",
+        "external",
+        "gitlab",
+        "harbor"
+      ]
+    },
+    {
+      "id": "tenantBoundary",
+      "title": "Inside a tenant boundary",
+      "kicker": "05 / SECURITY",
+      "summary": "A generic tenant scope with shared services outside it. A box does not enforce isolation.",
+      "nodes": [
+        "tenant.workload",
+        "tenant.data",
+        "platform.headlamp",
+        "platform.keycloak",
+        "platform.flux"
+      ]
+    },
+    {
+      "id": "intake",
+      "title": "From external image to workload",
+      "kicker": "06 / JOURNEY \u00b7 PLANNED",
+      "summary": "External image \u2192 GitLab validation / Trivy \u2192 Harbor \u2192 Flux desired-state review \u2192 workloads. Flux carries references, while the runtime pulls bytes from Harbor.",
+      "nodes": [
+        "external",
+        "gitlab",
+        "harbor",
+        "platform.flux",
+        "tenant.workload"
+      ]
+    }
+  ],
+  "journeys": [
+    {
+      "id": "intake",
+      "title": "Bring in an external image",
+      "status": "planned",
+      "steps": [
+        {
+          "title": "Resolve the source",
+          "body": "Allowlist source and destination. Resolve once to immutable manifest and runnable platform digests.",
+          "node": "external"
+        },
+        {
+          "title": "Validate and scan",
+          "body": "Isolated GitLab jobs run Trivy for every copied platform. Missing coverage, stale databases, errors and policy failures block publication.",
+          "node": "gitlab"
+        },
+        {
+          "title": "Publish exact content",
+          "body": "A separately permissioned publisher verifies producer identity, gate evidence and hashes, then verifies Harbor read-back digests.",
+          "node": "harbor"
+        },
+        {
+          "title": "Review desired state",
+          "body": "A reviewed Git change pins approved artifact references. Flux reconciles that desired state; it does not move image bytes.",
+          "node": "platform.flux"
+        },
+        {
+          "title": "Run and verify",
+          "body": "The runtime pulls the approved digest from Harbor. Admission and runtime permissions still require separate validation.",
+          "node": "tenant.workload"
+        }
+      ],
+      "source": "https://github.com/perkforge/perkforge-platform/issues/79"
+    },
+    {
+      "id": "identity",
+      "title": "Follow a sign-in",
+      "status": "current",
+      "steps": [
+        {
+          "title": "Enter the portal",
+          "body": "The browser holds an opaque secure session cookie. Access tokens stay in server memory.",
+          "node": "portal"
+        },
+        {
+          "title": "Verify identity and policy",
+          "body": "The BFF validates signature, issuer, audience, authorized client, API role and the configured exact group policy.",
+          "node": "platform.keycloak"
+        },
+        {
+          "title": "Read scoped data",
+          "body": "The tenant BFF traverses bearer API validation. The adapter is disabled or fixture-only; no live GitLab requests occur.",
+          "node": "portal"
+        }
+      ],
+      "source": "https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/security.md"
+    }
+  ]
+}

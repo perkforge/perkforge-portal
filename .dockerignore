@@ -7,3 +7,9 @@
 !src/**
 !server/
 !server/**
+
+!architecture/
+!architecture/public/
+!architecture/public/**
+!scripts/
+!scripts/architecture-model.mjs

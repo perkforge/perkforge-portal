@@ -426,7 +426,7 @@ model {
   }
   loggingCollector = system "API-only scoped collector" {
     #current
-    description "CURRENT: Collect reviewed workload namespaces using trusted Kubernetes metadata. Real Mattermost and platform reconciliation logs now reach the scoped backend. The observed stage selects reviewed workload namespaces; application and platform reconciliation records are verified, while a quiet Portal workload had no observed records at the checkpoint. This is staged coverage, not all-cluster collection."
+    description "CURRENT: Collect reviewed workload namespaces using trusted Kubernetes metadata. Cluster-wide discovery is active and platform queries observe records from many namespaces. A bounded fresh observation had no additional transport drops and one retry of unknown cause, with no observed OOM. This does not prove complete delivery or lossless restart recovery."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
       status "current"
@@ -437,7 +437,7 @@ model {
   }
   loggingGateway = system "Authenticated logging gateway" {
     #current
-    description "CURRENT: Separate scoped write and read identities behind verified TLS. The active native gateway accepts the collector identity and serves platform read federation. Actual workload records are verified at the gateway; tenant query mapping remains disabled."
+    description "CURRENT: Separate scoped write and read identities behind verified TLS. The gateway accepts a distinct push-only writer and serves read-only platform federation, preserving legacy reads. The fixed Portal reader partition is live with an organization-bound datasource. Native own-scope query and foreign-org denials passed; actual tenant-human login and broader lifecycle acceptance remain unverified."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
       status "current"
@@ -663,10 +663,10 @@ model {
   gitops -> portalInventory "UNVERIFIED: Reviewed artifact evidence, not a tenant mutation authority" { #unverified }
   appInstaller -> loggingInstaller "CURRENT: Existing scoped installer authority" { #current }
   loggingInstaller -> loggingCollector "CURRENT: Own-namespace operator and dedicated collector account" { #current }
-  runtimeIdentity -> loggingCollector "CURRENT: Reviewed namespace stages via trusted Kubernetes pod/log API" { #current }
+  runtimeIdentity -> loggingCollector "CURRENT: Cluster pod/log API discovery; delivery acceptance remains bounded" { #current }
   loggingCollector -> loggingGateway "CURRENT: Distinct push-only writer over verified TLS" { #current }
   serviceCredentials -> loggingGateway "CURRENT: Separate scoped writer and read identities; legacy reads retained" { #current }
-  loggingQuery -> loggingGateway "CURRENT: Read-only platform federation; tenant query mapping disabled" { #current }
+  loggingQuery -> loggingGateway "CURRENT: Platform federation and fixed Portal query partition" { #current }
   platformAuthority -> loggingQuery "CURRENT: Separate platform-admin administration of logging access" { #current }
   loggingOwnership -> loggingGateway "CURRENT: Ownership epoch prerequisite; query authorization is separate" { #current }
   gitops -> portalImageBuild "CURRENT: Reviewed application source" { #current }
@@ -688,7 +688,7 @@ model {
   clusterRecovery -> isolatedRestore "UNVERIFIED: Dependencies before app recovery" { #unverified }
   esoIdentity -> loggingGateway "CURRENT: Exact-record ESO delivery of gateway authentication" { #current }
   esoIdentity -> loggingCollector "CURRENT: Exact-record ESO delivery of collector write credential" { #current }
-  esoIdentity -> loggingQuery "CURRENT: Exact-record ESO delivery of read credentials; tenant exposure disabled" { #current }
+  esoIdentity -> loggingQuery "CURRENT: Exact-record reader credentials; organization-bound query scopes" { #current }
   human -> loggingQuery "CURRENT: Exact engineer-client entitlement grants platform-org Viewer" { #current }
 }
 views {
@@ -724,7 +724,7 @@ views {
   }
   view loggingIdentity {
     title "Logging identity and trust flow"
-    description "Trusted API collection → exact-record credential delivery → scoped gateway → platform datasource and pod-log dashboard. Real workload records, chained label/panel queries and dashboard preservation are verified; collection expansion and tenant exposure remain separate gates."
+    description "Trusted API discovery → exact-record writer/read custody → scoped gateway → organization-bound queries. Canonical tenant roles map to Viewer-only log access; native machine denials are verified, while actual tenant-human login, sharing/lifecycle and durable replay recovery remain open."
     include human, appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, esoIdentity, serviceCredentials, loggingGateway, loggingQuery, platformAuthority, loggingOwnership
     autoLayout LeftRight
   }

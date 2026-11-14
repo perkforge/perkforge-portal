@@ -1,13 +1,15 @@
+import { readInventory } from './enrollment-inventory.mjs';
 const repo = 'https://github.com/perkforge/perkforge-platform-tenants';
 const endpoint = 'https://api.github.com/repos/perkforge/perkforge-platform-tenants/releases/latest';
 // Fixed public source only. No browser-controlled URLs, refs, credentials or writes.
-export async function enrollmentStatus({ enabled = false, fetcher = fetch } = {}) {
+export async function enrollmentStatus({ enabled = false, fetcher = fetch, inventoryCommit, inventorySelector } = {}) {
   const result = {
     repository: repo,
     source: { state: enabled ? 'unavailable' : 'disabled', release: null },
     deployment: { state: 'unavailable', reason: 'No scoped Flux reader is configured. A published release does not prove deployment.' },
     capabilities: { createTenant: false, manageUsers: false },
   };
+  result.inventory = await readInventory({ commit: enabled ? inventoryCommit : undefined, selector: inventorySelector, fetcher });
   if (!enabled) return result;
   try {
     const response = await fetcher(endpoint, { redirect: 'error', signal: AbortSignal.timeout(4000), headers: { Accept: 'application/vnd.github+json' } });

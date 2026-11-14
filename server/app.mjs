@@ -100,7 +100,7 @@ export async function buildApp(config, options = {}) {
     let principal;
     try { principal = await verify(match[1]); } catch { return reply.code(403).send({ error: 'Access denied' }); }
     if (!Array.isArray(principal.groups) || !principal.groups.includes('/platform/admins')) return reply.code(403).send({ error: 'Platform administrator required' });
-    return enrollmentStatus({ enabled: config.enrollmentSource === 'github-public', fetcher: options.enrollmentFetch });
+    return enrollmentStatus({ enabled: config.enrollmentSource === 'github-public', fetcher: options.enrollmentFetch, inventoryCommit: config.inventoryCommit, inventorySelector: config.inventorySelector });
   });
   app.get('/bff/enrollment', async (req, reply) => {
     const s = session(req);

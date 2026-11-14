@@ -50,3 +50,18 @@ Tenant-admin user management is a later scoped identity adapter: exact tenant gr
 and verified subject membership only; no platform roles, global user reset/delete,
 or incidental grants from parent groups. Downstream revocation/session checks are
 required before declaring removal complete.
+
+## Pinned declared enrollment inventory
+
+The optional reader additionally accepts `ENROLLMENT_SOURCE_COMMIT` (exact 40-hex
+commit) and `ENROLLMENT_SELECTOR` (one supported explicit cluster root). Both are
+required together. Read the generated artifact from the resolved published
+enrollment release, not moving main or a browser-provided path. CI in enrollment
+verifies the projection against Kustomize; the manifests remain authoritative.
+
+Latest published release metadata and selected inventory commit are deliberately
+separate: latest does not mean selected/deployed. The reader accesses only the
+fixed public repo/artifact using a bounded response, rejects redirects, validates
+schema, and omits unknown fields. Missing old-release artifacts, blocked egress,
+rate limits or malformed content are unavailable, never empty successful inventory.
+Entries are application enrollments, not inferred customer tenants/users.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/perkforge/perkforge-portal/compare/v0.3.1...v0.4.0) (2026-11-14)
+
+
+### Features
+
+* embedded LikeC4 identity lifecycle documents ([#16](https://github.com/perkforge/perkforge-portal/issues/16)) ([f31840a](https://github.com/perkforge/perkforge-portal/commit/f31840ae10fcfecf9312cb11c8cec0c499dc12e4))
+
 ## [0.3.1](https://github.com/perkforge/perkforge-portal/compare/v0.3.0...v0.3.1) (2026-11-14)
 
 

@@ -38,18 +38,50 @@ test('architecture context fails closed, is audience-specific, and checks author
     sessions.delete(id); assert.equal((await app.inject({ url: '/bff/architecture-context', headers })).statusCode, 401);
   }
 });
-test('production static delivery exposes only public-safe assets and never architecture source/private paths', async t => {
-  const app = await buildApp(config); t.after(() => app.close());
-  for (const url of ['/architecture/private/model.json', '/architecture/public/model.c4', '/src/architecture/catalog.json', '/server/app.mjs', '/.env']) assert.equal((await app.inject(url)).statusCode, 404, url);
+test('compiled architecture and every static asset require a currently verified cookie session', async t => {
+  const sessions = new Sessions(); let valid = true;
+  const app = await buildApp(config, { sessions, verify: async token => { if (token !== 'allowed' || !valid) throw new Error('Denied'); return { sub: 'fixture' }; } });
+  t.after(() => app.close());
   const html = await app.inject('/'); assert.equal(html.statusCode, 200);
+  assert.match(html.body, /auth\/bootstrap.js/); assert.doesNotMatch(html.body, /assets\/|identitySnapshot|likec4/i);
   assert.match(html.headers['content-security-policy'], /script-src 'self'/);
+  assert.equal(html.headers['cache-control'], 'no-store');
+  const bootstrap = await app.inject('/auth/bootstrap.js'); assert.equal(bootstrap.statusCode, 200);
+  assert.doesNotMatch(bootstrap.body, /import |catalog|identitySnapshot|likec4/);
   const assets = await readdir(new URL('../dist/assets', import.meta.url));
+  const guest = sessions.create({ csrf: 'guest' }, 60000);
+  const id = sessions.create({ token: 'allowed', csrf: 'fixture' }, 60000);
+  const headers = { cookie: `__Host-portal=${id}` };
   for (const name of assets) {
-    const asset = await app.inject(`/assets/${name}`); assert.equal(asset.statusCode, 200);
+    const url = `/assets/${name}`;
+    for (const extra of [{}, {cookie: `__Host-portal=${guest}`}, {authorization: 'Bearer allowed'}, {range: 'bytes=0-100'}]) {
+      const response = await app.inject({ url, headers: extra }); assert.equal(response.statusCode, 401); assert.equal(response.headers['cache-control'], 'no-store');
+    }
+    assert.equal((await app.inject({ method: 'HEAD', url })).statusCode, 401);
+    const asset = await app.inject({ url, headers }); assert.equal(asset.statusCode, 200);
     assert.equal(asset.headers['cache-control'], 'no-store');
-    assert.ok(!asset.body.includes('Platform engineering workspace')); // authorized context stays on server
-    assert.ok(!asset.body.includes('fixture-home')); // directory fixture stays on server
+    assert.ok(!asset.body.includes('Platform engineering workspace'));
+    assert.ok(!asset.body.includes('fixture-home'));
   }
+  const path = `/assets/${assets[0]}`;
+  for (const url of [path.replace('/assets/', '/%61ssets/'), path.replace('/assets/', '/assets%2f'), path + '?download=1', '/index.html?x=1']) {
+    const response = await app.inject(url); assert.ok([200,401,404].includes(response.statusCode)); assert.doesNotMatch(response.body, /identitySnapshot|likec4|src="\/assets\//i);
+  }
+  for (const url of ['/architecture/private/model.json', '/architecture/public/model.c4', '/src/architecture/catalog.json', '/server/app.mjs', '/.env']) {
+    assert.equal((await app.inject(url)).statusCode, 401);
+    assert.equal((await app.inject({ url, headers })).statusCode, 404);
+  }
+  assert.match((await app.inject({ url: '/', headers })).body, /assets\//);
+  valid = false; assert.equal((await app.inject({ url: path, headers })).statusCode, 401);
+  valid = true; assert.equal((await app.inject({ url: path, headers })).statusCode, 401); // invalidation is durable
+  const expired = sessions.create({ token: 'allowed', csrf: 'fixture' }, -1);
+  assert.equal((await app.inject({ url: path, headers: {cookie:`__Host-portal=${expired}`} })).statusCode, 401);
+  const active = sessions.create({ token: 'allowed', csrf: 'fixture' }, 60000);
+  const cookie = `__Host-portal=${active}`;
+  const logout = await app.inject({ method:'POST', url:'/auth/logout', headers:{ cookie, origin: config.origin, 'x-csrf-token':'fixture' } });
+  assert.equal(logout.statusCode, 200);
+  assert.equal((await app.inject({ url:path, headers:{cookie} })).statusCode,401);
+  assert.match((await app.inject({url:'/',headers:{cookie}})).body,/Sign in/);
 });
 
 test('identity document spans bootstrap to tenant and keeps external resources planned', () => {

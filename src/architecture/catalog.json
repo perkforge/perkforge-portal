@@ -936,7 +936,7 @@
   "identitySnapshot": {
     "checkedAt": "2026-11-14T05:49:50Z",
     "scope": "Current identity observations \u00b7 local pilot",
-    "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release.",
+    "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release. Authenticated static serving is a source change until this image is deployed and verified.",
     "records": [
       {
         "id": "platformAuthority",

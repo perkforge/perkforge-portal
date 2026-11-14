@@ -1370,7 +1370,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T14:51:11Z",
+    "checkedAt": "2026-11-14T15:01:57Z",
     "scope": "Current identity observations · local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source-only and staged changes are not deployed capabilities. Compiled Portal assets now require a verified session; distinct private role-specific models remain separate work. Later changes require evidence review and a Portal release.",
     "records": [
@@ -1399,7 +1399,7 @@
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
         "state": "observed-active",
-        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana’s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed. New private platform operational channels have exact role-based membership and owner-confirmed visibility; a one-shot adapter is not continuous reconciliation. The new tenant deployment channel remains recovery-only and its routing is not deployed at this checkpoint. Scoped relay credential delivery is staged, not message-delivery proof.",
+        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana’s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed. New private platform operational channels have exact role-based membership and owner-confirmed visibility; a one-shot adapter is not continuous reconciliation. The new tenant deployment channel remains recovery-only. Four relay records and exact-record ESO consumers are synchronized; the receiver is Ready. Bounded replay of actual successful Helm conditions reached both locked deployment channels with native readback. Wrong-token and cross-route requests were denied, as was a foreign source. Native Flux routes remain suspended: this is not actual Flux-event delivery proof.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {

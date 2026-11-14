@@ -441,16 +441,16 @@
       "purpose": "Terminate verified TLS and map authenticated machine identity to the pilot logging tenant.",
       "usage": "Backend and gateway are ready. Actual scoped API-collector ingestion and authenticated query are verified. The gateway forces the mapped pilot identity despite a spoofed tenant header; wrong credentials are rejected.",
       "configuration": "TLS/auth credentials are manually staged in protected runtime Secrets, not ESO-managed. Existing private-registry credentials are reused.",
-      "runbook": "Test authenticated ingestion and querying without revealing credentials; verify persistence and retention separately.",
+      "runbook": "Authenticated ingestion and query, invalid-credential denial and caller-header scope enforcement are verified. An exact pre-restart sentinel survived a controlled backend-only restart on the same persistent volume. Natural retention pruning, restore and production growth remain separate acceptance.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
     },
     {
       "id": "loggingQuery",
       "title": "Grafana logging query identity",
-      "status": "unverified",
+      "status": "current",
       "purpose": "Query the pilot logging tenant without changing existing metrics access.",
-      "usage": "Native Grafana logging datasource health is verified, but an actual datasource-proxy query is blocked pending an exact URL-port correction. Existing Prometheus access and dashboards remain preserved.",
+      "usage": "Native Grafana datasource-proxy queries return the actual redacted pilot records. Logging and existing Prometheus health are verified, and existing dashboards remain preserved.",
       "configuration": "The pilot uses one platform-admin machine identity for write/query; independent tenant credentials and tenant datasource isolation are not implemented.",
       "runbook": "Verify native datasource health and an actual collected record; do not infer user or tenant isolation from dashboard visibility.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
@@ -726,7 +726,7 @@
       "source": "loggingQuery",
       "target": "loggingGateway",
       "title": "Authenticated pilot tenant query",
-      "status": "unverified"
+      "status": "current"
     },
     {
       "source": "platformAuthority",
@@ -828,7 +828,7 @@
       "id": "loggingIdentity",
       "title": "Logging identity and trust flow",
       "kicker": "IDENTITY / VERIFIED PILOT FLOW",
-      "summary": "Scoped installer \u2192 opt-in API-only collector \u2192 TLS/authenticated gateway \u2192 pilot tenant query. Collection and scope checks are verified; persistence and retention acceptance remain separate.",
+      "summary": "Scoped installer \u2192 opt-in API-only collector \u2192 TLS/authenticated gateway \u2192 Grafana pilot query. Collection, query, scope checks and same-volume restart persistence are verified; retention, restore and production growth remain separate.",
       "nodes": [
         "appInstaller",
         "loggingInstaller",
@@ -1036,7 +1036,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T07:07:24Z",
+    "checkedAt": "2026-11-14T07:13:26Z",
     "scope": "Current identity observations \u00b7 local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release. Authenticated static serving is a source change until this image is deployed and verified.",
     "records": [
@@ -1086,7 +1086,7 @@
         "id": "loggingGateway",
         "title": "Logging pilot identities and custody",
         "state": "observed-active",
-        "summary": "Native operator/collector, backend and gateway are ready. Real opt-in pilot pod logs reach the API-only collector and authenticated TLS gateway; sensitive fields are redacted and an identical unopted workload is excluded. Direct authenticated query and native Grafana datasource health are verified, but the Grafana datasource-proxy query remains blocked pending an exact URL-port correction; metrics access is preserved. Gateway scope comes from authenticated identity, not caller tenant headers. Credentials remain manually staged, not ESO-managed; a single platform-admin pilot write/query identity is not tenant isolation. Persistence/recovery and retention acceptance remain pending.",
+        "summary": "Native operator/collector, backend and gateway are ready. Real opt-in pilot pod logs reach the API-only collector and authenticated TLS gateway; sensitive fields are redacted and an identical unopted workload is excluded. Actual Grafana datasource-proxy queries return the redacted records, with existing metrics and dashboards preserved. Gateway scope comes from authenticated identity, not caller tenant headers. An exact sentinel survived a controlled backend restart on the same persistent volume. Credentials remain manually staged, not ESO-managed; one platform-admin pilot write/query identity is not tenant isolation. Natural retention pruning, restore, production-volume growth and comprehensive redaction remain unverified.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/38"
       }
     ]

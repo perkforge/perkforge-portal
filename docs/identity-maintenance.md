@@ -52,10 +52,27 @@ The private pilot channel now has a channel-locked Grafana receiver: one labeled
 
 ## Logging pilot flow
 
-The logging diagram distinguishes scoped installers, the own-namespace operator, an API-only collector account, the authenticated TLS gateway and Grafana query identity. The collector is limited to approved pilot pod logs, not host mounts or arbitrary tenant logs. This pilot reuses one platform-admin write/query machine identity: no tenant isolation claim is justified. Credentials are manually staged in protected runtime Secrets, not ESO-managed. Backend/gateway readiness is only partial activation evidence; collection, successful queries, persisted records and retention require their own verification. The additive datasource preserves metrics access.
+The logging diagram distinguishes scoped installers, the own-namespace operator,
+an API-only collector account, the authenticated TLS gateway and Grafana query
+identity. The collector is limited to opted-in pilot pod logs, not host mounts or
+arbitrary tenant logs. Installer-only metadata exceptions are read-only node
+listing and get of its exact namespace. They do not expand collector authority.
+This pilot uses one platform-admin write/query machine identity: no tenant
+isolation claim is justified. Credentials are manually staged in protected runtime
+Secrets, not ESO-managed.
 
-The owner subsequently confirmed visual receipt of the private Mattermost native test. Production firing/recovery/repeats remain separate from that contact-point test.
+Actual pilot collection is verified: opted-in synthetic records reach the
+collector through the Kubernetes API, sensitive fields are redacted, and an
+otherwise identical unopted workload is excluded. The gateway enforces the
+authenticated identity mapping despite spoofed tenant headers and rejects invalid
+credentials. An actual Grafana datasource-proxy query returns the redacted records;
+native logging and existing metrics health and dashboards are preserved. A unique
+pre-restart direct-push sentinel survives a controlled backend-only restart on the
+same persistent volume, without relying on collector replay. Temporary synthetic
+workloads were cleaned up.
 
-Actual pilot collection is now verified: an opted-in synthetic workload is collected through the Kubernetes API, sensitive fields are redacted, and an otherwise identical unopted workload is excluded. The gateway enforces its authenticated identity mapping despite spoofed tenant headers and rejects invalid credentials. Grafana native logging health and existing metrics access are verified. Installer-only metadata exceptions are read-only node listing and get of its exact namespace; they do not grant host filesystem access or broaden the collector. Persistence/recovery and retention acceptance are still pending at this snapshot.
-
-Native Grafana datasource health is not a substitute for an actual datasource-proxy query: that query currently needs an exact URL-port correction within its existing allowlist. Direct authenticated backend query and collector ingestion are separately verified.
+Natural retention deletion, production-volume growth/debug policy, comprehensive
+redaction, tenant query isolation and restore remain separate, unverified
+acceptance. The logging ticket remains open. The owner also confirmed visual
+receipt of the private Mattermost native test; production alert firing/recovery
+and repeat behavior are separate from that contact-point test.

@@ -447,15 +447,15 @@ model {
     style { color green }
   }
   loggingQuery = system "Grafana logging query identity" {
-    #unverified
-    description "UNVERIFIED: Query the pilot logging tenant without changing existing metrics access. Native Grafana logging datasource health is verified, but an actual datasource-proxy query is blocked pending an exact URL-port correction. Existing Prometheus access and dashboards remain preserved."
+    #current
+    description "CURRENT: Query the pilot logging tenant without changing existing metrics access. Native Grafana datasource-proxy queries return the actual redacted pilot records. Logging and existing Prometheus health are verified, and existing dashboards remain preserved."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
-      status "unverified"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
       review "2026-11-14 · source model with separately dated deployment observations"
     }
-    style { color slate }
+    style { color green }
   }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
@@ -501,7 +501,7 @@ model {
   runtimeIdentity -> loggingCollector "CURRENT: Approved pilot pod logs via Kubernetes API only" { #current }
   loggingCollector -> loggingGateway "CURRENT: Verified TLS and pilot machine authentication" { #current }
   serviceCredentials -> loggingGateway "CURRENT: Manually staged protected custody, not ESO" { #current }
-  loggingQuery -> loggingGateway "UNVERIFIED: Authenticated pilot tenant query" { #unverified }
+  loggingQuery -> loggingGateway "CURRENT: Authenticated pilot tenant query" { #current }
   platformAuthority -> loggingQuery "CURRENT: Platform-admin pilot, no tenant datasource grant" { #current }
 }
 views {
@@ -537,7 +537,7 @@ views {
   }
   view loggingIdentity {
     title "Logging identity and trust flow"
-    description "Scoped installer → opt-in API-only collector → TLS/authenticated gateway → pilot tenant query. Collection and scope checks are verified; persistence and retention acceptance remain separate."
+    description "Scoped installer → opt-in API-only collector → TLS/authenticated gateway → Grafana pilot query. Collection, query, scope checks and same-volume restart persistence are verified; retention, restore and production growth remain separate."
     include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, serviceCredentials, loggingGateway, loggingQuery, platformAuthority
     autoLayout LeftRight
   }

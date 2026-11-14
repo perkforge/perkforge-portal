@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.1](https://github.com/perkforge/perkforge-portal/compare/v0.7.0...v0.7.1) (2026-11-14)
+
+
+### Bug Fixes
+
+* reflect verified Viewer-only logging architecture ([67a0ab4](https://github.com/perkforge/perkforge-portal/commit/67a0ab4bffc65498654a887f05b7715306fce32c))
+* reflect verified Viewer-only logging architecture ([e0c2512](https://github.com/perkforge/perkforge-portal/commit/e0c2512260f5cd7c545ac2f2be2f9b870ff1fbca))
+
 ## [0.7.0](https://github.com/perkforge/perkforge-portal/compare/v0.6.1...v0.7.0) (2026-11-14)
 
 

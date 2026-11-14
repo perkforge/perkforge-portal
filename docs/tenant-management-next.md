@@ -95,3 +95,13 @@ cross-context denial plus session-expiry evidence and expose partial failures.
 reviewed native delegation/persistence approach. Then implement and test one
 end-to-end operation before any exact live credential/network/grant batch. Until
 then this is source-only preview capability, not delivered tenant CRUD.
+
+## Source execution protocol now available
+
+[Membership execution contract](membership-execution.md) now defines write-ahead
+state/audit proposals, idempotency comparison, uncertain-outcome readback and
+downstream verification separation, plus exact26.8.1 two-sided FGAP scopes and
+filtered-pagination semantics. It is not wired to a datastore/transport or HTTP
+submit route. Pure revision checks are not durable CAS; receipt syntax checks are
+not proof. A production store, authority, custody and native denial acceptance
+remain required.

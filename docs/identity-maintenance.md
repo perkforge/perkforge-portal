@@ -101,3 +101,10 @@ The request-preview UI is source-only and disabled when no reviewed snapshot
 configuration exists. Its capability endpoint reveals only configuration/admission
 booleans, never realm user/group inventory. The form has no submit/persist action;
 server operation authorization and all identity boundaries remain unchanged.
+
+The source-only execution protocol reuses existing request context and refuses
+replayed writes after uncertain outcomes. Native26.8.1 evidence requires user
+manage-group-membership plus exact group manage-membership; no broad user-admin
+role is assumed. GET-only readback accounts for permission-filtered pagination
+and explicitly does not verify ownership. No connected writer, durable storage,
+service credential, grant or native acceptance is introduced by these fixtures.

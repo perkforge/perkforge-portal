@@ -414,48 +414,48 @@ model {
     style { color green }
   }
   loggingInstaller = system "Logging installer identities" {
-    #unverified
-    description "UNVERIFIED: Keep reconciliation authority separate from collection and query identities. Existing scoped installers deploy the native backend and own-namespace collector operator."
+    #current
+    description "CURRENT: Keep reconciliation authority separate from collection and query identities. Existing scoped installers deploy the native backend and own-namespace collector operator."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
-      status "unverified"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
       review "2026-11-14 · source model with separately dated deployment observations"
     }
-    style { color slate }
+    style { color green }
   }
   loggingCollector = system "API-only pilot collector" {
-    #unverified
-    description "UNVERIFIED: Read only the explicitly approved pilot workload logs. A dedicated service account reads pod logs through the Kubernetes API; no node filesystem or host log mount."
+    #current
+    description "CURRENT: Read only the explicitly approved pilot workload logs. A dedicated service account reads only opted-in pilot pod logs through the Kubernetes API; no node filesystem or host log mount. Included synthetic records are collected and redacted; an otherwise identical unopted workload is excluded."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
-      status "unverified"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
       review "2026-11-14 · source model with separately dated deployment observations"
     }
-    style { color slate }
+    style { color green }
   }
   loggingGateway = system "Authenticated logging gateway" {
-    #unverified
-    description "UNVERIFIED: Terminate verified TLS and map authenticated machine identity to the pilot logging tenant. Backend and gateway are running with the original persistent volume; collection acceptance remains incomplete."
+    #current
+    description "CURRENT: Terminate verified TLS and map authenticated machine identity to the pilot logging tenant. Backend and gateway are ready. Actual scoped API-collector ingestion and authenticated query are verified. The gateway forces the mapped pilot identity despite a spoofed tenant header; wrong credentials are rejected."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
-      status "unverified"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
       review "2026-11-14 · source model with separately dated deployment observations"
     }
-    style { color slate }
+    style { color green }
   }
   loggingQuery = system "Grafana logging query identity" {
-    #unverified
-    description "UNVERIFIED: Query the pilot logging tenant without changing existing metrics access. An additive logging datasource preserves the existing Prometheus datasource."
+    #current
+    description "CURRENT: Query the pilot logging tenant without changing existing metrics access. Native Grafana logging datasource health and actual collected records are verified, while existing Prometheus access and dashboards are preserved."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
-      status "unverified"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
       review "2026-11-14 · source model with separately dated deployment observations"
     }
-    style { color slate }
+    style { color green }
   }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
@@ -497,11 +497,11 @@ model {
   baoIdentity -> mattermostOperator "UNVERIFIED: Scoped runtime custody and delivery; consult dated deployment state" { #unverified }
   gitops -> portalInventory "UNVERIFIED: Reviewed artifact evidence, not a tenant mutation authority" { #unverified }
   appInstaller -> loggingInstaller "CURRENT: Existing scoped installer authority" { #current }
-  loggingInstaller -> loggingCollector "UNVERIFIED: Own-namespace operator and dedicated collector account" { #unverified }
-  runtimeIdentity -> loggingCollector "UNVERIFIED: Approved pilot pod logs via Kubernetes API only" { #unverified }
-  loggingCollector -> loggingGateway "UNVERIFIED: Verified TLS and pilot machine authentication" { #unverified }
+  loggingInstaller -> loggingCollector "CURRENT: Own-namespace operator and dedicated collector account" { #current }
+  runtimeIdentity -> loggingCollector "CURRENT: Approved pilot pod logs via Kubernetes API only" { #current }
+  loggingCollector -> loggingGateway "CURRENT: Verified TLS and pilot machine authentication" { #current }
   serviceCredentials -> loggingGateway "CURRENT: Manually staged protected custody, not ESO" { #current }
-  loggingQuery -> loggingGateway "UNVERIFIED: Authenticated pilot tenant query" { #unverified }
+  loggingQuery -> loggingGateway "CURRENT: Authenticated pilot tenant query" { #current }
   platformAuthority -> loggingQuery "CURRENT: Platform-admin pilot, no tenant datasource grant" { #current }
 }
 views {
@@ -537,7 +537,7 @@ views {
   }
   view loggingIdentity {
     title "Logging identity and trust flow"
-    description "Scoped installer → API-only collector → TLS/authenticated gateway → pilot tenant query. Backend readiness is not proof of collection, persistence or retention."
+    description "Scoped installer → opt-in API-only collector → TLS/authenticated gateway → pilot tenant query. Collection and scope checks are verified; persistence and retention acceptance remain separate."
     include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, serviceCredentials, loggingGateway, loggingQuery, platformAuthority
     autoLayout LeftRight
   }

@@ -387,7 +387,7 @@
       "usage": "Use exact audience/topic bindings, not general shared credentials.",
       "configuration": "Platform-owned runtime custody with separate records and scoped ESO consumers.",
       "runbook": "Review recipient entitlements and verify old routes after additive changes.",
-      "source": "https://github.com/perkforge/perkforge-platform/issues/391",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/39",
       "parent": null
     },
     {

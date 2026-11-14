@@ -29,7 +29,7 @@ future external resource trust.
 
 ## Guard and limits
 
-Portal PR CI checks changes to its auth/config/API/enrollment source paths and
+Portal PR CI checks all server sources plus the main authentication shell and enrollment UI, and
 requires catalog plus identity documentation changes in that PR. Unit tests verify
 snapshot shape/state/evidence and guard behavior. This catches an omitted review,
 not false prose or a stale cluster. Human review remains responsible for accuracy.

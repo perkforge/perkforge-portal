@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 export function identityReviewRequired(paths) {
-  return paths.some(p => /^server\/(security|config|app|enrollment)\.mjs$/.test(p) || /^src\/Enrollment\.tsx$/.test(p));
+  return paths.some(p => /^server\/.+\.(mjs|js|ts)$/.test(p) || /^src\/(Enrollment|main)\.tsx$/.test(p));
 }
 export function checkIdentityReview(paths) {
   if (!identityReviewRequired(paths)) return;

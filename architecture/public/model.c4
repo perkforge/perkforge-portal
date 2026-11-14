@@ -383,7 +383,7 @@ model {
   incidentPublisher = system "Incident notification machine identities" {
     #current
     description "CURRENT: Separate platform incident publishers from deployment publishers. Use exact audience/topic bindings, not general shared credentials."
-    link https://github.com/perkforge/perkforge-platform/issues/391 "Source / evidence limits"
+    link https://github.com/perkforge/perkforge-platform/issues/39 "Source / evidence limits"
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"

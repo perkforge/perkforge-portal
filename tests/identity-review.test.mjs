@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { checkIdentityReview } from '../scripts/check-identity-docs.mjs';
 test('identity-sensitive code cannot omit model and docs review', () => {
-  for (const p of ['server/security.mjs', 'server/app.mjs', 'server/config.mjs', 'server/enrollment.mjs', 'src/Enrollment.tsx']) {
+  for (const p of ['server/security.mjs', 'server/app.mjs', 'server/config.mjs', 'server/enrollment.mjs', 'server/enrollment-inventory.mjs', 'src/Enrollment.tsx', 'src/main.tsx']) {
     assert.throws(() => checkIdentityReview([p]));
     assert.throws(() => checkIdentityReview([p,'docs/identity-maintenance.md']));
     assert.doesNotThrow(() => checkIdentityReview([p,'src/architecture/catalog.json','docs/identity-maintenance.md']));

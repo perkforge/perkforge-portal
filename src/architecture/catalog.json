@@ -393,22 +393,22 @@
     {
       "id": "mattermostOperator",
       "title": "Mattermost operator / application identities",
-      "status": "unverified",
-      "purpose": "Installer and runtime identities are separate staged prerequisites.",
-      "usage": "Do not equate configured ESO or operator authority with deployed application acceptance.",
-      "configuration": "Review operator permissions, application login and exact secret consumers separately.",
-      "runbook": "Verify real installation, application login and outcome routing before marking active.",
+      "status": "current",
+      "purpose": "Native installer, application and human identities remain separate.",
+      "usage": "Owner Keycloak login and private pilot channel visibility are verified; an independent native emergency administrator remains outside federation.",
+      "configuration": "Closed signup and disabled temporary bootstrap access; shared platform team and private channels are platform managed. A reviewed, default-off membership adapter is not a deployed continuous controller.",
+      "runbook": "Keep platform engineers, native emergency authority and tenant channel membership explicit. Do not infer continuous group synchronization or alert delivery from login acceptance.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/395",
       "parent": null
     },
     {
       "id": "portalInventory",
       "title": "Portal inventory artifact reader",
-      "status": "unverified",
+      "status": "current",
       "purpose": "Reads reviewed enrollment evidence without becoming a cluster controller.",
       "usage": "Keep source evidence distinct from deployed tenant health or mutable user management.",
-      "configuration": "Proposed named read-only ConfigMap mount; no Kubernetes token or broad API grant.",
-      "runbook": "Compare rendered artifact to exact source and verify runtime mount before marking active.",
+      "configuration": "Verified exact read-only ConfigMap mount of a pinned published-source baseline; no Kubernetes token or broad runtime API grant.",
+      "runbook": "Verify artifact hash and runtime adapter separately from fresh user-interface acceptance. Never present this baseline as live cluster reconciliation state.",
       "source": "https://github.com/perkforge/perkforge-portal/issues/5",
       "parent": null
     }
@@ -934,7 +934,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T04:31:45Z",
+    "checkedAt": "2026-11-14T05:49:50Z",
     "scope": "Current identity observations \u00b7 local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release.",
     "records": [
@@ -962,15 +962,15 @@
       {
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
-        "state": "staged",
-        "summary": "The native operator is installed and ready; application installation and real application login are not yet verified in this snapshot. Scoped ESO and application identity prerequisites are prepared. Operator readiness and a Helm wrapper event are not proof of application acceptance.",
+        "state": "observed-active",
+        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana\u2019s channel-locked receiver delivered a labeled native test, verified by channel readback, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {
         "id": "portalInventory",
         "title": "Portal enrollment inventory reader",
-        "state": "staged",
-        "summary": "Approved named-ConfigMap writer/admission prerequisites are applied: the existing deployer may create only the reviewed inventory object under admission, with named read/update/patch/delete rights. No inventory ConfigMap or reader feature is active in the observed Portal runtime. Runtime remains tokenless with no secret or network grant; the proposed mount is exact and read-only.",
+        "state": "observed-active",
+        "summary": "The released Portal now reads a verified, exact read-only inventory ConfigMap containing a pinned published-source baseline. Its declared application entries are not the cluster\u2019s current root, reconciliation health, customer tenants or user administration. Existing deployer authority is constrained to the named inventory object by RBAC and admission. Runtime remains tokenless without added secret or network access. Adapter and anonymous API denial are verified; fresh owner inventory UI acceptance remains unverified.",
         "evidence": "https://github.com/perkforge/perkforge-platform-tenants/pull/66"
       },
       {

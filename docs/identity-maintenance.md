@@ -43,3 +43,9 @@ snapshot input, not target-dependent rebuilds. No API credentials, cluster token
 new network access are introduced by this documentation feature. The authenticated
 architecture-delivery change is separately tracked in Portal #10; this sanitized
 snapshot must not be mistaken for implemented private-model delivery.
+
+## Verified pilot transition
+
+The current snapshot records the live read-only Portal inventory as a pinned published-source baseline, never current cluster state or tenant/user CRUD. Mattermost native readiness, closed signup and owner-confirmed Keycloak login/private-channel visibility are separate from continuous group membership enforcement and alert delivery, which must not be inferred. Native emergency administration remains outside Keycloak, with approved vault custody and temporary bootstrap access disabled. The default-off reviewed membership adapter is source capability, not an active scheduler or enrollment hook. Grafana explicit-subject administration is likewise not automatic group-to-organization synchronization. Tenant organization roles and data-source isolation remain future work.
+
+The private pilot channel now has a channel-locked Grafana receiver: one labeled native contact-point test and exact channel readback are verified, with the existing phone receiver preserved. This is not evidence of production firing/recovery/repeat behavior or continuous tenant membership enforcement.

@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.7.0](https://github.com/perkforge/perkforge-portal/compare/v0.6.1...v0.7.0) (2026-11-14)
+
+
+### Features
+
+* add explicitly unsaved membership preview interface ([5d7a11f](https://github.com/perkforge/perkforge-portal/commit/5d7a11fb955d1c9e8b4fc1de5265120750015c4b))
+* define membership execution and native readback protocol ([72ea727](https://github.com/perkforge/perkforge-portal/commit/72ea727b6e10c02d0073e53f8e371c1982f0126d))
+* validate authenticated tenant membership previews without writes ([d5dc6e0](https://github.com/perkforge/perkforge-portal/commit/d5dc6e01c2fb0dcd95ac74770b61e2143821434b))
+
+
+### Bug Fixes
+
+* bound private preview reads and bind identity issuer ([0c02b64](https://github.com/perkforge/perkforge-portal/commit/0c02b644a483b8d24775733191e459213f675bf0))
+
 ## [0.6.1](https://github.com/perkforge/perkforge-portal/compare/v0.6.0...v0.6.1) (2026-11-14)
 
 

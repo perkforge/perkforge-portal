@@ -49,3 +49,32 @@ snapshot must not be mistaken for implemented private-model delivery.
 The current snapshot records the live read-only Portal inventory as a pinned published-source baseline, never current cluster state or tenant/user CRUD. Mattermost native readiness, closed signup and owner-confirmed Keycloak login/private-channel visibility are separate from continuous group membership enforcement and alert delivery, which must not be inferred. Native emergency administration remains outside Keycloak, with approved vault custody and temporary bootstrap access disabled. The default-off reviewed membership adapter is source capability, not an active scheduler or enrollment hook. Grafana explicit-subject administration is likewise not automatic group-to-organization synchronization. Tenant organization roles and data-source isolation remain future work.
 
 The private pilot channel now has a channel-locked Grafana receiver: one labeled native contact-point test and exact channel readback are verified, with the existing phone receiver preserved. This is not evidence of production firing/recovery/repeat behavior or continuous tenant membership enforcement.
+
+## Logging pilot flow
+
+The logging diagram distinguishes scoped installers, the own-namespace operator,
+an API-only collector account, the authenticated TLS gateway and Grafana query
+identity. The collector selects opted-in pilot pod logs, not host mounts or arbitrary
+tenant logs. Opt-in labels are collection filters; the service account RBAC
+permits pod-log reads across the pilot namespace, not only labeled pods. Installer-only metadata exceptions are read-only node
+listing and get of its exact namespace. These metadata exceptions add no extra Secret or other-resource authority and
+do not expand collector permissions; existing Helm installer authority is separate.
+This pilot uses one platform-admin write/query machine identity: no tenant
+isolation claim is justified. Credentials are manually staged in protected runtime
+Secrets, not ESO-managed.
+
+Actual pilot collection is verified: opted-in synthetic records reach the
+collector through the Kubernetes API, tested synthetic password fields were redacted, and an
+otherwise identical unopted workload is excluded. The gateway enforces the
+authenticated identity mapping despite spoofed tenant headers and rejects invalid
+credentials. An actual Grafana datasource-proxy query returns the redacted records;
+native logging and existing metrics health and dashboards are preserved. A unique
+pre-restart direct-push sentinel survives a controlled backend-only restart on the
+same persistent volume, without relying on collector replay. Temporary synthetic
+workloads were cleaned up.
+
+Natural retention deletion, production-volume growth/debug policy, comprehensive
+redaction, tenant query isolation and restore remain separate, unverified
+acceptance. The logging ticket remains open. The owner also confirmed visual
+receipt of the private Mattermost native test; production alert firing/recovery
+and repeat behavior are separate from that contact-point test.

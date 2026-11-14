@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/perkforge/perkforge-portal/compare/v0.6.0...v0.6.1) (2026-11-14)
+
+
+### Bug Fixes
+
+* require verified sessions for architecture assets ([#25](https://github.com/perkforge/perkforge-portal/issues/25)) ([60ee11d](https://github.com/perkforge/perkforge-portal/commit/60ee11d8e219d95faa6cdc4039b803b5bd67607f))
+
 ## [0.6.0](https://github.com/perkforge/perkforge-portal/compare/v0.5.0...v0.6.0) (2026-11-14)
 
 

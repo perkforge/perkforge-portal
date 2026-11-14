@@ -447,15 +447,15 @@ model {
     style { color green }
   }
   loggingQuery = system "Grafana logging query identity" {
-    #current
-    description "CURRENT: Query the pilot logging tenant without changing existing metrics access. Native Grafana logging datasource health and actual collected records are verified, while existing Prometheus access and dashboards are preserved."
+    #unverified
+    description "UNVERIFIED: Query the pilot logging tenant without changing existing metrics access. Native Grafana logging datasource health is verified, but an actual datasource-proxy query is blocked pending an exact URL-port correction. Existing Prometheus access and dashboards remain preserved."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
-      status "current"
+      status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
       review "2026-11-14 · source model with separately dated deployment observations"
     }
-    style { color green }
+    style { color slate }
   }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
@@ -501,7 +501,7 @@ model {
   runtimeIdentity -> loggingCollector "CURRENT: Approved pilot pod logs via Kubernetes API only" { #current }
   loggingCollector -> loggingGateway "CURRENT: Verified TLS and pilot machine authentication" { #current }
   serviceCredentials -> loggingGateway "CURRENT: Manually staged protected custody, not ESO" { #current }
-  loggingQuery -> loggingGateway "CURRENT: Authenticated pilot tenant query" { #current }
+  loggingQuery -> loggingGateway "UNVERIFIED: Authenticated pilot tenant query" { #unverified }
   platformAuthority -> loggingQuery "CURRENT: Platform-admin pilot, no tenant datasource grant" { #current }
 }
 views {

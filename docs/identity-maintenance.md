@@ -57,3 +57,5 @@ The logging diagram distinguishes scoped installers, the own-namespace operator,
 The owner subsequently confirmed visual receipt of the private Mattermost native test. Production firing/recovery/repeats remain separate from that contact-point test.
 
 Actual pilot collection is now verified: an opted-in synthetic workload is collected through the Kubernetes API, sensitive fields are redacted, and an otherwise identical unopted workload is excluded. The gateway enforces its authenticated identity mapping despite spoofed tenant headers and rejects invalid credentials. Grafana native logging health and existing metrics access are verified. Installer-only metadata exceptions are read-only node listing and get of its exact namespace; they do not grant host filesystem access or broaden the collector. Persistence/recovery and retention acceptance are still pending at this snapshot.
+
+Native Grafana datasource health is not a substitute for an actual datasource-proxy query: that query currently needs an exact URL-port correction within its existing allowlist. Direct authenticated backend query and collector ingestion are separately verified.

@@ -404,7 +404,7 @@ model {
   }
   portalInventory = system "Portal inventory artifact reader" {
     #current
-    description "CURRENT: Reads reviewed enrollment evidence without becoming a cluster controller. Keep source evidence distinct from deployed tenant health or mutable user management. Source-only application-pin and authenticated membership request previews perform no writes or persistence. Membership preview is default off, requires generic tenant-admin plus exact context (or independent platform-admin), and only proposes approved existing-subject developer/viewer membership. No snapshot is delivered; customer profiles/admin-role policy remain blocked, with an explicitly unsaved request-preview form disabled by default, not live CRUD."
+    description "CURRENT: Reads reviewed enrollment evidence without becoming a cluster controller. Keep source evidence distinct from deployed tenant health or mutable user management. Source-only application-pin and authenticated membership request previews perform no writes or persistence. Membership preview is default off, requires generic tenant-admin plus exact context (or independent platform-admin), and only proposes approved existing-subject developer/viewer membership. No snapshot is delivered; customer profiles/admin-role policy remain blocked, with an explicitly unsaved request-preview form disabled by default, not live CRUD. A source-only execution contract defines write-ahead audit/state transitions and uncertain-outcome readback; durable storage, authority and connected execution remain unimplemented."
     link https://github.com/perkforge/perkforge-portal/issues/5 "Source / evidence limits"
     metadata {
       status "current"

@@ -30,3 +30,14 @@ test('logging ownership guard is distinct from staged query authorization', asyn
   assert.match(c.identitySnapshot.records.find(r=>r.id==='loggingQuery').summary,/Tenant readers remain disabled/);
   assert.doesNotMatch(JSON.stringify(c), /c0248f64|log-ownership-tenant-portal|loki-boundary-auth/);
 });
+
+test('current logging edges match scoped ESO custody and read/write boundaries', async () => {
+  const c=JSON.parse(await readFile(new URL('../src/architecture/catalog.json',import.meta.url)));
+  const edges=c.edges.filter(e=>e.source.startsWith('logging')||e.target.startsWith('logging'));
+  assert.doesNotMatch(JSON.stringify(edges),/Manually staged|pilot machine|admin pilot|Approved pilot/);
+  for(const id of ['loggingGateway','loggingCollector','loggingQuery']) assert.ok(edges.some(e=>e.source==='esoIdentity'&&e.target===id&&e.status==='current'));
+  assert.match(edges.find(e=>e.source==='loggingCollector'&&e.target==='loggingGateway').title,/push-only/);
+  assert.match(edges.find(e=>e.source==='loggingQuery'&&e.target==='loggingGateway').title,/tenant query mapping disabled/);
+  assert.match(c.nodes.find(n=>n.id==='pipelineCoverage').source,/\/docs\/delivery-pipelines\.md$/);
+  assert.match(c.nodes.find(n=>n.id==='backupCapture').source,/\/docs\/backup-restore\.md$/);
+});

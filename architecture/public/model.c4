@@ -537,7 +537,7 @@ model {
   pipelineCoverage = system "Delivery inventory scope" {
     #current
     description "CURRENT: Keep current source workflows distinct from planned or absent automation. The reviewed eight nonarchived repositories contain thirteen GitHub Actions workflow definitions and two image Dockerfiles. The operator-recovery, earlier UI and field-guide repositories have no checked-in Actions workflow."
-    link https://github.com/perkforge/perkforge-platform/issues/254 "Source / evidence limits"
+    link https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/delivery-pipelines.md "Source / evidence limits"
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
@@ -548,7 +548,7 @@ model {
   backupCapture = system "Paired application recovery capture" {
     #current
     description "CURRENT: Capture files, database and required configuration as one consistent recovery generation. An application-aware capture pairs data with database and protected configuration, then records completion and integrity metadata. An incomplete run is not a recovery point."
-    link https://github.com/perkforge/perkforge-platform/issues/81 "Source / evidence limits"
+    link https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/backup-restore.md "Source / evidence limits"
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
@@ -663,11 +663,11 @@ model {
   gitops -> portalInventory "UNVERIFIED: Reviewed artifact evidence, not a tenant mutation authority" { #unverified }
   appInstaller -> loggingInstaller "CURRENT: Existing scoped installer authority" { #current }
   loggingInstaller -> loggingCollector "CURRENT: Own-namespace operator and dedicated collector account" { #current }
-  runtimeIdentity -> loggingCollector "CURRENT: Approved pilot pod logs via Kubernetes API only" { #current }
-  loggingCollector -> loggingGateway "CURRENT: Verified TLS and pilot machine authentication" { #current }
-  serviceCredentials -> loggingGateway "CURRENT: Manually staged protected custody, not ESO" { #current }
-  loggingQuery -> loggingGateway "CURRENT: Authenticated pilot tenant query" { #current }
-  platformAuthority -> loggingQuery "CURRENT: Platform-admin pilot, no tenant datasource grant" { #current }
+  runtimeIdentity -> loggingCollector "CURRENT: Reviewed namespace stages via trusted Kubernetes pod/log API" { #current }
+  loggingCollector -> loggingGateway "CURRENT: Distinct push-only writer over verified TLS" { #current }
+  serviceCredentials -> loggingGateway "CURRENT: Separate scoped writer and read identities; legacy reads retained" { #current }
+  loggingQuery -> loggingGateway "CURRENT: Read-only platform federation; tenant query mapping disabled" { #current }
+  platformAuthority -> loggingQuery "CURRENT: Platform engineers Viewer; separate platform administration" { #current }
   loggingOwnership -> loggingGateway "CURRENT: Ownership epoch prerequisite; query authorization is separate" { #current }
   gitops -> portalImageBuild "CURRENT: Reviewed application source" { #current }
   gitops -> nextcloudImageBuild "CURRENT: Reviewed manual image inputs" { #current }
@@ -686,6 +686,9 @@ model {
   restoreProof -> reviewedCutover "UNVERIFIED: Separate owner decision" { #unverified }
   vaultRecovery -> clusterRecovery "UNVERIFIED: Independent keys and recovery access" { #unverified }
   clusterRecovery -> isolatedRestore "UNVERIFIED: Dependencies before app recovery" { #unverified }
+  esoIdentity -> loggingGateway "CURRENT: Exact-record ESO delivery of gateway authentication" { #current }
+  esoIdentity -> loggingCollector "CURRENT: Exact-record ESO delivery of collector write credential" { #current }
+  esoIdentity -> loggingQuery "CURRENT: Exact-record ESO delivery of read credentials; tenant exposure disabled" { #current }
 }
 views {
   view identityLifecycle {
@@ -721,7 +724,7 @@ views {
   view loggingIdentity {
     title "Logging identity and trust flow"
     description "Trusted API collection → exact-record credential delivery → scoped gateway → platform datasource and pod-log dashboard. Real workload records, chained label/panel queries and dashboard preservation are verified; collection expansion and tenant exposure remain separate gates."
-    include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, serviceCredentials, loggingGateway, loggingQuery, platformAuthority, loggingOwnership
+    include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, esoIdentity, serviceCredentials, loggingGateway, loggingQuery, platformAuthority, loggingOwnership
     autoLayout LeftRight
   }
   view index {

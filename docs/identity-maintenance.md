@@ -150,7 +150,7 @@ Actual gateway queries return Mattermost and Flux workload records. Portal is
 currently quiet. Collection expands through reviewed namespace stages only as capacity is measured;
 cluster-wide authorization is not all-cluster coverage. Source selection and dated
 acceptance determine the stage; the view does not infer coverage from RBAC.
-The initial collector credential-read denial caused a collection gap. No lossless
+The initial collector credential-read denial caused a collection gap. Monitoring-stage ingestion is now verified, but historical catch-up produced timestamp-too-old batch rejections; fresh post-catch-up measurements remain separate. No lossless
 rollout, natural-pruning, restore or comprehensive-redaction claim is made.
 
 The native platform dashboard is provisioned against a distinct read-only
@@ -169,4 +169,4 @@ The [current pipeline inventory](delivery-pipelines.md) distinguishes actual bui
 
 The existing canonical platform-engineer group now receives a dedicated, noncomposite Grafana-client entitlement and same-client scope mapping; live OAuth assigns platform-org Viewer while administrator authority remains separate. No human memberships changed. Native readback and fixture proof do not replace an actual engineer-only human login, which remains untested. Tenant org exposure remains off.
 
-New private operational Mattermost channels have role-based membership and owner-confirmed visibility. The one-shot adapter is not continuous reconciliation; the tenant deployment channel remains recovery-only at this checkpoint. New relay credentials are staged, not evidence of delivered messages, and the new route is not yet deployed.
+New private operational Mattermost channels have role-based membership and owner-confirmed visibility. The one-shot adapter is not continuous reconciliation; the tenant deployment channel remains recovery-only at this checkpoint. Four new relay records and their exact-record ESO consumers are synchronized, not evidence of delivered messages, and the new route is not yet deployed.

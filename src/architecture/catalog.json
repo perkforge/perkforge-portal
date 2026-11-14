@@ -430,7 +430,7 @@
       "purpose": "Collect reviewed workload namespaces using trusted Kubernetes metadata.",
       "usage": "Real Mattermost and platform reconciliation logs now reach the scoped backend. The observed stage selects reviewed workload namespaces; application and platform reconciliation records are verified, while a quiet Portal workload had no observed records at the checkpoint. This is staged coverage, not all-cluster collection.",
       "configuration": "The collector may read pod metadata and logs cluster-wide, with get/watch on only its exact delivery credential Secret. It has no host mounts. Final trusted metadata chooses a registered ownership epoch or platform-only fallback; arbitrary pod annotations are not ownership authority.",
-      "runbook": "Measure retries, drops, volume and storage before expanding collection. The initial credential-read denial caused a collection gap; no lossless rollout or general redaction guarantee is claimed.",
+      "runbook": "Measure retries, drops, volume and storage before expanding collection. Initial credential-read denial caused a collection gap; later monitoring catch-up rejected historical timestamp-too-old batches. No lossless rollout or general redaction guarantee is claimed.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
     },
@@ -541,7 +541,7 @@
       "usage": "The reviewed eight nonarchived repositories contain thirteen GitHub Actions workflow definitions and two image Dockerfiles. The operator-recovery, earlier UI and field-guide repositories have no checked-in Actions workflow.",
       "configuration": "This is a dated source/run-metadata inventory, not discovery of every external CI service. The proposed GitLab/Trivy/Harbor intake remains planned; no live GitLab job inventory was inferred.",
       "runbook": "Refresh workflow sources, triggers, active/job-level pause state and output references when delivery changes. Never equate an existing Dockerfile with an executing pipeline.",
-      "source": "https://github.com/perkforge/perkforge-platform/issues/254",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/delivery-pipelines.md",
       "parent": null
     },
     {
@@ -552,7 +552,7 @@
       "usage": "An application-aware capture pairs data with database and protected configuration, then records completion and integrity metadata. An incomplete run is not a recovery point.",
       "configuration": "Secrets remain in protected recovery custody, not source or the diagram. Scheduler health and a directory name are not evidence of a complete generation.",
       "runbook": "Verify completion, matching generation, required versions and available independent unlock material before using any artifact.",
-      "source": "https://github.com/perkforge/perkforge-platform/issues/81",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/backup-restore.md",
       "parent": null
     },
     {
@@ -872,31 +872,31 @@
     {
       "source": "runtimeIdentity",
       "target": "loggingCollector",
-      "title": "Approved pilot pod logs via Kubernetes API only",
+      "title": "Reviewed namespace stages via trusted Kubernetes pod/log API",
       "status": "current"
     },
     {
       "source": "loggingCollector",
       "target": "loggingGateway",
-      "title": "Verified TLS and pilot machine authentication",
+      "title": "Distinct push-only writer over verified TLS",
       "status": "current"
     },
     {
       "source": "serviceCredentials",
       "target": "loggingGateway",
-      "title": "Manually staged protected custody, not ESO",
+      "title": "Separate scoped writer and read identities; legacy reads retained",
       "status": "current"
     },
     {
       "source": "loggingQuery",
       "target": "loggingGateway",
-      "title": "Authenticated pilot tenant query",
+      "title": "Read-only platform federation; tenant query mapping disabled",
       "status": "current"
     },
     {
       "source": "platformAuthority",
       "target": "loggingQuery",
-      "title": "Platform-admin pilot, no tenant datasource grant",
+      "title": "Platform engineers Viewer; separate platform administration",
       "status": "current"
     },
     {
@@ -1006,6 +1006,24 @@
       "target": "isolatedRestore",
       "title": "Dependencies before app recovery",
       "status": "unverified"
+    },
+    {
+      "source": "esoIdentity",
+      "target": "loggingGateway",
+      "title": "Exact-record ESO delivery of gateway authentication",
+      "status": "current"
+    },
+    {
+      "source": "esoIdentity",
+      "target": "loggingCollector",
+      "title": "Exact-record ESO delivery of collector write credential",
+      "status": "current"
+    },
+    {
+      "source": "esoIdentity",
+      "target": "loggingQuery",
+      "title": "Exact-record ESO delivery of read credentials; tenant exposure disabled",
+      "status": "current"
     }
   ],
   "views": [
@@ -1107,6 +1125,7 @@
         "loggingInstaller",
         "runtimeIdentity",
         "loggingCollector",
+        "esoIdentity",
         "serviceCredentials",
         "loggingGateway",
         "loggingQuery",

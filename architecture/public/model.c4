@@ -82,16 +82,16 @@ model {
       }
       style { color slate }
     }
-    openbao = system "OpenBao · planned" {
-      #planned
-      description "PLANNED: Optional future secrets management capability. Not selected or represented as deployed."
-      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/applications.md "Source / evidence limits"
+    openbao = system "OpenBao secrets authority" {
+      #current
+      description "CURRENT: Source-backed secrets management with separate human and machine authentication. Authorizes access to scoped secret paths; this reference does not certify live deployment or recovery."
+      link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
       metadata {
-        status "planned"
+        status "current"
         owner "Platform Engineering · reviewed in source; owner content review pending"
         review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
-      style { color amber }
+      style { color green }
     }
   }
   tenant = system "Example tenant boundary" {
@@ -149,9 +149,9 @@ model {
     }
     style { color amber }
   }
-  gitlab = system "GitLab CI + Trivy · planned" {
+  gitlab = system "GitLab CI + Trivy intake · planned" {
     #planned
-    description "PLANNED: Future isolated validation and CVE scanning before publication. Scan every copied platform; retain SBOM and gate evidence."
+    description "PLANNED: Proposed artifact-intake validation and CVE scanning pipeline, not the deployment status of GitLab itself. Scan every copied platform; retain SBOM and gate evidence."
     link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
     metadata {
       status "planned"
@@ -160,9 +160,9 @@ model {
     }
     style { color amber }
   }
-  harbor = system "Harbor · planned" {
+  harbor = system "Harbor intake publishing · planned" {
     #planned
-    description "PLANNED: Future approved image and chart registry. Publish exact validated content through a protected publisher."
+    description "PLANNED: Proposed approved-intake publication workflow, not the deployment status of Harbor itself. Publish exact validated content through a protected publisher."
     link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
     metadata {
       status "planned"

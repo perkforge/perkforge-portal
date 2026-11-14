@@ -969,9 +969,9 @@
       {
         "id": "portalInventory",
         "title": "Portal enrollment inventory reader",
-        "state": "source-only",
-        "summary": "Read-only source and reviewed inventory ConfigMap work is not active in the observed v0.4.0 runtime. The proposed path uses a named read-only artifact, not a runtime Kubernetes token, broad API access or a tenant/user mutation executor.",
-        "evidence": "https://github.com/perkforge/perkforge-portal/pull/20"
+        "state": "staged",
+        "summary": "Approved named-ConfigMap writer/admission prerequisites are applied: the existing deployer may create only the reviewed inventory object under admission, with named read/update/patch/delete rights. No inventory ConfigMap or reader feature is active in observed Portal v0.4.0. Runtime remains tokenless with no secret or network grant; the proposed mount is exact and read-only.",
+        "evidence": "https://github.com/perkforge/perkforge-platform-tenants/pull/66"
       },
       {
         "id": "cloudTrust",

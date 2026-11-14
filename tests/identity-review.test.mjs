@@ -17,5 +17,5 @@ test('current identity snapshot labels evidence and never implies discovery', as
   const ids=new Set(c.nodes.map(n=>n.id));
   for(const r of c.identitySnapshot.records){assert.ok(ids.has(r.id));assert.ok(['observed-active','staged','source-only','planned','unverified'].includes(r.state));assert.match(r.evidence,/^https:\/\/github.com\/perkforge\//);assert.ok(r.summary.length>50);}
   assert.equal(c.identitySnapshot.records.find(r=>r.id==='mattermostOperator').state,'staged');
-  assert.equal(c.identitySnapshot.records.find(r=>r.id==='portalInventory').state,'source-only');
+  assert.equal(c.identitySnapshot.records.find(r=>r.id==='portalInventory').state,'staged');
 });

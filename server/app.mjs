@@ -10,6 +10,7 @@ import { Sessions, random, equal, safeReturn, validateAccess } from './security.
 import { listTenants } from './tenants.mjs';
 import { enrollmentStatus } from './enrollment.mjs';
 import { loginHtml, loginScript } from './login-shell.mjs';
+import { previewTenantRequest, loadTenantRequestSnapshot } from './tenant-request-preview.mjs';
 const cookieName = '__Host-portal';
 const cookieOptions = { path: '/', secure: true, httpOnly: true, sameSite: 'lax' };
 export async function buildApp(config, options = {}) {
@@ -108,6 +109,26 @@ export async function buildApp(config, options = {}) {
     if (!s?.token) return reply.code(401).send({ error: 'Sign in to view enrollment' });
     const result = await app.inject({ method: 'GET', url: '/api/enrollment', headers: { authorization: `Bearer ${s.token}` } });
     return reply.code(result.statusCode).type('application/json').send(result.body);
+  });
+  // No-write preview only. No artifact is mounted by this source change; default off.
+  app.post('/api/tenant-requests/preview', async (req, reply) => {
+    const match = /^Bearer ([^\s]+)$/.exec(req.headers.authorization || '');
+    if (!match) return reply.code(401).send({ error: 'Bearer token required' });
+    let principal;
+    try { principal = await verify(match[1]); } catch { return reply.code(403).send({ error: 'Access denied' }); }
+    if (!config.tenantRequestDigest) return reply.code(503).send({ error: 'Tenant request preview unavailable' });
+    const snapshot = await loadTenantRequestSnapshot(config, options.tenantRequestRead);
+    const preview = previewTenantRequest(principal, req.body, snapshot);
+    const code = { denied: 403, invalid: 400, blocked: 409, proposal: 200, 'no-change': 200 }[preview.status];
+    return reply.code(code).send(preview);
+  });
+  app.post('/bff/tenant-requests/preview', async (req, reply) => {
+    if (!csrf(req, reply)) return;
+    const s = session(req);
+    if (!s?.token) return reply.code(401).send({ error: 'Sign in to preview a request' });
+    const response = await app.inject({ method: 'POST', url: '/api/tenant-requests/preview',
+      headers: { authorization: `Bearer ${s.token}` }, payload: req.body });
+    return reply.code(response.statusCode).type('application/json').send(response.body);
   });
   // Audience-specific guidance is authorized server-side on every request. The
   // client bundle contains only the separate, explicitly sanitized public model.

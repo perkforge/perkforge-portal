@@ -55,3 +55,11 @@ The source-only enrollment proposal planner does not create tenants, users,
 Keycloak groups or native-service memberships. Customer and membership templates
 remain explicitly unconfigured; offline application-pin proposals do not expand
 platform-admin or tenant-admin authority and are not deployed management UI.
+
+The authenticated request-preview source adds no live authority: tenant-admin
+needs both the generic realm role and exact target admin group; platform-admin
+remains independent. A digest-bound, fresh, operator-reviewed snapshot is required
+but is not delivered. Only eligible existing-subject developer/viewer membership
+proposals are supported; customer templates and admin-membership policy remain
+blocked. Responses are neither persisted nor submitted. Current pilot admission,
+shared-account protections and native role definitions remain unchanged.

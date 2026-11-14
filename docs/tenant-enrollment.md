@@ -120,3 +120,60 @@ profile foundations, immutable subject mapping, tenant-admin permissions and
 revocation remain open design/acceptance work. Existing app enrollment must never
 be repurposed as customer identity. No platform or native team administrator role
 is inferred, and the owner-only pilot is unchanged.
+
+## Authenticated membership request preview (source-only, default off)
+
+The next bounded slice adds POST `/api/tenant-requests/preview` (bearer only) and
+POST `/bff/tenant-requests/preview` (session plus same-origin CSRF). It **does not**
+submit or persist requests, create tenants/accounts, contact Keycloak, or change
+memberships. There is no new browser UI. Every response explicitly reports
+`persisted:false`, `submitted:false`, `writable:false`, `readyToSubmit:false`.
+
+Both routes retain existing JWT issuer/audience/azp/signature/expiry and login
+policy. Operation authorization additionally requires either exact
+`/platform/admins`, independently of tenant roles, or **both** the generic realm
+role `tenant-admin` and `/tenants/<target>/admins`. Admin in a plus viewer in b
+never authorizes b. This source does not broaden the current platform-admin-only
+pilot admission or enable tenant logins.
+
+Default configuration has no context digest, so authenticated previews are
+unavailable. A future separately reviewed delivery may mount a nonpublic,
+read-only `/etc/portal/tenant-requests/context.json` and configure its exact
+`TENANT_REQUEST_CONTEXT_SHA256`. This change supplies neither mount nor snapshot,
+credentials, network access or deployment values. SHA256 binds bytes to reviewed
+configuration, **not** live Keycloak truth or repository provenance. A trusted
+producer must verify ownership and IDs; browser payloads cannot supply this file.
+The fixed-path reader rejects mismatched/oversized JSON and the planner rejects
+snapshots older than 15 minutes or over one minute in the future. No refresher or
+live reader is implemented; stale input deliberately becomes unavailable.
+
+Snapshot v1 fields: `schemaVersion:1`, `realm:"perkforge"`, immutable
+`sourceCommit`, ISO `capturedAt`, empty `customerProfiles`, and `contexts`.
+Each context has canonical `id`, `groups` keyed by the three existing generic
+roles (each exact immutable `id` and tenant-qualified `path`), and
+`eligibleSubjects` records (`subject` UUID and `memberGroupIds` limited to that
+context). Eligibility means separately reviewed existing-subject/context linkage,
+not all users discovered in a realm. No email/name account matching is supported.
+The tests contain synthetic snapshots, not production identity inventory.
+
+Membership input is `{operation,tenant,subject,role}`. Operation is
+`add-membership` or `remove-membership`; only `tenant-developer` and
+`tenant-viewer` requests can produce proposals. Existing/no-op and removal states
+are calculated against the declared snapshot, not queried live. Unknown subjects,
+missing/duplicate IDs and cross-context group data fail closed. Tenant-admin
+membership, self-elevation/last-admin policy and role assignment mechanics are
+not chosen here and remain blocked. No global account creation/reset/deletion,
+impersonation, direct realm-role mapping or platform privileges are supported.
+
+A platform-admin may validate `{operation:"create-customer",tenant,profile}`
+against canonical slug/reserved-name and existing-context collision rules, but
+creation **always remains blocked** while customer profile templates are absent.
+This does not turn application enrollment into customer identity.
+
+Policy source: platform `configuration/authorization/desired.yaml`, `MATRIX.md`,
+`foundation.yaml`, `tasks/foundation-tenant.yaml`, `PORTAL-ROLES.md` and
+`contexts/verify.py` (under `big-bang-bootstrap`). Native fine-grained Keycloak
+administration versus a constrained membership writer remains unresolved. Before
+any writer: revalidate actor, exact immutable group/subject ownership and expected
+membership, authorize the minimal scope, then record native readback and downstream
+revocation/session checks. Never reuse bootstrap/realm-admin credentials in Portal.

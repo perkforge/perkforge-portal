@@ -934,7 +934,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T05:44:03Z",
+    "checkedAt": "2026-11-14T05:49:50Z",
     "scope": "Current identity observations \u00b7 local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release.",
     "records": [
@@ -963,7 +963,7 @@
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
         "state": "observed-active",
-        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Continuous tenant membership reconciliation and Grafana alert delivery to the channel are not verified by this acceptance.",
+        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana\u2019s channel-locked receiver delivered a labeled native test, verified by channel readback, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {

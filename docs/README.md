@@ -121,6 +121,7 @@ and merge it once they pass. That second main push publishes
 `v0.2.0` and its full-SHA tag. No image is published by the first merge alone.
 The workflow never approves or merges PRs despite the combined GitHub setting label.
 
+See [Platform Explorer](architecture-explorer.md) for visual architecture, boundary views and model review.
 ### Platform and tenant authority
 
 `PORTAL_ACCESS_POLICY=platform-admins` accepts only the exact signed Keycloak

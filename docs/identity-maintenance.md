@@ -49,3 +49,9 @@ snapshot must not be mistaken for implemented private-model delivery.
 The current snapshot records the live read-only Portal inventory as a pinned published-source baseline, never current cluster state or tenant/user CRUD. Mattermost native readiness, closed signup and owner-confirmed Keycloak login/private-channel visibility are separate from continuous group membership enforcement and alert delivery, which must not be inferred. Native emergency administration remains outside Keycloak, with approved vault custody and temporary bootstrap access disabled. The default-off reviewed membership adapter is source capability, not an active scheduler or enrollment hook. Grafana explicit-subject administration is likewise not automatic group-to-organization synchronization. Tenant organization roles and data-source isolation remain future work.
 
 The private pilot channel now has a channel-locked Grafana receiver: one labeled native contact-point test and exact channel readback are verified, with the existing phone receiver preserved. This is not evidence of production firing/recovery/repeat behavior or continuous tenant membership enforcement.
+
+
+The source-only enrollment proposal planner does not create tenants, users,
+Keycloak groups or native-service memberships. Customer and membership templates
+remain explicitly unconfigured; offline application-pin proposals do not expand
+platform-admin or tenant-admin authority and are not deployed management UI.

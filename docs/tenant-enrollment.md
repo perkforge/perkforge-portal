@@ -84,3 +84,39 @@ an operator snapshot or ad-hoc kubectl ConfigMap. Runtime namespace permissions
 remain owned by the existing deployer; enrollment must not gain runtime write
 authority just to deliver this data. This PR implements the reader only: mount
 wiring and cross-repository pin checks are still required before activation.
+
+## Offline change preview (source-only proposal, #5)
+
+`server/enrollment-preview.mjs` and `scripts/enrollment-preview.mjs` implement a
+pure no-write MR preview. The CLI reads a bounded JSON envelope on stdin with
+`contract`, `inventory`, `sourceCommit`, and `request`, then emits JSON on stdout.
+It makes no network calls, writes no files, uses no credentials and exposes no HTTP
+route or browser form. It is not tenant creation or a user-management interface.
+
+The proposed platform-owned `contracts/preview-v1.json` in the enrollment repo
+maps one existing application release pin. Supply its contract and inventory from
+the same reviewed immutable commit; the offline module does not fetch or attest
+that provenance. The test fixture is a format fixture, never runtime authority.
+The request shape is:
+
+```json
+{"operation":"application-release-pin","mapping":"integrated-portal-release","expectedTag":"v2.3.1","proposedTag":"v2.4.0"}
+```
+
+These tags illustrate input, not verified published releases. The planner rejects
+unknown fields, arbitrary target paths/namespaces, ambiguous inventory, conflicting
+base tags, unsupported contract versions and duplicate mappings. An unchanged pin
+produces no changes. Output is a semantic file/resource/field proposal, not an
+executable YAML/JSON patch. It always reports `writable:false` and
+`readyToSubmit:false`. A future reviewed writer must verify source provenance,
+re-read the exact base file and target, validate the published release and existing
+cross-repository constraints, then use normal review/CI. No credentials or grants
+are added by this code. BODA is preserved: contract data, not a rebuilt image,
+would select approved targets.
+
+`create-customer` and `change-membership` explicitly fail closed because the
+contract has no reviewed templates for those operations. Customer identity,
+profile foundations, immutable subject mapping, tenant-admin permissions and
+revocation remain open design/acceptance work. Existing app enrollment must never
+be repurposed as customer identity. No platform or native team administrator role
+is inferred, and the owner-only pilot is unchanged.

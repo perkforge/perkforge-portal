@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/perkforge/perkforge-portal/compare/v0.5.0...v0.6.0) (2026-11-14)
+
+
+### Features
+
+* show current identity observations and require C4 review ([#21](https://github.com/perkforge/perkforge-portal/issues/21)) ([c866ed0](https://github.com/perkforge/perkforge-portal/commit/c866ed0f96956eb887977b63eb16508aaebe072c))
+
 ## [0.5.0](https://github.com/perkforge/perkforge-portal/compare/v0.4.0...v0.5.0) (2026-11-14)
 
 

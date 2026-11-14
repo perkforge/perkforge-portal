@@ -50,3 +50,37 @@ Tenant-admin user management is a later scoped identity adapter: exact tenant gr
 and verified subject membership only; no platform roles, global user reset/delete,
 or incidental grants from parent groups. Downstream revocation/session checks are
 required before declaring removal complete.
+
+## Pinned declared enrollment inventory
+
+The optional reader additionally accepts `ENROLLMENT_SOURCE_COMMIT` (exact 40-hex
+commit) and `ENROLLMENT_SELECTOR` (one supported explicit cluster root). Both are
+required together. Read the generated artifact from the resolved published
+enrollment release, not moving main or a browser-provided path. CI in enrollment
+verifies the projection against Kustomize; the manifests remain authoritative.
+
+Latest published release metadata and selected inventory commit are deliberately
+separate: latest does not mean selected/deployed. The reader accesses only the
+fixed public repo/artifact using a bounded response, rejects redirects, validates
+schema, and omits unknown fields. Missing old-release artifacts, blocked egress,
+rate limits or malformed content are unavailable, never empty successful inventory.
+Entries are application enrollments, not inferred customer tenants/users.
+
+### Preferred restricted-cluster transport
+
+Set `ENROLLMENT_SOURCE=gitops-configmap` and project the derived artifact read-only
+at `/etc/portal/enrollment/enrollment-inventory.json`. Set the selected source
+commit and selector as above through GitOps configuration. The mount and metadata
+must come from the same pinned source release, enforced by configuration CI. This
+mode requires `ENROLLMENT_INVENTORY_SHA256` from the same reviewed source commit;
+runtime verifies exact artifact bytes before reporting available. A stale/wrong
+mount fails closed. Configuration CI must verify the declared commit-to-digest
+binding against the published release. This mode performs **no GitHub requests**, needs no service-account token, and leaves
+latest-release metadata disabled. Source commit is configuration provenance, not
+live Flux observation. The image is unchanged between environments.
+
+Delivery must be automated through existing app/enrollment release manifests, not
+an operator snapshot or ad-hoc kubectl ConfigMap. Runtime namespace permissions
+remain owned by the existing deployer; enrollment must not gain runtime write
+authority just to deliver this data. This PR implements the reader only: mount
+wiring and cross-repository pin checks are still required before activation.

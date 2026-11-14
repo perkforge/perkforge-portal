@@ -74,6 +74,14 @@ test('real JWT API/BFF checks, CSRF and existing pilot admission remain authorit
   for (const claims of [{ realm_access: {} }, { azp: 'other' }, { groups: ['/tenants/other/admins', '/tenants/home/viewers'] }]) assert.equal((await call({ authorization: `Bearer ${await sign(claims)}` })).statusCode, 403);
   assert.equal(snapshotReads, 0, 'denied actors must not read private snapshot');
   const cookie = `__Host-portal=${sessions.create({ token, csrf: 'guard' }, 10000)}`;
+  const priorReads = snapshotReads;
+  const capability = await app.inject({ url: '/bff/tenant-requests/capability', headers: { cookie } });
+  assert.deepEqual(capability.json(), { configured: true, authorized: true, mode: 'preview-only' });
+  assert.equal(snapshotReads, priorReads, 'capability must never read identity inventory');
+  const viewerCookie = `__Host-portal=${sessions.create({ token: await sign({ groups: ['/tenants/home/viewers'], realm_access: {} }), csrf: 'viewer' }, 10000)}`;
+  assert.equal((await app.inject({ url: '/bff/tenant-requests/capability', headers: { cookie: viewerCookie } })).json().authorized, false);
+  assert.equal(snapshotReads, priorReads);
+  assert.equal((await app.inject({ url: '/bff/tenant-requests/capability' })).statusCode, 401);
   const bff = headers => app.inject({ method: 'POST', url: '/bff/tenant-requests/preview', headers: { cookie, ...headers }, payload: request });
   assert.equal((await bff({ origin: config.origin })).statusCode, 403);
   assert.equal((await bff({ origin: 'https://evil.test', 'x-csrf-token': 'guard' })).statusCode, 403);

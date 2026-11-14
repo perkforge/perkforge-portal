@@ -1446,8 +1446,8 @@
       },
       {
         "id": "tenantAuthority",
-        "title": "Tenant identity foundation, not enabled access",
-        "state": "staged",
+        "title": "Tenant Viewer-only log phase; wider lifecycle unverified",
+        "state": "observed-active",
         "summary": "Canonical Portal groups and noncomposite generic realm roles are provisioned with exact leaf mappings. All authorized tenant roles now receive only organization-scoped Viewer log access, without human membership changes. The inherent global recovery-creator exception remains. A pinned org-Admin fixture demonstrated canonical-membership bypass; Admin/Editor exposure is therefore excluded. Machine scope/write-denial and token-cleanup proofs do not replace actual tenant-human OIDC/login, sharing or lifecycle acceptance.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/218"
       },

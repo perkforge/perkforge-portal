@@ -9,8 +9,10 @@ export function readConfig(env = process.env) {
   if (issuer && (!env.OIDC_CLIENT_ID || !env.OIDC_CLIENT_SECRET || !env.OIDC_AUDIENCE)) throw new Error('Incomplete OIDC configuration');
   const mode = env.TENANT_SOURCE || 'disabled';
   if (!['disabled', 'mock'].includes(mode)) throw new Error('GitLab live access is not implemented');
+  const enrollmentSource = env.ENROLLMENT_SOURCE || 'disabled';
+  if (!['disabled', 'github-public'].includes(enrollmentSource)) throw new Error('Unsupported enrollment source');
   const accessPolicy = env.PORTAL_ACCESS_POLICY || 'home';
   if (issuer && !env.PORTAL_ACCESS_POLICY) throw new Error('Explicit portal access policy required for SSO');
   if (!['home', 'platform-admins'].includes(accessPolicy)) throw new Error('Unsupported portal access policy');
-  return { listenHost, origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode, accessPolicy };
+  return { listenHost, origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode, accessPolicy, enrollmentSource };
 }

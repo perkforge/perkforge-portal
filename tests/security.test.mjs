@@ -23,27 +23,46 @@ test('bounded sessions expire, cannot resurrect, and redirect is fixed', () => {
   let now = 0; const s = new Sessions(1, () => now); const id = s.create({}, 10); assert.throws(() => s.create({}, 10)); now = 10; assert.equal(s.get(id), undefined); s.create({}, 10);
   for (const path of ['//evil.test', 'https://evil.test', '/\\evil.test', '/admin', '/']) assert.equal(safeReturn(path), '/');
 });
-test('platform-admins policy enforces exact signed group and API role on every API/session path', async t => {
+test('platform admin authority is independent of tenant roles on every API/session path', async t => {
+  for (const accessPolicy of ['platform-admins', 'home', 'unknown', undefined, null, '', [], {}, 'toString']) {
+    const trial = { ...config, accessPolicy };
+    const sessions = new Sessions();
+    const app = await buildApp(trial, { static: false, sessions, verify: value => validateAccess(value, publicKey, trial) });
+    t.after(() => app.close());
+    const cases = [
+      [{ groups: ['/platform/admins'], resource_access: {} }, accessPolicy === 'platform-admins'],
+      [{ groups: ['/platform/admins'], resource_access: { 'portal-api': { roles: 'tenant-reader' } } }, accessPolicy === 'platform-admins'],
+      [{ groups: ['/platform/admins'] }, accessPolicy === 'platform-admins'],
+      [{ groups: ['/tenants/home/viewers'] }, accessPolicy === 'home'],
+      [{ groups: ['/tenants/home/viewers'], resource_access: {} }, false],
+      [{ groups: ['/tenants/other/admins'] }, false],
+      [{ groups: ['/platform/developers'] }, false],
+      [{ groups: ['/platform/admins-extra'] }, false],
+      [{ groups: '/platform/admins' }, false],
+      [{ groups: [null, 123, {}] }, false],
+      [{ groups: [] }, false],
+      [{ groups: ['/platform/admins'], azp: 'other' }, false],
+      [{ groups: ['/platform/admins'], sub: null }, false],
+    ];
+    for (const [claims, allowed] of cases) {
+      const access = await token(claims);
+      const cookie = `__Host-portal=${sessions.create({ token: access, csrf: 'csrf' }, 10000)}`;
+      assert.equal((await app.inject({ url: '/api/tenants', headers: { authorization: `Bearer ${access}` } })).statusCode, allowed ? 200 : 403);
+      assert.equal((await app.inject({ url: '/bff/tenants', headers: { cookie } })).statusCode, allowed ? 200 : 403);
+      assert.equal((await app.inject({ url: '/bff/architecture-context', headers: { cookie } })).statusCode, allowed ? 200 : 403);
+      assert.equal((await app.inject({ url: '/auth/session', headers: { cookie } })).json().authenticated, allowed);
+    }
+  }
+});
+test('platform admin JWT still requires correct issuer, audience, client, expiry and signature', async () => {
   const trial = { ...config, accessPolicy: 'platform-admins' };
-  const sessions = new Sessions();
-  const app = await buildApp(trial, { static: false, sessions, verify: value => validateAccess(value, publicKey, trial) });
-  t.after(() => app.close());
-  for (const groups of [['/platform/admins'], ['/platform/developers'], ['/tenants/home/admins'], ['/tenants/home/viewers'], [], ['/platform'], ['/platform/admins-extra']]) {
-    const access = await token({ groups });
-    const allowed = groups.includes('/platform/admins');
-    const id = sessions.create({ token: access, csrf: 'csrf' }, 10000);
-    const cookie = `__Host-portal=${id}`;
-    assert.equal((await app.inject({ url: '/api/tenants', headers: { authorization: `Bearer ${access}` } })).statusCode, allowed ? 200 : 403);
-    assert.equal((await app.inject({ url: '/bff/tenants', headers: { cookie } })).statusCode, allowed ? 200 : 403);
-    assert.equal((await app.inject({ url: '/bff/architecture-context', headers: { cookie } })).statusCode, allowed ? 200 : 403);
-    assert.equal((await app.inject({ url: '/auth/session', headers: { cookie } })).json().authenticated, allowed);
+  const access = await token({ groups: ['/platform/admins'], resource_access: {} });
+  for (const changes of [{ issuer: 'https://wrong.test' }, { audience: 'other' }, { clientId: 'other' }]) {
+    await assert.rejects(validateAccess(access, publicKey, { ...trial, ...changes }));
   }
-  for (const changes of [{ resource_access: {} }, { azp: 'other' }, { groups: '/platform/admins' }]) {
-    await assert.rejects(validateAccess(await token({ groups: ['/platform/admins'], ...changes }), publicKey, trial));
-  }
-  await assert.rejects(validateAccess(await token({ groups: ['/platform/admins'] }), publicKey, { ...trial, accessPolicy: 'unknown' }));
-  for (const accessPolicy of [undefined, null, '', [], {}]) await assert.rejects(validateAccess(await token(), publicKey, { ...config, accessPolicy }));
-  await assert.rejects(validateAccess(await token({ groups: ['/platform/admins'] }), publicKey, config)); // Home remains separate.
+  await assert.rejects(validateAccess(access, (await generateKeyPair('RS256')).publicKey, trial));
+  const expired = await new SignJWT({ sub: 'user', azp: 'portal', groups: ['/platform/admins'] }).setProtectedHeader({ alg: 'RS256' }).setIssuer(config.issuer).setAudience(config.audience).setIssuedAt().setExpirationTime(1).sign(privateKey);
+  await assert.rejects(validateAccess(expired, publicKey, trial));
 });
 test('configuration fails closed and adapter cannot connect', () => {
   assert.equal(readConfig({}).listenHost, '127.0.0.1');

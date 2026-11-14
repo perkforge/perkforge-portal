@@ -122,3 +122,16 @@ and merge it once they pass. That second main push publishes
 The workflow never approves or merges PRs despite the combined GitHub setting label.
 
 See [Platform Explorer](architecture-explorer.md) for visual architecture, boundary views and model review.
+### Platform and tenant authority
+
+`PORTAL_ACCESS_POLICY=platform-admins` accepts only the exact signed Keycloak
+`/platform/admins` group; platform access does not require a tenant role or tenant
+membership. `home` remains separate: it requires `tenant-reader` for the configured
+audience and an exact home admins/developers/viewers group. Both policies retain
+RS256 signature, issuer, audience, authorized-client, subject and expiry validation,
+and apply identically to bearer APIs, BFF sessions and OIDC callbacks. Unknown
+policies fail closed. This does not grant platform users membership in a tenant.
+
+Adopt this change through a new release image from the normal publisher, then pin
+that immutable digest in tenant configuration and the platform runtime contract.
+Do not retag an older image, rebuild for a target, or weaken the admission gate.

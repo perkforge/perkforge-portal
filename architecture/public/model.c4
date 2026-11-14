@@ -12,8 +12,8 @@ model {
     link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/README.md "Source / evidence limits"
     metadata {
       status "unverified"
-      owner "Proposed: Platform Engineering + portal maintainers"
-      review "2026-10-30 · source inspection; maintainer approval pending"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
     }
     style { color slate }
     rke2 = system "RKE2" {
@@ -22,8 +22,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/infrastructure/README.md "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -33,8 +33,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/big-bang-bootstrap/README.md "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -44,8 +44,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/applications.md "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -55,8 +55,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/README.md "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -66,8 +66,8 @@ model {
       link https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/security.md "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -77,8 +77,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/profiles.md "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -88,8 +88,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/docs/platform/applications.md "Source / evidence limits"
       metadata {
         status "planned"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color amber }
     }
@@ -100,8 +100,8 @@ model {
     link https://github.com/perkforge/perkforge-platform/issues/21 "Source / evidence limits"
     metadata {
       status "unverified"
-      owner "Proposed: Platform Engineering + portal maintainers"
-      review "2026-10-30 · source inspection; maintainer approval pending"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
     }
     style { color slate }
     workload = system "Tenant workloads" {
@@ -110,8 +110,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/issues/21 "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -121,8 +121,8 @@ model {
       link https://github.com/perkforge/perkforge-platform/issues/21 "Source / evidence limits"
       metadata {
         status "unverified"
-        owner "Proposed: Platform Engineering + portal maintainers"
-        review "2026-10-30 · source inspection; maintainer approval pending"
+        owner "Platform Engineering · reviewed in source; owner content review pending"
+        review "2026-11-14 · source-backed identity review; live status is not inferred"
       }
       style { color slate }
     }
@@ -133,8 +133,8 @@ model {
     link https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/README.md "Source / evidence limits"
     metadata {
       status "current"
-      owner "Proposed: Platform Engineering + portal maintainers"
-      review "2026-10-30 · source inspection; maintainer approval pending"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
     }
     style { color green }
   }
@@ -144,8 +144,8 @@ model {
     link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
     metadata {
       status "planned"
-      owner "Proposed: Platform Engineering + portal maintainers"
-      review "2026-10-30 · source inspection; maintainer approval pending"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
     }
     style { color amber }
   }
@@ -155,8 +155,8 @@ model {
     link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
     metadata {
       status "planned"
-      owner "Proposed: Platform Engineering + portal maintainers"
-      review "2026-10-30 · source inspection; maintainer approval pending"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
     }
     style { color amber }
   }
@@ -166,8 +166,206 @@ model {
     link https://github.com/perkforge/perkforge-platform/issues/79 "Source / evidence limits"
     metadata {
       status "planned"
-      owner "Proposed: Platform Engineering + portal maintainers"
-      review "2026-10-30 · source inspection; maintainer approval pending"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color amber }
+  }
+  custody = system "Credential custody" {
+    #current
+    description "CURRENT: Protects bootstrap, node and signing credentials outside Git. Operators retrieve only the approved named credential for the task."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/docs/platform/tls.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  installer = system "Node installer / operator" {
+    #current
+    description "CURRENT: First authenticated actor on a fresh node. Bootstraps the OS and RKE2 using verified SSH and bounded privilege escalation."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/infrastructure/ansible/RKE2.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  nodeIdentity = system "Node and cluster identity" {
+    #current
+    description "CURRENT: RKE2 node registration and Kubernetes control-plane trust. Distinguishes bootstrap join authority, node certificates and operator kubeconfig."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/infrastructure/ansible/RKE2.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  pki = system "CA and service TLS" {
+    #current
+    description "CURRENT: Authenticates service endpoints and the trust chain. Issue endpoint-scoped leaves and distribute only the required public trust."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/docs/platform/tls.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  bootstrap = system "Platform bootstrap identity" {
+    #current
+    description "CURRENT: Installs foundational controllers and delegated service accounts. Applies the initial reviewed reconciliation and authorization foundation."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/README.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  gitops = system "GitOps source and deployer identities" {
+    #current
+    description "CURRENT: Separates repository read credentials from Kubernetes write authority. Flux reads pinned source; reconciliation uses the selected scoped service account."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/README.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  appInstaller = system "Application installers / operators" {
+    #current
+    description "CURRENT: Creates application prerequisites using explicit installer authority. Sets up clients, stores and owned resources before runtime activation."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  human = system "Human identity and membership" {
+    #current
+    description "CURRENT: Keycloak authenticates a person and emits signed claims. Platform groups and tenant groups represent distinct intended access scopes."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  platformAuthority = system "Platform authority" {
+    #current
+    description "CURRENT: Platform administrators are not tenant readers in disguise. The Portal accepts the exact platform-admin group without requiring a tenant role."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  appAuth = system "Per-application authorization" {
+    #current
+    description "CURRENT: Applications decide access after authentication. Maps identity to the supported native role, org, channel, path or query scope."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/contexts/README.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  tenantAuthority = system "Tenant role and ownership" {
+    #unverified
+    description "UNVERIFIED: Tenant admins, developers and viewers are separate scoped roles. Defines only the authorized tenant namespace, data and collaboration context."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/contexts/README.md "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color slate }
+  }
+  baoIdentity = system "OpenBao human / machine identity" {
+    #current
+    description "CURRENT: Maps human OIDC or Kubernetes machine authentication to exact secret paths. Keeps authentication roles, KV policy and secret delivery separate."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  esoIdentity = system "ESO delivery identities" {
+    #current
+    description "CURRENT: Copies only reviewed secret records into owned Kubernetes destinations. Dedicated service accounts authenticate to OpenBao through scoped roles and stores."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  runtimeIdentity = system "Pod / service account identity" {
+    #current
+    description "CURRENT: Kubernetes service accounts identify workloads to authorized APIs. Use dedicated approved accounts rather than bootstrap or human credentials."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  serviceCredentials = system "Service credentials and mTLS" {
+    #current
+    description "CURRENT: Applications use dedicated credentials for backend and publisher access. Keeps runtime protocols separate from human SSO and Kubernetes RBAC."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/contexts/README.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color green }
+  }
+  recovery = system "Recovery / break-glass" {
+    #unverified
+    description "UNVERIFIED: Separate emergency authority for recovery when normal identity paths fail. Retained bootstrap credentials and data access require explicit custody and accountability."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/infrastructure/ansible/BACKUP-RECOVERY.md "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color slate }
+  }
+  cloudTrust = system "Future external workload trust" {
+    #planned
+    description "PLANNED: Federates tenant workloads to narrowly scoped external resource access. Design cloud trust and short-lived credentials for each workload, not a shared tenant cloud key."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "planned"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
+    }
+    style { color amber }
+  }
+  rds = system "Future RDS / database identity" {
+    #planned
+    description "PLANNED: Database access is a separate authorization boundary from cloud API access. Define database users/roles, network access and supported IAM authentication separately."
+    link https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md "Source / evidence limits"
+    metadata {
+      status "planned"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source-backed identity review; live status is not inferred"
     }
     style { color amber }
   }
@@ -183,8 +381,55 @@ model {
   gitlab -> harbor "PLANNED: protected publish after verified gate evidence" { #planned }
   harbor -> tenant.workload "PLANNED: approved digest image pull; runtime fetches bytes" { #planned }
   gitlab -> platform.flux "PLANNED: reviewed Git promotion of approved artifact references" { #planned }
+  custody -> installer "CURRENT: Scoped credential retrieval" { #current }
+  installer -> nodeIdentity "CURRENT: Verified SSH / become and bootstrap" { #current }
+  custody -> pki "CURRENT: Protected signing custody" { #current }
+  nodeIdentity -> bootstrap "CURRENT: Cluster bootstrap authority" { #current }
+  bootstrap -> gitops "CURRENT: Delegated reconciliation identity" { #current }
+  gitops -> appInstaller "CURRENT: Reviewed source and installer scope" { #current }
+  pki -> appAuth "CURRENT: Service trust and hostname validation" { #current }
+  human -> platformAuthority "CURRENT: Exact platform membership" { #current }
+  human -> appAuth "CURRENT: Signed per-client claims" { #current }
+  platformAuthority -> appAuth "CURRENT: Independent platform authorization" { #current }
+  appInstaller -> appAuth "CURRENT: Dedicated client and native mapping" { #current }
+  appInstaller -> baoIdentity "CURRENT: Scoped authentication setup" { #current }
+  baoIdentity -> esoIdentity "CURRENT: Exact path policy" { #current }
+  esoIdentity -> serviceCredentials "CURRENT: Owned Kubernetes Secret delivery" { #current }
+  runtimeIdentity -> baoIdentity "CURRENT: Kubernetes machine authentication" { #current }
+  runtimeIdentity -> appAuth "CURRENT: API identity subject to resource policy" { #current }
+  serviceCredentials -> appAuth "CURRENT: Backend route / topic authentication" { #current }
+  gitops -> runtimeIdentity "CURRENT: Reviewed approved service account" { #current }
+  human -> tenantAuthority "UNVERIFIED: Exact tenant membership" { #unverified }
+  tenantAuthority -> appAuth "UNVERIFIED: Per-app context mapping" { #unverified }
+  appInstaller -> recovery "UNVERIFIED: Separate emergency custody" { #unverified }
+  runtimeIdentity -> cloudTrust "PLANNED: Future federated workload trust" { #planned }
+  cloudTrust -> rds "PLANNED: Cloud permission plus database-specific access" { #planned }
 }
 views {
+  view identityLifecycle {
+    title "Identity: install to tenant"
+    description "First review document: the complete identity lifecycle, from node installation to tenant workloads. Current means source-backed, not a live security certification."
+    include custody, installer, nodeIdentity, pki, bootstrap, gitops, appInstaller, human, platformAuthority, appAuth, tenantAuthority, baoIdentity, esoIdentity, runtimeIdentity, serviceCredentials, recovery, cloudTrust, rds
+    autoLayout LeftRight
+  }
+  view bootstrapIdentity {
+    title "Bootstrap & installer trust"
+    description "How node, platform and application installers hand authority forward. Bootstrap and recovery power are not runtime identities."
+    include custody, installer, nodeIdentity, pki, bootstrap, gitops, appInstaller, recovery
+    autoLayout LeftRight
+  }
+  view humanIdentity {
+    title "People & application access"
+    description "Authentication, platform authority and tenant scope are separate. Each app must enforce its native access model."
+    include human, platformAuthority, tenantAuthority, appAuth, pki
+    autoLayout LeftRight
+  }
+  view workloadIdentity {
+    title "Secrets & workload identity"
+    description "Dedicated workload and secret-delivery identities today; external cloud and RDS identity is explicitly planned."
+    include gitops, appInstaller, runtimeIdentity, baoIdentity, esoIdentity, serviceCredentials, cloudTrust, rds
+    autoLayout LeftRight
+  }
   view index {
     title "The whole platform"
     description "A map of the reference design, from shared foundations to tenant workloads."
@@ -220,6 +465,16 @@ views {
     description "External image → GitLab validation / Trivy → Harbor → Flux desired-state review → workloads. Flux carries references, while the runtime pulls bytes from Harbor."
     include external, gitlab, harbor, platform.flux, tenant.workload
     autoLayout LeftRight
+  }
+  dynamic view identityLifecycleWalkthrough {
+    title "From install to tenant workload · unverified"
+    installer -> bootstrap "UNVERIFIED: Bootstrap the platform"
+    bootstrap -> gitops "UNVERIFIED: Delegate reconciliation"
+    gitops -> human "UNVERIFIED: Authenticate people"
+    human -> runtimeIdentity "UNVERIFIED: Identify each workload"
+    runtimeIdentity -> baoIdentity "UNVERIFIED: Authenticate to the secret authority"
+    baoIdentity -> esoIdentity "UNVERIFIED: Deliver owned secrets"
+    esoIdentity -> cloudTrust "UNVERIFIED: Extend trust deliberately"
   }
   dynamic view intakeWalkthrough {
     title "Bring in an external image · planned"

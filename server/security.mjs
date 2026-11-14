@@ -12,10 +12,11 @@ export class Sessions {
 export async function validateAccess(token, keys, config) {
   const { payload } = await jwtVerify(token, keys, { issuer: config.issuer, audience: config.audience, algorithms: ['RS256'], requiredClaims: ['sub', 'exp', 'iat'] });
   const roles = payload.resource_access?.[config.audience]?.roles;
-  const policyGroups = {
-    home: ['/tenants/home/admins', '/tenants/home/developers', '/tenants/home/viewers'],
-    'platform-admins': ['/platform/admins'],
-  }[config.accessPolicy];
-  if (!policyGroups || payload.azp !== config.clientId || !Array.isArray(roles) || !roles.includes('tenant-reader') || !Array.isArray(payload.groups) || !payload.groups.some(g => policyGroups.includes(g))) throw new Error('Forbidden');
+  const policyGroups = config.accessPolicy === 'platform-admins' ? ['/platform/admins']
+    : config.accessPolicy === 'home' ? ['/tenants/home/admins', '/tenants/home/developers', '/tenants/home/viewers'] : null;
+  // Platform authority is independent of tenant membership or tenant-scoped roles.
+  const roleAllowed = config.accessPolicy === 'platform-admins'
+    || (config.accessPolicy === 'home' && Array.isArray(roles) && roles.includes('tenant-reader'));
+  if (!policyGroups || !roleAllowed || typeof payload.sub !== 'string' || !payload.sub || payload.azp !== config.clientId || !Array.isArray(payload.groups) || !payload.groups.some(g => policyGroups.includes(g))) throw new Error('Forbidden');
   return payload;
 }

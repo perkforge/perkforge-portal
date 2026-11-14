@@ -51,3 +51,15 @@ test('production static delivery exposes only public-safe assets and never archi
     assert.ok(!asset.body.includes('fixture-home')); // directory fixture stays on server
   }
 });
+
+test('identity document spans bootstrap to tenant and keeps external resources planned', () => {
+  assert.equal(catalog.views[0].id, 'identityLifecycle');
+  for (const id of ['installer', 'nodeIdentity', 'bootstrap', 'gitops', 'appInstaller', 'human', 'platformAuthority', 'tenantAuthority', 'runtimeIdentity', 'baoIdentity', 'esoIdentity', 'serviceCredentials', 'pki', 'recovery', 'cloudTrust', 'rds']) {
+    assert.ok(catalog.views[0].nodes.includes(id), id);
+  }
+  for (const id of ['cloudTrust', 'rds']) assert.equal(catalog.nodes.find(n => n.id === id).status, 'planned');
+  assert.equal(catalog.nodes.find(n => n.id === 'tenantAuthority').status, 'unverified');
+  assert.match(catalog.nodes.find(n => n.id === 'platformAuthority').usage, /without requiring a tenant role/);
+  assert.equal(catalog.journeys.find(j => j.id === 'identityLifecycle').status, 'unverified');
+  assert.ok(!JSON.stringify(catalog).includes('home.arpa'));
+});

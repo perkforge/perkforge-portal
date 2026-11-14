@@ -14,14 +14,16 @@ minutes. Successful login rotates the session. Return navigation is restricted t
 production. Tests alone inject a loopback provider.
 
 Access tokens must use RS256, match issuer and API audience, carry sub/iat/exp,
-match the portal's authorized client (`azp`), contain the API client role
-`tenant-reader`, and, under the `home` policy, contain a Home group (`/tenants/home/admins`, `developers`, or
+match the portal's authorized client (`azp`). Under the `home` policy, they must
+also contain the API client role `tenant-reader` and a Home group (`/tenants/home/admins`, `developers`, or
 `viewers`). Realm admin roles do not bypass these checks. Keycloak group and
-client-role mappers plus API audience mapper must be separately reviewed/provisioned.
+API audience mappers must be separately reviewed/provisioned; client-role mapping
+is needed only for tenant-scoped `home` access.
 
 `PORTAL_ACCESS_POLICY=platform-admins` selects the initial Big Bang trial policy:
 only the exact signed `/platform/admins` group is accepted. The API audience,
-`azp`, `tenant-reader` client role and signature/expiry checks still apply. Platform
+`azp` and signature/expiry checks still apply, but no tenant role or tenant group
+is required for this independent platform authority. Platform
 developers, tenant admins/viewers, parent/lookalike groups and ungranted users fail
 closed on callback, bearer API and session/BFF paths. Unknown policies fail startup.
 SSO configuration must explicitly select a policy; a missing or malformed policy

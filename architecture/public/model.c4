@@ -404,7 +404,7 @@ model {
   }
   portalInventory = system "Portal inventory artifact reader" {
     #current
-    description "CURRENT: Reads reviewed enrollment evidence without becoming a cluster controller. Keep source evidence distinct from deployed tenant health or mutable user management."
+    description "CURRENT: Reads reviewed enrollment evidence without becoming a cluster controller. Keep source evidence distinct from deployed tenant health or mutable user management. A separate source-only offline application-pin proposal planner performs no writes; customer and membership templates remain unconfigured, with no management API or UI."
     link https://github.com/perkforge/perkforge-portal/issues/5 "Source / evidence limits"
     metadata {
       status "current"

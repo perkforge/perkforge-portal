@@ -406,7 +406,7 @@
       "title": "Portal inventory artifact reader",
       "status": "current",
       "purpose": "Reads reviewed enrollment evidence without becoming a cluster controller.",
-      "usage": "Keep source evidence distinct from deployed tenant health or mutable user management.",
+      "usage": "Keep source evidence distinct from deployed tenant health or mutable user management. A separate source-only offline application-pin proposal planner performs no writes; customer and membership templates remain unconfigured, with no management API or UI.",
       "configuration": "Verified exact read-only ConfigMap mount of a pinned published-source baseline; no Kubernetes token or broad runtime API grant.",
       "runbook": "Verify artifact hash and runtime adapter separately from fresh user-interface acceptance. Never present this baseline as live cluster reconciliation state.",
       "source": "https://github.com/perkforge/perkforge-portal/issues/5",

@@ -145,3 +145,9 @@ proof. This first Portal delivery does not close the wider identity evidence iss
 ## Current identity state
 
 The dated identity observations panel separates observed-active, staged, source-only, planned and unverified state from source-code status. It explicitly reports pending native delivery/phone acceptance and staged Mattermost/inventory integrations. Maintain it as part of every identity change using [the identity definition of done](identity-maintenance.md). It is not automatic discovery. The current snapshot becomes visible only when its normal Portal release is promoted; a source merge alone does not update the running page.
+
+## Authenticated artifact boundary
+
+The entire compiled Portal artifact (including architecture/model/lazy assets) now requires a cookie session whose token passes the existing access-policy verifier on every request. A minimal public sign-in page/script contains no application or diagram imports. Pending-login cookies and bearer headers do not authorize static assets. Health and OIDC routes remain public; no-store applies throughout. Logout destroys the session and replaces the document, and expiry reloads the document into sign-in. Page exit clears the rendered workspace; a restored back-forward-cache document reloads through the server gate. Previously downloaded bytes cannot be recalled from a client.
+
+This is an access gate, not a new private-model or per-tenant model separation implementation. The sanitized catalog remains shared among identities allowed by the configured policy. Issue #10 stays open until its distinct role-appropriate private-model acceptance is implemented. Source merge alone is not runtime protection; publish and deploy the same immutable image normally before claiming the public asset exposure is closed.

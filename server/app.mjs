@@ -9,6 +9,7 @@ import { createRemoteJWKSet } from 'jose';
 import { Sessions, random, equal, safeReturn, validateAccess } from './security.mjs';
 import { listTenants } from './tenants.mjs';
 import { enrollmentStatus } from './enrollment.mjs';
+import { loginHtml, loginScript } from './login-shell.mjs';
 const cookieName = '__Host-portal';
 const cookieOptions = { path: '/', secure: true, httpOnly: true, sameSite: 'lax' };
 export async function buildApp(config, options = {}) {
@@ -118,6 +119,23 @@ export async function buildApp(config, options = {}) {
       ? { audience: 'Platform engineering workspace', views: ['platformBoundary', 'foundation', 'identity'], notice: 'Review platform scope, shared-service responsibilities and proposed authorization boundaries. This is sanitized documentation; no administrative controls or restricted inventory are provided.' }
       : { audience: 'Tenant workspace', views: ['tenantBoundary', 'identity'], notice: 'Review the generic tenant boundary and shared responsibilities. No other tenant inventory or administrative operational detail is available. Your resource access is decided by application policy and Kubernetes RBAC.' };
   });
-  if (options.static !== false) await app.register(staticFiles, { root: fileURLToPath(new URL('../dist', import.meta.url)), index: 'index.html', cacheControl: false });
+  // The only public script is the standalone sign-in bootstrap. Protect the
+  // entire compiled artifact, not a fragile list of lazy chunk/model filenames.
+  app.get('/auth/bootstrap.js', async (_req, reply) => reply.type('application/javascript').send(loginScript));
+  if (options.static !== false) await app.register(async protectedAssets => {
+    protectedAssets.addHook('onRequest', async (req, reply) => {
+      const s = session(req);
+      if (s?.token) {
+        try { await verify(s.token); return; }
+        catch { sessions.delete(req.cookies[cookieName]); reply.clearCookie(cookieName, cookieOptions); }
+      }
+      // Only the canonical document entry returns a public login shell. Encoded
+      // aliases and all assets fail closed, regardless of content negotiation.
+      const pathname = req.raw.url.split('?')[0];
+      if (pathname === '/' || pathname === '/index.html') return reply.type('text/html').send(loginHtml);
+      return reply.code(401).send({ error: 'Sign in to view this resource' });
+    });
+    await protectedAssets.register(staticFiles, { root: fileURLToPath(new URL('../dist', import.meta.url)), index: 'index.html', cacheControl: false });
+  });
   return app;
 }

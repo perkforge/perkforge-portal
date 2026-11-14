@@ -96,3 +96,8 @@ redaction, tenant query isolation and restore remain separate, unverified
 acceptance. The logging ticket remains open. The owner also confirmed visual
 receipt of the private Mattermost native test; production alert firing/recovery
 and repeat behavior are separate from that contact-point test.
+
+The request-preview UI is source-only and disabled when no reviewed snapshot
+configuration exists. Its capability endpoint reveals only configuration/admission
+booleans, never realm user/group inventory. The form has no submit/persist action;
+server operation authorization and all identity boundaries remain unchanged.

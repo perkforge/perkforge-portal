@@ -110,6 +110,19 @@ export async function buildApp(config, options = {}) {
     const result = await app.inject({ method: 'GET', url: '/api/enrollment', headers: { authorization: `Bearer ${s.token}` } });
     return reply.code(result.statusCode).type('application/json').send(result.body);
   });
+  app.get('/bff/tenant-requests/capability', async (req, reply) => {
+    const s = session(req);
+    if (!s?.token) return reply.code(401).send({ error: 'Sign in required' });
+    let principal;
+    try { principal = await verify(s.token); } catch { return reply.code(403).send({ error: 'Access denied' }); }
+    const groups = Array.isArray(principal.groups) ? principal.groups : [];
+    const authorized = groups.includes('/platform/admins') || groups.some(group => {
+      const match = typeof group === 'string' && /^\/tenants\/([^/]+)\/admins$/.exec(group);
+      return match && !authorizeTenantRequest(principal, { tenant: match[1], operation: 'add-membership' });
+    });
+    // Configuration/admission only, not snapshot availability or native identity inventory.
+    return { configured: Boolean(config.tenantRequestDigest), authorized, mode: 'preview-only' };
+  });
   // No-write preview only. No artifact is mounted by this source change; default off.
   app.post('/api/tenant-requests/preview', async (req, reply) => {
     const match = /^Bearer ([^\s]+)$/.exec(req.headers.authorization || '');

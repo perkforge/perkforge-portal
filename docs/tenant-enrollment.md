@@ -182,3 +182,22 @@ administration versus a constrained membership writer remains unresolved. Before
 any writer: revalidate actor, exact immutable group/subject ownership and expected
 membership, authorize the minimal scope, then record native readback and downstream
 revocation/session checks. Never reuse bootstrap/realm-admin credentials in Portal.
+
+## Request-preview UI (source only)
+
+The workspace includes an explicitly non-submitting membership preview form. It
+checks an authenticated configuration/admission-only capability endpoint, which
+reads no private inventory and returns no identities. Default configuration keeps
+the form disabled. Existing runtime remains unchanged until a separately reviewed
+release and delivery. No customer creation or admin-role option is offered.
+Cancel, Escape and workspace navigation discard inputs/results and abort pending
+reads; late responses cannot reopen or populate a newer form. Repeated clicks
+cannot issue overlapping previews. No local/session storage is used.
+
+The form requires a previously reviewed context and immutable subject ID; it does
+not discover or list realm users. BFF authorization remains authoritative. A
+configured capability is not proof a fresh valid snapshot exists. Preview results
+never say a request was saved or submitted. See [the concrete remaining CRUD
+requirements](tenant-management-next.md). Run `npm run check` and, with the existing
+Playwright Chromium installed, `node scripts/test-request-preview-ui.mjs` for local
+built-UI synthetic-response checks. No live identity or cluster endpoint is used.

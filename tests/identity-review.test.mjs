@@ -19,3 +19,25 @@ test('current identity snapshot labels evidence and never implies discovery', as
   assert.equal(c.identitySnapshot.records.find(r=>r.id==='mattermostOperator').state,'observed-active');
   assert.equal(c.identitySnapshot.records.find(r=>r.id==='portalInventory').state,'observed-active');
 });
+
+test('logging ownership guard is distinct from staged query authorization', async () => {
+  const c=JSON.parse(await readFile(new URL('../src/architecture/catalog.json',import.meta.url)));
+  const guard=c.nodes.find(n=>n.id==='loggingOwnership');
+  assert.equal(guard.status,'current');
+  assert.match(guard.configuration,/No tenant query access/);
+  assert.ok(c.views.find(v=>v.id==='loggingIdentity').nodes.includes(guard.id));
+  assert.equal(c.identitySnapshot.records.find(r=>r.id===guard.id).state,'observed-active');
+  assert.match(c.identitySnapshot.records.find(r=>r.id==='loggingQuery').summary,/Tenant readers remain disabled/);
+  assert.doesNotMatch(JSON.stringify(c), /c0248f64|log-ownership-tenant-portal|loki-boundary-auth/);
+});
+
+test('current logging edges match scoped ESO custody and read/write boundaries', async () => {
+  const c=JSON.parse(await readFile(new URL('../src/architecture/catalog.json',import.meta.url)));
+  const edges=c.edges.filter(e=>e.source.startsWith('logging')||e.target.startsWith('logging'));
+  assert.doesNotMatch(JSON.stringify(edges),/Manually staged|pilot machine|admin pilot|Approved pilot/);
+  for(const id of ['loggingGateway','loggingCollector','loggingQuery']) assert.ok(edges.some(e=>e.source==='esoIdentity'&&e.target===id&&e.status==='current'));
+  assert.match(edges.find(e=>e.source==='loggingCollector'&&e.target==='loggingGateway').title,/push-only/);
+  assert.match(edges.find(e=>e.source==='loggingQuery'&&e.target==='loggingGateway').title,/tenant query mapping disabled/);
+  assert.match(c.nodes.find(n=>n.id==='pipelineCoverage').source,/\/docs\/delivery-pipelines\.md$/);
+  assert.match(c.nodes.find(n=>n.id==='backupCapture').source,/\/docs\/backup-restore\.md$/);
+});

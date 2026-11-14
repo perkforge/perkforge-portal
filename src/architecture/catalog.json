@@ -1,7 +1,7 @@
 {
-  "owner": "Platform Engineering \u00b7 reviewed in source; owner content review pending",
-  "reviewed": "2026-11-14 \u00b7 source model with separately dated deployment observations",
-  "disclosure": "Sanitized identity reference \u00b7 no credentials or private inventory",
+  "owner": "Platform Engineering · reviewed in source; owner content review pending",
+  "reviewed": "2026-11-14 · source model with separately dated deployment observations",
+  "disclosure": "Sanitized identity reference · no credentials or private inventory",
   "platformRevision": "1e9e455b0cd8fdef3f740fdd8a74379f02dbf915",
   "portalRevision": "5781db4d30af635f4ced0602619b0b8635682af1",
   "nodes": [
@@ -30,12 +30,12 @@
     {
       "id": "platform.flux",
       "title": "Flux",
-      "status": "unverified",
+      "status": "current",
       "purpose": "Reconciles reviewed desired state from Git.",
-      "usage": "Use Git changes for application reconciliation.",
+      "usage": "Reconciles reviewed immutable sources into desired platform and application state. Reconciliation success and actual application acceptance are separate.",
       "configuration": "Platform bootstrap selects sources and reconciliation scopes.",
       "runbook": "Review source identity and reconciliation evidence; this portal cannot reconcile.",
-      "source": "https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/big-bang-bootstrap/README.md",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/391",
       "parent": "platform"
     },
     {
@@ -51,7 +51,7 @@
     },
     {
       "id": "platform.rancher",
-      "title": "Rancher \u00b7 PE only",
+      "title": "Rancher · PE only",
       "status": "unverified",
       "purpose": "Platform engineering cluster lifecycle management.",
       "usage": "Reserved for authorized platform administrators.",
@@ -150,7 +150,7 @@
     },
     {
       "id": "gitlab",
-      "title": "GitLab CI + Trivy intake \u00b7 planned",
+      "title": "GitLab CI + Trivy intake · planned",
       "status": "planned",
       "purpose": "Proposed artifact-intake validation and CVE scanning pipeline, not the deployment status of GitLab itself.",
       "usage": "Scan every copied platform; retain SBOM and gate evidence.",
@@ -161,7 +161,7 @@
     },
     {
       "id": "harbor",
-      "title": "Harbor intake publishing \u00b7 planned",
+      "title": "Harbor intake publishing · planned",
       "status": "planned",
       "purpose": "Proposed approved-intake publication workflow, not the deployment status of Harbor itself.",
       "usage": "Publish exact validated content through a protected publisher.",
@@ -286,7 +286,7 @@
       "status": "unverified",
       "purpose": "Tenant admins, developers and viewers are separate scoped roles.",
       "usage": "Defines only the authorized tenant namespace, data and collaboration context.",
-      "configuration": "Parent groups grant nothing; control namespaces are not tenant runtime namespaces.",
+      "configuration": "Portal canonical groups and three noncomposite generic realm roles are provisioned with exact leaf mappings. No human memberships changed. A dedicated Grafana tenant organization is prepared, with only its existing global recovery creator exception; tenant OAuth and datasource exposure remain off. Parent groups grant nothing; control namespaces are not tenant runtime namespaces.",
       "runbook": "Complete native per-app lifecycle and cross-tenant tests before claiming the full model enforced.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/contexts/README.md",
       "parent": null
@@ -425,12 +425,12 @@
     },
     {
       "id": "loggingCollector",
-      "title": "API-only pilot collector",
+      "title": "API-only scoped collector",
       "status": "current",
-      "purpose": "Read only the explicitly approved pilot workload logs.",
-      "usage": "A dedicated service account reads only opted-in pilot pod logs through the Kubernetes API; no node filesystem or host log mount. Included synthetic records are collected with tested synthetic password fields redacted; an otherwise identical unopted workload is excluded.",
-      "configuration": "The service account may read pilot-namespace pod logs; opt-in labels are collection filters, not RBAC access boundaries. The single pilot machine credential is not tenant isolation.",
-      "runbook": "Verify real collected records, labels and scope denials independently of backend readiness.",
+      "purpose": "Collect reviewed workload namespaces using trusted Kubernetes metadata.",
+      "usage": "Real Mattermost and platform reconciliation logs now reach the scoped backend. The observed stage selects reviewed workload namespaces; application and platform reconciliation records are verified, while a quiet Portal workload had no observed records at the checkpoint. This is staged coverage, not all-cluster collection.",
+      "configuration": "The collector may read pod metadata and logs cluster-wide, with get/watch on only its exact delivery credential Secret. It has no host mounts. Final trusted metadata chooses a registered ownership epoch or platform-only fallback; arbitrary pod annotations are not ownership authority.",
+      "runbook": "Measure retries, drops, volume and storage before expanding collection. Initial credential-read denial caused a collection gap; later monitoring catch-up rejected historical timestamp-too-old batches. No lossless rollout or general redaction guarantee is claimed.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
     },
@@ -438,10 +438,10 @@
       "id": "loggingGateway",
       "title": "Authenticated logging gateway",
       "status": "current",
-      "purpose": "Terminate verified TLS and map authenticated machine identity to the pilot logging tenant.",
-      "usage": "Backend and gateway are ready. Actual scoped API-collector ingestion and authenticated query are verified. The gateway forces the mapped pilot identity despite a spoofed tenant header; wrong credentials are rejected.",
-      "configuration": "TLS/auth credentials are manually staged in protected runtime Secrets, not ESO-managed. Existing private-registry credentials are reused.",
-      "runbook": "Authenticated ingestion and query, invalid-credential denial and caller-header scope enforcement are verified. An exact pre-restart sentinel survived a controlled backend-only restart on the same persistent volume. Natural retention pruning, restore and production growth remain separate acceptance.",
+      "purpose": "Separate scoped write and read identities behind verified TLS.",
+      "usage": "The active native gateway accepts the collector identity and serves platform read federation. Actual workload records are verified at the gateway; tenant query mapping remains disabled.",
+      "configuration": "Four dedicated OpenBao records use exact-record ESO delivery to approved gateway, collector and query consumers. Legacy pilot reads remain separate. Server-fixed query scopes and explicit endpoint/method rules replace a shared write/query identity.",
+      "runbook": "Verify reader/write denial, spoofed-header resistance and every tenant scope before exposing tenant access. Historical federation does not provide multi-tenant live tail. Existing volume and retention settings are unchanged; natural pruning and restore remain separate acceptance.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
     },
@@ -449,11 +449,176 @@
       "id": "loggingQuery",
       "title": "Grafana logging query identity",
       "status": "current",
-      "purpose": "Query the pilot logging tenant without changing existing metrics access.",
-      "usage": "Native Grafana datasource-proxy queries return the actual redacted pilot records. Logging and existing Prometheus health are verified, and existing dashboards remain preserved.",
-      "configuration": "The pilot uses one platform-admin machine identity for write/query; independent tenant credentials and tenant datasource isolation are not implemented.",
-      "runbook": "Verify native datasource health and an actual collected record; do not infer user or tenant isolation from dashboard visibility.",
+      "purpose": "Read a platform federation through an organization-bound datasource.",
+      "usage": "The organization-bound pod-log dashboard has verified chained namespace/pod/container queries and real log, volume and count panels through the read-only platform datasource. Default-All and selected-pod forms work, with all earlier dashboards preserved.",
+      "configuration": "The platform datasource has a distinct read-only credential. The existing canonical engineer group now receives a dedicated Grafana-client entitlement mapped to platform-org Viewer; administrators retain separate global administration. No human memberships changed. Tenant org/session isolation remains a separate gated stage.",
+      "runbook": "Verify both query APIs and actual user access. Newly ingested records have indexed pod labels; older structured-metadata records are not retroactively indexed. Interactive visual acceptance is separate; keep tenant exposure off until its server-side and session denial gates pass.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
+      "parent": null
+    },
+    {
+      "id": "loggingOwnership",
+      "title": "Namespace log-ownership guard",
+      "status": "current",
+      "purpose": "Keep a tenant log epoch bound to its approved runtime namespace identity.",
+      "usage": "The Portal runtime namespace has a native admission guard. Ordinary deletion and changed context or epoch annotations are denied; unchanged metadata and existing foundation reconciliation remain allowed.",
+      "configuration": "The guard pins the immutable namespace UID and two ownership annotations. Platform-owned policy is separate from tenant resources; trusted platform administrators can still alter it. No tenant query access is granted by this guard.",
+      "runbook": "Before ownership transfer, revoke old query and session access, stop old routing and retire the epoch through explicit review. Never assign a previous owner’s log partition to a new namespace owner.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/218",
+      "parent": null
+    },
+    {
+      "id": "portalImageBuild",
+      "title": "Portal checks and image build",
+      "status": "current",
+      "purpose": "Validate source and build the application image once.",
+      "usage": "Push/PR checks and the image workflow run aggregate tests, dependency audit, a digest-pinned base build and a constrained runtime smoke test. PR/manual checks do not publish.",
+      "configuration": "A main release saves the checked image artifact; the publishing job loads that exact artifact, verifies source/version tags and registry digest, and does not rebuild for the target environment.",
+      "runbook": "A successful check is not a release or deployment. Verify the normal publisher and exact registry digest before a configuration pin.",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/0c17afcf7aa6b8c60b0c360df3e298d5275d4976/.github/workflows/image.yml",
+      "parent": null
+    },
+    {
+      "id": "nextcloudImageBuild",
+      "title": "Nextcloud SSO review and promotion",
+      "status": "current",
+      "purpose": "Separate a manually reviewed image build from authorized publication.",
+      "usage": "Manual review builds from pinned application and OIDC inputs, verifies bundled dependencies, and saves a review artifact with hashes. A separate manually gated promotion consumes that reviewed artifact.",
+      "configuration": "Promotion checks exact reviewed source, package visibility and publication guards, then promotes without rebuilding. Chart checks are a separate push/PR workflow.",
+      "runbook": "A manual workflow definition or successful check does not mean publish=true or deployment. Keep promotion receipts and review the selected digest.",
+      "source": "https://github.com/perkforge/perkforge-tenant-nextcloud/blob/c079cdff6a859064805abfa887cee67caaf8d255/.github/workflows/sso-image-promote.yml",
+      "parent": null
+    },
+    {
+      "id": "configDelivery",
+      "title": "Application configuration releases",
+      "status": "current",
+      "purpose": "Carry immutable image references and deployment configuration separately from images.",
+      "usage": "The Portal chart repository runs offline chart checks and versioned configuration releases. Nextcloud runs offline chart/SSO checks; its application-image promotion is separate.",
+      "configuration": "Git release tags resolve to exact source commits. A configuration repository selects an already built digest; it does not rebuild the image or directly deploy a cluster.",
+      "runbook": "Verify released chart inputs, digest and provenance before selecting the configuration in enrollment.",
+      "source": "https://github.com/perkforge/perkforge-tenant-portal/blob/35d9894e2e0d7c0e76a9feceeca02c9aebde2096/.github/workflows/configuration-release.yml",
+      "parent": null
+    },
+    {
+      "id": "enrollmentDelivery",
+      "title": "Enrollment validation and releases",
+      "status": "current",
+      "purpose": "Validate and version platform-owned enrollment selections and boundaries.",
+      "usage": "Offline enrollment, Nextcloud candidate and Portal/ESO foundation workflows validate source and native admission fixtures. The configuration-release workflow creates reviewed versioned source releases.",
+      "configuration": "Generated inventory, exact application configuration refs and runtime contracts travel in enrollment source. The foundation test workflow does not provision live credentials or activate resources.",
+      "runbook": "Verify generated inventory freshness, native boundary tests and release tag-to-commit identity; a source release is not actual tenant CRUD or reconciliation.",
+      "source": "https://github.com/perkforge/perkforge-platform-tenants/blob/c1d105b9ff9ad359ecd128d2ffd1ba0f126239c0/.github/workflows/configuration-release.yml",
+      "parent": null
+    },
+    {
+      "id": "platformDelivery",
+      "title": "Platform source release · checks paused",
+      "status": "unverified",
+      "purpose": "Select immutable enrollment and native package sources for GitOps.",
+      "usage": "Platform configuration-release remains defined. Its reusable validation jobs and release-checks are explicitly paused in source; the main source-release job can still run despite skipped checks.",
+      "configuration": "A workflow marked active by GitHub does not override job-level if:false. Skipped CI is not passing validation; reviewed local/native evidence must be stated separately.",
+      "runbook": "Do not silently reactivate CI or claim a green platform gate. Verify exact reviewed source and live reconciler readiness independently.",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/dfc0fb585910ea370b0e3854058f9fc866ef7866/.github/workflows/configuration-release.yml",
+      "parent": null
+    },
+    {
+      "id": "imageRegistry",
+      "title": "Published immutable images",
+      "status": "current",
+      "purpose": "Store checked image bytes independently of target environment configuration.",
+      "usage": "Portal publication and the gated Nextcloud SSO promotion use GHCR. Native Big Bang services consume selected upstream Registry One images rather than new PerkForge builds.",
+      "configuration": "Version and source tags must resolve to the recorded digest. GitOps carries references; runtimes fetch image bytes from the registry. No target-specific rebuild is required.",
+      "runbook": "Keep registry custody, source provenance, image availability and runtime pull access separate from a successful build.",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/0c17afcf7aa6b8c60b0c360df3e298d5275d4976/.github/workflows/image.yml",
+      "parent": null
+    },
+    {
+      "id": "pipelineCoverage",
+      "title": "Delivery inventory scope",
+      "status": "current",
+      "purpose": "Keep current source workflows distinct from planned or absent automation.",
+      "usage": "The reviewed eight nonarchived repositories contain thirteen GitHub Actions workflow definitions and two image Dockerfiles. The operator-recovery, earlier UI and field-guide repositories have no checked-in Actions workflow.",
+      "configuration": "This is a dated source/run-metadata inventory, not discovery of every external CI service. The proposed GitLab/Trivy/Harbor intake remains planned; no live GitLab job inventory was inferred.",
+      "runbook": "Refresh workflow sources, triggers, active/job-level pause state and output references when delivery changes. Never equate an existing Dockerfile with an executing pipeline.",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/delivery-pipelines.md",
+      "parent": null
+    },
+    {
+      "id": "backupCapture",
+      "title": "Paired application recovery capture",
+      "status": "current",
+      "purpose": "Capture files, database and required configuration as one consistent recovery generation.",
+      "usage": "An application-aware capture pairs data with database and protected configuration, then records completion and integrity metadata. An incomplete run is not a recovery point.",
+      "configuration": "Secrets remain in protected recovery custody, not source or the diagram. Scheduler health and a directory name are not evidence of a complete generation.",
+      "runbook": "Verify completion, matching generation, required versions and available independent unlock material before using any artifact.",
+      "source": "https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/backup-restore.md",
+      "parent": null
+    },
+    {
+      "id": "backupCopy",
+      "title": "Independent copy and integrity",
+      "status": "current",
+      "purpose": "Keep a verified recovery copy separate from its source.",
+      "usage": "A completed secondary copy has matching destination hashes. Copy integrity is verified separately from application recovery; a second local disk is not automatically off-site or another failure domain.",
+      "configuration": "Keep paired artifacts and receipts together, verify lengths/hashes, and retain a read-only source or equivalent verified copy before replacing anything.",
+      "runbook": "A skipped unchanged copy is not a new hash test. Missing, partial, conflicting or unexpected contents are stop conditions.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/81",
+      "parent": null
+    },
+    {
+      "id": "isolatedRestore",
+      "title": "Isolated files and database restore",
+      "status": "current",
+      "purpose": "Restore without overwriting production or the only surviving recovery set.",
+      "usage": "Use compatible application/database tooling, a new volume or writable working copy and a disposable database. Inspect source media read-only and prevent unintended journal replay.",
+      "configuration": "Recreate only reviewed isolated configuration; do not blindly apply production manifests. Disable or isolate scheduled jobs, outbound mail/hooks, public ingress and real SSO callbacks.",
+      "runbook": "Stop for unknown media layout, missing paired inputs or conflicting generations. A bounded restore from the primary set passed; application restore from the copied set remains untested.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/81",
+      "parent": null
+    },
+    {
+      "id": "restoreProof",
+      "title": "Application recovery verification",
+      "status": "current",
+      "purpose": "Prove usable recovered data rather than just successful copying or database startup.",
+      "usage": "The accepted bounded primary-set drill passed app/database startup and active-file size/hash checks. Secondary-copy hash verification is separate and does not prove that copied set boots.",
+      "configuration": "Record capture identity privately, compatible versions, counts, hashes, exclusions, duration and errors. Browser identity, tenant isolation and complete service recovery are distinct checks.",
+      "runbook": "Test representative important files and intended/denied access in isolation. Do not infer an RPO/RTO or whole-cluster pass from this limited drill.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/81",
+      "parent": null
+    },
+    {
+      "id": "reviewedCutover",
+      "title": "Explicitly reviewed production cutover",
+      "status": "unverified",
+      "purpose": "Make a recovery result the production source only after a separate decision.",
+      "usage": "Review recovery point and newer-data loss, downtime, desired-state ownership, storage/database references and identity before any replacement. This model performs no restore or cutover.",
+      "configuration": "Preserve surviving production data and the recovery source. Apply reviewed source changes and verify app, access, alerts and backups afterward.",
+      "runbook": "Cleanup only identified throwaway resources after confirming another valid copy; retain the evidence and do not hide a failed attempt.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/81",
+      "parent": null
+    },
+    {
+      "id": "vaultRecovery",
+      "title": "Independent credential recovery",
+      "status": "unverified",
+      "purpose": "Make recovery materials accessible without depending on the failed cluster or live vault.",
+      "usage": "Encrypted export and downloaded-copy verification are distinct from replacement-vault import or account recovery. The export password and recovery access must be independently available.",
+      "configuration": "Do not make the service being restored the sole custodian of its own recovery keys. Backup verification does not prove every excluded item or required service credential was captured.",
+      "runbook": "Stop if unlock material, recovery access or a required service input is missing. A full replacement-vault import remains untested.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/81",
+      "parent": null
+    },
+    {
+      "id": "clusterRecovery",
+      "title": "Whole-cluster recovery dependencies",
+      "status": "unverified",
+      "purpose": "Show a generic dependency order, not a cluster-specific or tested disaster-recovery recipe.",
+      "usage": "Recover source/artifact and credential/PKI access; re-establish hosts/network/DNS/time and supported control-plane recovery; then storage, identity/secrets, databases and applications.",
+      "configuration": "Each service needs its own compatible state and recovery materials. Git desired state and one application backup do not restore control-plane, identity-provider or secret-service databases.",
+      "runbook": "Require matching snapshots, tokens, versions, storage capacity and scoped access checks. Stop for missing inputs; whole-cluster restore, complete rebuild/HA and per-service recovery remain unverified.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/81",
       "parent": null
     }
   ],
@@ -707,31 +872,163 @@
     {
       "source": "runtimeIdentity",
       "target": "loggingCollector",
-      "title": "Approved pilot pod logs via Kubernetes API only",
+      "title": "Reviewed namespace stages via trusted Kubernetes pod/log API",
       "status": "current"
     },
     {
       "source": "loggingCollector",
       "target": "loggingGateway",
-      "title": "Verified TLS and pilot machine authentication",
+      "title": "Distinct push-only writer over verified TLS",
       "status": "current"
     },
     {
       "source": "serviceCredentials",
       "target": "loggingGateway",
-      "title": "Manually staged protected custody, not ESO",
+      "title": "Separate scoped writer and read identities; legacy reads retained",
       "status": "current"
     },
     {
       "source": "loggingQuery",
       "target": "loggingGateway",
-      "title": "Authenticated pilot tenant query",
+      "title": "Read-only platform federation; tenant query mapping disabled",
       "status": "current"
     },
     {
       "source": "platformAuthority",
       "target": "loggingQuery",
-      "title": "Platform-admin pilot, no tenant datasource grant",
+      "title": "Separate platform-admin administration of logging access",
+      "status": "current"
+    },
+    {
+      "source": "loggingOwnership",
+      "target": "loggingGateway",
+      "title": "Ownership epoch prerequisite; query authorization is separate",
+      "status": "current"
+    },
+    {
+      "source": "gitops",
+      "target": "portalImageBuild",
+      "title": "Reviewed application source",
+      "status": "current"
+    },
+    {
+      "source": "gitops",
+      "target": "nextcloudImageBuild",
+      "title": "Reviewed manual image inputs",
+      "status": "current"
+    },
+    {
+      "source": "portalImageBuild",
+      "target": "imageRegistry",
+      "title": "Publish checked bytes on release",
+      "status": "current"
+    },
+    {
+      "source": "nextcloudImageBuild",
+      "target": "imageRegistry",
+      "title": "Explicit no-rebuild promotion",
+      "status": "current"
+    },
+    {
+      "source": "imageRegistry",
+      "target": "configDelivery",
+      "title": "Pin already published digest",
+      "status": "current"
+    },
+    {
+      "source": "configDelivery",
+      "target": "enrollmentDelivery",
+      "title": "Select released configuration",
+      "status": "current"
+    },
+    {
+      "source": "enrollmentDelivery",
+      "target": "platformDelivery",
+      "title": "Pin immutable enrollment source",
+      "status": "current"
+    },
+    {
+      "source": "platformDelivery",
+      "target": "platform.flux",
+      "title": "Reviewed desired-state reference",
+      "status": "unverified"
+    },
+    {
+      "source": "imageRegistry",
+      "target": "runtimeIdentity",
+      "title": "Runtime pulls selected image bytes",
+      "status": "current"
+    },
+    {
+      "source": "runtimeIdentity",
+      "target": "backupCapture",
+      "title": "Application-aware paired capture",
+      "status": "current"
+    },
+    {
+      "source": "backupCapture",
+      "target": "backupCopy",
+      "title": "Verify independent bytes",
+      "status": "current"
+    },
+    {
+      "source": "backupCapture",
+      "target": "isolatedRestore",
+      "title": "Reviewed primary-set drill",
+      "status": "current"
+    },
+    {
+      "source": "backupCopy",
+      "target": "isolatedRestore",
+      "title": "Copied-set application restore still untested",
+      "status": "unverified"
+    },
+    {
+      "source": "isolatedRestore",
+      "target": "restoreProof",
+      "title": "Boot and validate recovered data",
+      "status": "current"
+    },
+    {
+      "source": "restoreProof",
+      "target": "reviewedCutover",
+      "title": "Separate owner decision",
+      "status": "unverified"
+    },
+    {
+      "source": "vaultRecovery",
+      "target": "clusterRecovery",
+      "title": "Independent keys and recovery access",
+      "status": "unverified"
+    },
+    {
+      "source": "clusterRecovery",
+      "target": "isolatedRestore",
+      "title": "Dependencies before app recovery",
+      "status": "unverified"
+    },
+    {
+      "source": "esoIdentity",
+      "target": "loggingGateway",
+      "title": "Exact-record ESO delivery of gateway authentication",
+      "status": "current"
+    },
+    {
+      "source": "esoIdentity",
+      "target": "loggingCollector",
+      "title": "Exact-record ESO delivery of collector write credential",
+      "status": "current"
+    },
+    {
+      "source": "esoIdentity",
+      "target": "loggingQuery",
+      "title": "Exact-record ESO delivery of read credentials; tenant exposure disabled",
+      "status": "current"
+    },
+    {
+      "source": "human",
+      "target": "loggingQuery",
+      "title": "Exact engineer-client entitlement grants platform-org Viewer",
       "status": "current"
     }
   ],
@@ -827,17 +1124,20 @@
     {
       "id": "loggingIdentity",
       "title": "Logging identity and trust flow",
-      "kicker": "IDENTITY / VERIFIED PILOT FLOW",
-      "summary": "Scoped installer \u2192 opt-in API-only collector \u2192 TLS/authenticated gateway \u2192 Grafana pilot query. Collection, query, scope checks and same-volume restart persistence are verified; retention, restore and production growth remain separate.",
+      "kicker": "IDENTITY / STAGED REAL-WORKLOAD COVERAGE",
+      "summary": "Trusted API collection → exact-record credential delivery → scoped gateway → platform datasource and pod-log dashboard. Real workload records, chained label/panel queries and dashboard preservation are verified; collection expansion and tenant exposure remain separate gates.",
       "nodes": [
+        "human",
         "appInstaller",
         "loggingInstaller",
         "runtimeIdentity",
         "loggingCollector",
+        "esoIdentity",
         "serviceCredentials",
         "loggingGateway",
         "loggingQuery",
-        "platformAuthority"
+        "platformAuthority",
+        "loggingOwnership"
       ]
     },
     {
@@ -918,14 +1218,48 @@
     {
       "id": "intake",
       "title": "From external image to workload",
-      "kicker": "06 / JOURNEY \u00b7 PLANNED",
-      "summary": "External image \u2192 GitLab validation / Trivy \u2192 Harbor \u2192 Flux desired-state review \u2192 workloads. Flux carries references, while the runtime pulls bytes from Harbor.",
+      "kicker": "06 / JOURNEY · PLANNED",
+      "summary": "External image → GitLab validation / Trivy → Harbor → Flux desired-state review → workloads. Flux carries references, while the runtime pulls bytes from Harbor.",
       "nodes": [
         "external",
         "gitlab",
         "harbor",
         "platform.flux",
         "tenant.workload"
+      ]
+    },
+    {
+      "id": "deliveryPipelines",
+      "title": "Current pipelines and image builds",
+      "kicker": "DELIVERY / SOURCE-VERIFIED INVENTORY",
+      "summary": "Actual GitHub checks, manual image promotion, release tags, digest pins and GitOps are separate stages. Platform validation is paused; planned GitLab intake is not current automation. An image is built once and referenced across environments.",
+      "nodes": [
+        "gitops",
+        "portalImageBuild",
+        "nextcloudImageBuild",
+        "imageRegistry",
+        "configDelivery",
+        "enrollmentDelivery",
+        "platformDelivery",
+        "platform.flux",
+        "runtimeIdentity",
+        "pipelineCoverage"
+      ]
+    },
+    {
+      "id": "backupRecovery",
+      "title": "Backup and restore: generic flow",
+      "kicker": "RECOVERY / EVIDENCE AND STOP GATES",
+      "summary": "Paired capture → verified independent copy → isolated restore → application proof → separately reviewed cutover. Primary-set bounded recovery passed; copied-set application restore and whole-cluster recovery remain unverified. No cluster identifiers or recovery secrets are modeled.",
+      "nodes": [
+        "runtimeIdentity",
+        "backupCapture",
+        "backupCopy",
+        "isolatedRestore",
+        "restoreProof",
+        "reviewedCutover",
+        "vaultRecovery",
+        "clusterRecovery"
       ]
     }
   ],
@@ -1036,9 +1370,9 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T07:13:26Z",
-    "scope": "Current identity observations \u00b7 local pilot",
-    "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release. Authenticated static serving is a source change until this image is deployed and verified.",
+    "checkedAt": "2026-11-14T15:01:57Z",
+    "scope": "Current identity observations · local pilot",
+    "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source-only and staged changes are not deployed capabilities. Compiled Portal assets now require a verified session; distinct private role-specific models remain separate work. Later changes require evidence review and a Portal release.",
     "records": [
       {
         "id": "platformAuthority",
@@ -1065,14 +1399,14 @@
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
         "state": "observed-active",
-        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana\u2019s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed.",
+        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana’s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed. New private platform operational channels have exact role-based membership and owner-confirmed visibility; a one-shot adapter is not continuous reconciliation. The new tenant deployment channel remains recovery-only. Four relay records and exact-record ESO consumers are synchronized; the receiver is Ready. Bounded replay of actual successful Helm conditions reached both locked deployment channels with native readback. Wrong-token and cross-route requests were denied, as was a foreign source. Native Flux routes remain suspended: this is not actual Flux-event delivery proof.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {
         "id": "portalInventory",
         "title": "Portal enrollment inventory reader",
         "state": "observed-active",
-        "summary": "The released Portal now reads a verified, exact read-only inventory ConfigMap containing a pinned published-source baseline. Its declared application entries are not the cluster\u2019s current root, reconciliation health, customer tenants or user administration. Existing deployer authority is constrained to the named inventory object by RBAC and admission. Runtime remains tokenless without added secret or network access. Adapter and anonymous API denial are verified; fresh owner inventory UI acceptance remains unverified.",
+        "summary": "The released Portal now reads a verified, exact read-only inventory ConfigMap containing a pinned published-source baseline. Its declared application entries are not the cluster’s current root, reconciliation health, customer tenants or user administration. Existing deployer authority is constrained to the named inventory object by RBAC and admission. Runtime remains tokenless without added secret or network access. Adapter and anonymous API denial are verified; fresh owner inventory UI acceptance remains unverified.",
         "evidence": "https://github.com/perkforge/perkforge-platform-tenants/pull/66"
       },
       {
@@ -1084,11 +1418,40 @@
       },
       {
         "id": "loggingGateway",
-        "title": "Logging pilot identities and custody",
+        "title": "Scoped logging identities and custody",
         "state": "observed-active",
-        "summary": "Native operator/collector, backend and gateway are ready. Real opt-in pilot pod logs reach the API-only collector and authenticated TLS gateway; tested synthetic password fields were redacted and an identical unopted workload is excluded by collection filters, not a per-pod RBAC boundary. Actual Grafana datasource-proxy queries return the redacted records, with existing metrics and dashboards preserved. Gateway scope comes from authenticated identity, not caller tenant headers. An exact sentinel survived a controlled backend restart on the same persistent volume. Credentials remain manually staged, not ESO-managed; one platform-admin pilot write/query identity is not tenant isolation. Natural retention pruning, restore, production-volume growth and comprehensive redaction remain unverified.",
-        "evidence": "https://github.com/perkforge/perkforge-platform/issues/38"
+        "summary": "The active native collector now reads selected real workload logs using a distinct writer identity; platform queries use a separate read-only federation. Four exact-record OpenBao/ESO consumers are synchronized. Gateway queries return real Mattermost and platform reconciliation records; Portal is quiet. The measured collection stage covers selected reviewed namespaces, not the whole cluster. A credential-read denial caused a rollout collection gap, so lossless delivery is not claimed. Tenant reader mapping remains disabled; full cross-scope denial, expansion capacity, natural retention, restore and comprehensive redaction remain separate acceptance.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/436"
+      },
+      {
+        "id": "loggingOwnership",
+        "title": "Portal namespace ownership and epoch",
+        "state": "observed-active",
+        "summary": "The native policy and Deny binding are live with typechecking accepted. Native server-side dry-runs accept unchanged metadata and foundation reconciliation, and reject ownership annotation removal, context/epoch changes and deletion. UID and existing namespace labels/security settings were preserved. This blocks ordinary namespace-name reuse while the guard remains bound; it does not prove tenant log authorization or prevent trusted platform administrators changing policy.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/432"
+      },
+      {
+        "id": "loggingQuery",
+        "title": "Scoped pod-log delivery transition",
+        "state": "observed-active",
+        "summary": "The organization-bound platform datasource and native pod-log dashboard are active. All 41 existing dashboard UIDs are preserved. Actual namespace/pod/container queries and real log, volume and count panels passed through Grafana for both default-All and selected-pod forms. Newly ingested records now retain indexed pod labels; older records are not retroactively changed. The owner confirmed seeing pod logs in the dashboard; independent native query evidence remains separate from that visual acceptance. Tenant readers remain disabled pending cross-scope and identity/session denial checks; initial collection remains staged, not all-cluster coverage. The engineer-group entitlement and matching native org-Viewer configuration are live and read back; an actual engineer-only human login remains untested, distinct from native fixture coverage and administrator acceptance.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/439"
+      },
+      {
+        "id": "appAuth",
+        "title": "Grafana identity-provider transport",
+        "state": "observed-active",
+        "summary": "Grafana reaches the existing identity provider through an explicitly selected ingress backend on its translated TLS port. The approved egress addition preserves all previous rules, TLS verification and client credentials. Trusted-TLS discovery and the token endpoint path were verified from the workload; the owner confirmed browser login. This transport repair neither assigns new human roles nor proves tenant datasource isolation.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/431"
+      },
+      {
+        "id": "tenantAuthority",
+        "title": "Tenant identity foundation, not enabled access",
+        "state": "staged",
+        "summary": "Four canonical Portal groups and three noncomposite generic realm roles are provisioned and read back, with no human membership changes. The dedicated Grafana organization exists with only its inherent global recovery-creator administrator exception. Tenant OAuth mappings and query exposure remain disabled; controlled datasource/org denial tests and actual human OIDC/session proof are separate gates. Platform-engineer access is a distinct active entitlement, not a tenant role.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/issues/218"
       }
     ]
-  }
+  },
+  "revisionMeaning": "platformRevision and portalRevision identify the original model-source references, not the deployed platform or Portal release. Per-node links identify source evidence; identitySnapshot records separately dated runtime observations."
 }

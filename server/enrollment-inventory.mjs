@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 export const selectors = ['local', 'dev', 'local-nextcloud', 'local-nextcloud-portal'];
 const base = 'https://api.github.com/repos/perkforge/perkforge-platform-tenants/contents/enrollment-inventory.json';
 const name = value => typeof value === 'string' && /^[a-z0-9]([-a-z0-9.]*[a-z0-9])?$/.test(value) && value.length <= 253;
@@ -36,20 +37,26 @@ export async function readInventory({ commit, selector, fetcher = fetch } = {}) 
 
 // Kubernetes projects ConfigMaps using symlinks. The fixed, read-only mount is
 // configured by GitOps, never a browser path or a writable working directory.
-export async function readMountedInventory({ commit, selector, readFile } = {}) {
+export async function readMountedInventory({ commit, selector, expectedDigest, readFile } = {}) {
   const result = { state: 'disabled', commit: null, selector: null, entries: [] };
   if (!commit || !selector) return result;
   if (!/^[a-f0-9]{40}$/.test(commit) || !selectors.includes(selector)) return { ...result, state: 'unavailable' };
   Object.assign(result, { state: 'unavailable', commit, selector, transport: 'gitops-configmap' });
+  if (!/^[a-f0-9]{64}$/.test(expectedDigest || '')) return result;
   try {
     const read = readFile || (async () => {
       const { open } = await import('node:fs/promises');
       const file = await open('/etc/portal/enrollment/enrollment-inventory.json', 'r');
-      try { const buffer = Buffer.alloc(131073); const { bytesRead } = await file.read(buffer, 0, buffer.length, 0); return buffer.subarray(0, bytesRead); }
+      try {
+        const buffer = Buffer.alloc(131073); let total = 0;
+        while (total < buffer.length) { const { bytesRead } = await file.read(buffer, total, buffer.length - total, total); if (!bytesRead) break; total += bytesRead; }
+        return buffer.subarray(0, total);
+      }
       finally { await file.close(); }
     });
     const content = await read();
     if (Buffer.byteLength(content) > 131072) throw new Error('Oversize inventory');
+    if (createHash('sha256').update(content).digest('hex') !== expectedDigest) throw new Error('Inventory digest mismatch');
     const entries = validateInventory(JSON.parse(content.toString()), selector);
     return { ...result, state: 'available', entries, checkedAt: new Date().toISOString() };
   } catch { return result; }

@@ -72,7 +72,10 @@ Set `ENROLLMENT_SOURCE=gitops-configmap` and project the derived artifact read-o
 at `/etc/portal/enrollment/enrollment-inventory.json`. Set the selected source
 commit and selector as above through GitOps configuration. The mount and metadata
 must come from the same pinned source release, enforced by configuration CI. This
-mode performs **no GitHub requests**, needs no service-account token, and leaves
+mode requires `ENROLLMENT_INVENTORY_SHA256` from the same reviewed source commit;
+runtime verifies exact artifact bytes before reporting available. A stale/wrong
+mount fails closed. Configuration CI must verify the declared commit-to-digest
+binding against the published release. This mode performs **no GitHub requests**, needs no service-account token, and leaves
 latest-release metadata disabled. Source commit is configuration provenance, not
 live Flux observation. The image is unchanged between environments.
 

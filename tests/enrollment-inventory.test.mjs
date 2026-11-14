@@ -1,4 +1,5 @@
 import test from 'node:test';
+import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 import { readInventory, validateInventory } from '../server/enrollment-inventory.mjs';
 import { readConfig } from '../server/config.mjs';
@@ -33,13 +34,16 @@ test('projection strips unknown fields; duplicates and missing source refs fail'
 
 test('GitOps mount reads bounded projection without network and fails closed', async () => {
   const { readMountedInventory } = await import('../server/enrollment-inventory.mjs');
-  const result = await readMountedInventory({ commit, selector: 'local', readFile: async () => Buffer.from(JSON.stringify(data)) });
+  const digest = createHash('sha256').update(JSON.stringify(data)).digest('hex');
+  const result = await readMountedInventory({ commit, selector: 'local', expectedDigest: digest, readFile: async () => Buffer.from(JSON.stringify(data)) });
   assert.equal(result.state, 'available'); assert.equal(result.transport, 'gitops-configmap'); assert.deepEqual(result.entries, [entry]);
   for (const readFile of [async () => { throw new Error('missing'); }, async () => Buffer.alloc(131073), async () => 'invalid']) {
-    assert.equal((await readMountedInventory({ commit, selector: 'local', readFile })).state, 'unavailable');
+    assert.equal((await readMountedInventory({ commit, selector: 'local', expectedDigest: digest, readFile })).state, 'unavailable');
   }
   const { enrollmentStatus } = await import('../server/enrollment.mjs');
   const status = await enrollmentStatus({ mounted: true, fetcher: () => { throw new Error('must not request network'); } });
   assert.equal(status.source.state, 'disabled'); assert.equal(status.inventory.state, 'disabled');
-  assert.equal(readConfig({ ENROLLMENT_SOURCE: 'gitops-configmap' }).enrollmentSource, 'gitops-configmap');
+  assert.equal((await readMountedInventory({ commit, selector: 'local', expectedDigest: 'b'.repeat(64), readFile: async () => JSON.stringify(data) })).state, 'unavailable');
+  assert.throws(() => readConfig({ ENROLLMENT_SOURCE: 'gitops-configmap' }));
+  assert.equal(readConfig({ ENROLLMENT_SOURCE: 'gitops-configmap', ENROLLMENT_INVENTORY_SHA256: digest }).enrollmentSource, 'gitops-configmap');
 });

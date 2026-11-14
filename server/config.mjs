@@ -12,11 +12,13 @@ export function readConfig(env = process.env) {
   if (!['disabled', 'mock'].includes(mode)) throw new Error('GitLab live access is not implemented');
   const enrollmentSource = env.ENROLLMENT_SOURCE || 'disabled';
   if (!['disabled', 'github-public', 'gitops-configmap'].includes(enrollmentSource)) throw new Error('Unsupported enrollment source');
+  const inventoryDigest = env.ENROLLMENT_INVENTORY_SHA256;
+  if (enrollmentSource === 'gitops-configmap' && !/^[a-f0-9]{64}$/.test(inventoryDigest || '')) throw new Error('GitOps inventory requires expected SHA256');
   const inventoryCommit = env.ENROLLMENT_SOURCE_COMMIT;
   const inventorySelector = env.ENROLLMENT_SELECTOR;
   if (Boolean(inventoryCommit) !== Boolean(inventorySelector) || (inventoryCommit && (!/^[a-f0-9]{40}$/.test(inventoryCommit) || !selectors.includes(inventorySelector)))) throw new Error('Enrollment inventory requires exact commit and supported selector');
   const accessPolicy = env.PORTAL_ACCESS_POLICY || 'home';
   if (issuer && !env.PORTAL_ACCESS_POLICY) throw new Error('Explicit portal access policy required for SSO');
   if (!['home', 'platform-admins'].includes(accessPolicy)) throw new Error('Unsupported portal access policy');
-  return { listenHost, origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode, accessPolicy, enrollmentSource, inventoryCommit, inventorySelector };
+  return { listenHost, origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode, accessPolicy, enrollmentSource, inventoryCommit, inventorySelector, inventoryDigest };
 }

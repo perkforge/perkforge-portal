@@ -2,7 +2,7 @@ import { readInventory, readMountedInventory } from './enrollment-inventory.mjs'
 const repo = 'https://github.com/perkforge/perkforge-platform-tenants';
 const endpoint = 'https://api.github.com/repos/perkforge/perkforge-platform-tenants/releases/latest';
 // Fixed public source only. No browser-controlled URLs, refs, credentials or writes.
-export async function enrollmentStatus({ enabled = false, fetcher = fetch, inventoryCommit, inventorySelector, mounted = false } = {}) {
+export async function enrollmentStatus({ enabled = false, fetcher = fetch, inventoryCommit, inventorySelector, mounted = false, inventoryDigest } = {}) {
   const result = {
     repository: repo,
     source: { state: enabled ? 'unavailable' : 'disabled', release: null },
@@ -10,7 +10,7 @@ export async function enrollmentStatus({ enabled = false, fetcher = fetch, inven
     capabilities: { createTenant: false, manageUsers: false },
   };
   if (mounted) {
-    result.inventory = await readMountedInventory({ commit: inventoryCommit, selector: inventorySelector });
+    result.inventory = await readMountedInventory({ commit: inventoryCommit, selector: inventorySelector, expectedDigest: inventoryDigest });
     return result; // No outbound requests in GitOps mode.
   }
   result.inventory = await readInventory({ commit: enabled ? inventoryCommit : undefined, selector: inventorySelector, fetcher });

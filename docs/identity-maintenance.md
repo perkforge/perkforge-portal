@@ -50,6 +50,24 @@ The current snapshot records the live read-only Portal inventory as a pinned pub
 
 The private pilot channel now has a channel-locked Grafana receiver: one labeled native contact-point test and exact channel readback are verified, with the existing phone receiver preserved. This is not evidence of production firing/recovery/repeat behavior or continuous tenant membership enforcement.
 
+
+The source-only enrollment proposal planner does not create tenants, users,
+Keycloak groups or native-service memberships. Customer and membership templates
+remain explicitly unconfigured; offline application-pin proposals do not expand
+platform-admin or tenant-admin authority and are not deployed management UI.
+
+The authenticated request-preview source adds no live authority: tenant-admin
+needs both the generic realm role and exact target admin group; platform-admin
+remains independent. A digest-bound, fresh, operator-reviewed snapshot is required
+but is not delivered. Only eligible existing-subject developer/viewer membership
+proposals are supported; customer templates and admin-membership policy remain
+blocked. Responses are neither persisted nor submitted. Current pilot admission,
+shared-account protections and native role definitions remain unchanged.
+
+Review hardening binds the context snapshot to the verified JWT issuer, not merely
+a shared realm name. Unauthorized actors never load private context; opened-file
+stat and capped reads prevent unbounded allocation, and immutable UUID inputs
+reject noncanonical casing. These are source checks, not new runtime authority.
 ## Logging pilot flow
 
 The logging diagram distinguishes scoped installers, the own-namespace operator,

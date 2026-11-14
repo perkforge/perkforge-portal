@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "EnrollmentPreviewContract",
+  "status": "proposal-only",
+  "repository": "perkforge/perkforge-platform-tenants",
+  "customerTemplates": [],
+  "membershipTemplates": [],
+  "applicationProfiles": [
+    {
+      "id": "integrated-portal-release",
+      "cluster": "local",
+      "environment": "local",
+      "profile": "il2",
+      "selector": "local-nextcloud-portal",
+      "application": "tenant-portal",
+      "namespace": "tenant-portal-config",
+      "template": "clusters/local-nextcloud-portal/kustomization.yaml",
+      "resourceKind": "GitRepository",
+      "field": "/spec/ref/tag"
+    }
+  ]
+}

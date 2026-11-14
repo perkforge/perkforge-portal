@@ -17,8 +17,10 @@ export function readConfig(env = process.env) {
   const inventoryCommit = env.ENROLLMENT_SOURCE_COMMIT;
   const inventorySelector = env.ENROLLMENT_SELECTOR;
   if (Boolean(inventoryCommit) !== Boolean(inventorySelector) || (inventoryCommit && (!/^[a-f0-9]{40}$/.test(inventoryCommit) || !selectors.includes(inventorySelector)))) throw new Error('Enrollment inventory requires exact commit and supported selector');
+  const tenantRequestDigest = env.TENANT_REQUEST_CONTEXT_SHA256;
+  if (tenantRequestDigest !== undefined && !/^[a-f0-9]{64}$/.test(tenantRequestDigest)) throw new Error('Tenant request context requires exact SHA256');
   const accessPolicy = env.PORTAL_ACCESS_POLICY || 'home';
   if (issuer && !env.PORTAL_ACCESS_POLICY) throw new Error('Explicit portal access policy required for SSO');
   if (!['home', 'platform-admins'].includes(accessPolicy)) throw new Error('Unsupported portal access policy');
-  return { listenHost, origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode, accessPolicy, enrollmentSource, inventoryCommit, inventorySelector, inventoryDigest };
+  return { listenHost, origin, issuer, clientId: env.OIDC_CLIENT_ID, clientSecret: env.OIDC_CLIENT_SECRET, audience: env.OIDC_AUDIENCE, mode, accessPolicy, enrollmentSource, inventoryCommit, inventorySelector, inventoryDigest, tenantRequestDigest };
 }

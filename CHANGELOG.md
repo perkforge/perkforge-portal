@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/perkforge/perkforge-portal/compare/v0.4.0...v0.5.0) (2026-11-14)
+
+
+### Features
+
+* read pinned declared enrollment selections ([#20](https://github.com/perkforge/perkforge-portal/issues/20)) ([7323ece](https://github.com/perkforge/perkforge-portal/commit/7323ece363ade112790d2378dff9d75b390d8d98))
+* show enrollment source separately from deployment readiness ([#17](https://github.com/perkforge/perkforge-portal/issues/17)) ([6105a6e](https://github.com/perkforge/perkforge-portal/commit/6105a6e276d30f9031c47d026cc9cdd590199ec8))
+
 ## [0.4.0](https://github.com/perkforge/perkforge-portal/compare/v0.3.1...v0.4.0) (2026-11-14)
 
 

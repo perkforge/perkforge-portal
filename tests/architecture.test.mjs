@@ -95,3 +95,15 @@ test('identity document spans bootstrap to tenant and keeps external resources p
   assert.equal(catalog.journeys.find(j => j.id === 'identityLifecycle').status, 'unverified');
   assert.ok(!JSON.stringify(catalog).includes('home.arpa'));
 });
+
+test('current delivery and generic recovery views preserve evidence boundaries', () => {
+  assert.ok(catalog.views.find(v=>v.id==='deliveryPipelines'));
+  assert.ok(catalog.views.find(v=>v.id==='backupRecovery'));
+  assert.equal(catalog.nodes.find(n=>n.id==='platformDelivery').status,'unverified');
+  assert.match(catalog.nodes.find(n=>n.id==='platformDelivery').configuration,/if:false/);
+  assert.match(catalog.nodes.find(n=>n.id==='portalImageBuild').configuration,/does not rebuild/);
+  assert.equal(catalog.nodes.find(n=>n.id==='clusterRecovery').status,'unverified');
+  assert.equal(catalog.nodes.find(n=>n.id==='vaultRecovery').status,'unverified');
+  assert.match(catalog.nodes.find(n=>n.id==='isolatedRestore').runbook,/copied set remains untested/);
+  assert.match(catalog.nodes.find(n=>n.id==='backupCopy').usage,/Copy integrity.*separately from application recovery/);
+});

@@ -286,7 +286,7 @@
       "status": "unverified",
       "purpose": "Tenant admins, developers and viewers are separate scoped roles.",
       "usage": "Defines only the authorized tenant namespace, data and collaboration context.",
-      "configuration": "Parent groups grant nothing; control namespaces are not tenant runtime namespaces.",
+      "configuration": "Portal canonical groups and three noncomposite generic realm roles are provisioned with exact leaf mappings. No human memberships changed. A dedicated Grafana tenant organization is prepared, with only its existing global recovery creator exception; tenant OAuth and datasource exposure remain off. Parent groups grant nothing; control namespaces are not tenant runtime namespaces.",
       "runbook": "Complete native per-app lifecycle and cross-tenant tests before claiming the full model enforced.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/contexts/README.md",
       "parent": null
@@ -1443,6 +1443,13 @@
         "state": "observed-active",
         "summary": "Grafana reaches the existing identity provider through an explicitly selected ingress backend on its translated TLS port. The approved egress addition preserves all previous rules, TLS verification and client credentials. Trusted-TLS discovery and the token endpoint path were verified from the workload; the owner confirmed browser login. This transport repair neither assigns new human roles nor proves tenant datasource isolation.",
         "evidence": "https://github.com/perkforge/perkforge-platform/pull/431"
+      },
+      {
+        "id": "tenantAuthority",
+        "title": "Tenant identity foundation, not enabled access",
+        "state": "staged",
+        "summary": "Four canonical Portal groups and three noncomposite generic realm roles are provisioned and read back, with no human membership changes. The dedicated Grafana organization exists with only its inherent global recovery-creator administrator exception. Tenant OAuth mappings and query exposure remain disabled; controlled datasource/org denial tests and actual human OIDC/session proof are separate gates. Platform-engineer access is a distinct active entitlement, not a tenant role.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/issues/218"
       }
     ]
   },

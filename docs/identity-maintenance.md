@@ -157,7 +157,7 @@ timestamps. Fresh CRI/Docker-shaped payload canaries passed. Restart replay stil
 encountered the separate one-hour per-stream ordering window. Cursor state was captured and seeded through a guarded migration into a retained
 dedicated volume. Exact seed readback matched; all prior targets were retained
 with nondecreasing cursors, and advancing plus new targets were observed. The
-StatefulSet collector is Ready without a restart. Early post-migration process-lifetime counters show new entries sent with zero
+new StatefulSet pod is Ready with zero container restarts. Early post-migration process-lifetime counters show new entries sent with zero
 dropped entries/bytes or retries and no memory/OOM events. This bounded readback
 is not a long-duration guarantee. No wire-level sinceTime audit, second restart or backend
 acknowledgment proof is claimed; durable storage alone is not lossless delivery. Natural pruning, complete source coverage and

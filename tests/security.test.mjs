@@ -49,6 +49,7 @@ test('platform admin authority is independent of tenant roles on every API/sessi
       const cookie = `__Host-portal=${sessions.create({ token: access, csrf: 'csrf' }, 10000)}`;
       assert.equal((await app.inject({ url: '/api/tenants', headers: { authorization: `Bearer ${access}` } })).statusCode, allowed ? 200 : 403);
       assert.equal((await app.inject({ url: '/bff/tenants', headers: { cookie } })).statusCode, allowed ? 200 : 403);
+      assert.equal((await app.inject({ url: '/bff/architecture-context', headers: { cookie } })).statusCode, allowed ? 200 : 403);
       assert.equal((await app.inject({ url: '/auth/session', headers: { cookie } })).json().authenticated, allowed);
     }
   }

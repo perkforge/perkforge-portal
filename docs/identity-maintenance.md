@@ -137,38 +137,65 @@ The catalog `platformRevision` and `portalRevision` fields retain original model
 
 The Grafana identity-provider transport fix (platform PR431) adds only the exact ingress backend/translated TLS port to existing egress. TLS verification, client credentials and human roles remain unchanged. Workload discovery/token-path checks and owner browser login succeeded; tenant datasource isolation is a separate boundary.
 
-## Current platform-only scoped collection
+## Current scoped collection and Viewer-only log access
 
-Phase A is active. Four dedicated runtime records are synchronized through
-exact-record OpenBao/ESO delivery. A distinct collector writer and platform reader
-replace shared write/query use; the preserved legacy pilot reader is not a writer.
-The collector has cluster pod metadata/log read authority plus get/watch on its
-one exact credential Secret, not unrestricted Secret access or host mounts.
-Trusted Kubernetes metadata selects an ownership epoch or platform-only fallback.
+Cluster-wide API discovery is active and platform queries observe recent records
+from many namespaces. That does not prove complete delivery of every workload.
+Four exact-record OpenBao/ESO consumers supply separate writer and reader custody;
+legacy pilot reads remain separate. Trusted Kubernetes metadata, not arbitrary
+annotations or payload text, selects an ownership epoch or platform-only fallback.
+The collector has pod/log reads and get/watch on only its own credential Secret,
+without host mounts. The namespace lifecycle guard is distinct from query access
+and can still be changed by trusted platform administrators.
 
-Actual gateway queries return Mattermost and Flux workload records. Portal is
-currently quiet. Collection expands through reviewed namespace stages only as capacity is measured;
-cluster-wide authorization is not all-cluster coverage. Source selection and dated
-acceptance determine the stage; the view does not infer coverage from RBAC.
-The initial collector credential-read denial caused a collection gap. Monitoring-stage ingestion is now verified, but historical catch-up produced timestamp-too-old batch rejections; fresh post-catch-up measurements remain separate. No lossless
-rollout, natural-pruning, restore or comprehensive-redaction claim is made.
+The measured collector memory adjustment is Ready with no observed OOM. A fresh
+15-minute window had zero additional dropped entries/bytes and one retry of unknown
+cause, while sending new records; peak memory was 64.67% of its 512Mi limit.
+This is not zero-retry or lossless acceptance. The explicit 168-hour historical
+cutoff matches the backend **absolute-age** rejection bound using trusted API
+timestamps. Fresh CRI/Docker-shaped payload canaries passed. Restart replay still
+encountered the separate one-hour per-stream ordering window. Cursor positions
+remain ephemeral; guarded migration to durable storage is planned source work,
+not deployed or restart-tested. Natural pruning, complete source coverage and
+comprehensive redaction remain separate acceptance.
 
-The native platform dashboard is provisioned against a distinct read-only
-datasource and preserves all 41 earlier dashboard UIDs. Actual chained namespace/pod/container queries and log/volume/count panels passed
-through Grafana in both default-All and selected-pod forms. Newly ingested
-records retain indexed pod labels after the native processing correction; older
-records are not retroactively indexed. The owner confirmed visual pod-log receipt in the dashboard; the assistant
-verified native queries separately because no browser was registered. A Ready pod or provisioned dashboard
-alone would not have been query proof. Tenant reader mapping remains disabled, with
-cross-scope and identity/session denial gates still separate. Historical federation
-does not support multi-tenant live tail.
+Platform dashboard chained labels and log/volume/count panels passed native query
+checks, preserving all earlier dashboards; the owner visually confirmed logs.
+The engineer entitlement remains separate from platform administration. Historical
+federation does not support multi-tenant live tail; older pod metadata is not
+retroactively reindexed.
+
+The dedicated Portal partition, datasource and dashboard are live. All three
+authorized canonical tenant roles, including tenant admins, map to that organization
+as **Viewer only** for this initial log-view phase. No human memberships changed;
+platform admin/engineer mappings and the existing global recovery-creator exception
+are preserved. Tenant administration is not delivered by this mapping.
+
+A temporary native Viewer queried its own benign marker. Actual platform datasource
+UID/proxy/query and forged-org-header requests were denied; switching organizations
+was ineffective. Account deletion and token revocation were verified. Pinned native
+fixtures also deny Viewer membership, invitation, service-account and datasource
+writes. A disposable org-Admin fixture allowed adding an unmapped existing user,
+which is why Admin/Editor roles are not exposed. These proofs do not replace actual
+tenant-human OIDC/login, sharing/public-snapshot or ownership/revocation lifecycle
+acceptance. No human login was fabricated or impersonated.
 
 ## Delivery and recovery are part of the identity model
 
 The [current pipeline inventory](delivery-pipelines.md) distinguishes actual build/release paths, paused validation, manual promotion and planned intake. The [generic backup/restore model](backup-restore.md) separates paired capture, independent copy integrity, isolated application proof and reviewed cutover, including independent credential custody and unverified whole-cluster dependencies. No private recovery topology or runtime secrets are included.
 
-The existing canonical platform-engineer group now receives a dedicated, noncomposite Grafana-client entitlement and same-client scope mapping; live OAuth assigns platform-org Viewer while administrator authority remains separate. No human memberships changed. Native readback and fixture proof do not replace an actual engineer-only human login, which remains untested. Tenant org exposure remains off.
+All three new private operational Mattermost channels are visually confirmed.
+The one-shot membership adapter is not continuous reconciliation. Native labeled
+platform-alert delivery and genuine platform-deployment posts are verified.
+Portal deployment replay and denial checks passed; its first genuine event from
+the final Portal rollout remains pending. Metric firing/recovery/repeat scenarios
+remain separate acceptance. Exact-record relay credential delivery is active.
 
-New private operational Mattermost channels have role-based membership and owner-confirmed visibility. The one-shot adapter is not continuous reconciliation; the tenant deployment channel remains recovery-only at this checkpoint. Four relay records and their exact-record ESO consumers are synchronized, and the receiver is Ready. Bounded replay of actual successful Helm conditions reached both locked deployment channels with native readback; wrong-token/cross-route and foreign-source requests were denied. Native Flux routes remain suspended, so actual Flux-event delivery remains unverified. This dated checkpoint does not infer subsequent route activation.
-
-The Portal tenant foundation now has four canonical groups and three noncomposite generic realm roles with exact leaf mappings. No human memberships changed. Its dedicated Grafana organization is prepared with only the inherent existing global recovery-creator administrator exception. Tenant OAuth and datasource exposure remain disabled; controlled machine org-denial testing and actual human OIDC/session acceptance are separate gates, not implied by provisioning.
+The exact ServiceMonitor is applied and scrape/counters/expressions are verified.
+Three new unpaused delivery rules are loaded with native health OK/inactive; the
+prior nine rules and existing platform/Portal Mattermost and ntfy receivers are
+preserved. These signals cover writer drops/retries and missing scrape/counters,
+not source-discovery completeness. Pinned Kubernetes source health means valid
+configuration, not that every source is being tailed; debug metadata is separate.
+Do not label these rules "all log collection healthy" or infer actual firing and
+recovery delivery merely from loaded healthy rules.

@@ -286,8 +286,8 @@
       "status": "unverified",
       "purpose": "Tenant admins, developers and viewers are separate scoped roles.",
       "usage": "Defines only the authorized tenant namespace, data and collaboration context.",
-      "configuration": "Portal canonical groups and three noncomposite generic realm roles are provisioned with exact leaf mappings. No human memberships changed. A dedicated Grafana tenant organization is prepared, with only its existing global recovery creator exception; tenant OAuth and datasource exposure remain off. Parent groups grant nothing; control namespaces are not tenant runtime namespaces.",
-      "runbook": "Complete native per-app lifecycle and cross-tenant tests before claiming the full model enforced.",
+      "configuration": "Canonical Portal groups and three noncomposite generic realm roles have exact leaf mappings. The initial live log-view phase maps all three authorized tenant roles to Grafana Viewer only, preserving separate platform admin/engineer authority. No human memberships changed; the existing global recovery-creator exception remains. Parent groups grant nothing.",
+      "runbook": "A disposable pinned fixture showed org Admin can add an unmapped existing user. The approved Viewer-only phase avoids that role; it does not implement tenant administration. Native Viewer write denials and live machine cross-org tests passed, but actual tenant-human login, sharing, revocation lifecycle and wider app authorization remain separate gates.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/contexts/README.md",
       "parent": null
     },
@@ -428,9 +428,9 @@
       "title": "API-only scoped collector",
       "status": "current",
       "purpose": "Collect reviewed workload namespaces using trusted Kubernetes metadata.",
-      "usage": "Real Mattermost and platform reconciliation logs now reach the scoped backend. The observed stage selects reviewed workload namespaces; application and platform reconciliation records are verified, while a quiet Portal workload had no observed records at the checkpoint. This is staged coverage, not all-cluster collection.",
-      "configuration": "The collector may read pod metadata and logs cluster-wide, with get/watch on only its exact delivery credential Secret. It has no host mounts. Final trusted metadata chooses a registered ownership epoch or platform-only fallback; arbitrary pod annotations are not ownership authority.",
-      "runbook": "Measure retries, drops, volume and storage before expanding collection. Initial credential-read denial caused a collection gap; later monitoring catch-up rejected historical timestamp-too-old batches. No lossless rollout or general redaction guarantee is claimed.",
+      "usage": "Cluster-wide discovery is active and platform queries observe records from many namespaces. A bounded fresh observation had no additional transport drops and one retry of unknown cause, with no observed OOM. This does not prove complete delivery or lossless restart recovery.",
+      "configuration": "The collector reads cluster pod metadata/logs and only its exact credential Secret, without host mounts. Trusted Kubernetes metadata chooses an ownership epoch or platform-only fallback. Collector memory was raised after measurement; no OOM was observed. API-provided timestamps are protected from application-shaped CRI/Docker envelopes, and an explicit 168-hour per-entry historical cutoff matches the backend absolute-age rejection bound.",
+      "runbook": "Separate intentional absolute-age exclusions from transport drops and per-stream ordering rejection. Restart replay encountered the one-hour ordering window; positions remain on bounded ephemeral storage. Durable cursor storage and guarded migration are planned source work, not live acceptance. Three active writer/scrape health rules do not measure source-discovery completeness. Do not infer complete coverage or comprehensive redaction from Ready status.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
     },
@@ -439,7 +439,7 @@
       "title": "Authenticated logging gateway",
       "status": "current",
       "purpose": "Separate scoped write and read identities behind verified TLS.",
-      "usage": "The active native gateway accepts the collector identity and serves platform read federation. Actual workload records are verified at the gateway; tenant query mapping remains disabled.",
+      "usage": "The gateway accepts a distinct push-only writer and serves read-only platform federation, preserving legacy reads. The fixed Portal reader partition is live with an organization-bound datasource. Native own-scope query and foreign-org denials passed; actual tenant-human login and broader lifecycle acceptance remain unverified.",
       "configuration": "Four dedicated OpenBao records use exact-record ESO delivery to approved gateway, collector and query consumers. Legacy pilot reads remain separate. Server-fixed query scopes and explicit endpoint/method rules replace a shared write/query identity.",
       "runbook": "Verify reader/write denial, spoofed-header resistance and every tenant scope before exposing tenant access. Historical federation does not provide multi-tenant live tail. Existing volume and retention settings are unchanged; natural pruning and restore remain separate acceptance.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
@@ -451,8 +451,8 @@
       "status": "current",
       "purpose": "Read a platform federation through an organization-bound datasource.",
       "usage": "The organization-bound pod-log dashboard has verified chained namespace/pod/container queries and real log, volume and count panels through the read-only platform datasource. Default-All and selected-pod forms work, with all earlier dashboards preserved.",
-      "configuration": "The platform datasource has a distinct read-only credential. The existing canonical engineer group now receives a dedicated Grafana-client entitlement mapped to platform-org Viewer; administrators retain separate global administration. No human memberships changed. Tenant org/session isolation remains a separate gated stage.",
-      "runbook": "Verify both query APIs and actual user access. Newly ingested records have indexed pod labels; older structured-metadata records are not retroactively indexed. Interactive visual acceptance is separate; keep tenant exposure off until its server-side and session denial gates pass.",
+      "configuration": "The engineer-client entitlement maps to platform-org Viewer while platform administrators retain separate authority. All three authorized canonical Portal tenant roles, including tenant admins, now map only to the dedicated tenant organization as Viewer. No human memberships changed. This is log viewing, not tenant administration.",
+      "runbook": "A temporary native Viewer queried its own marker; platform datasource UID/proxy/query and forged-org-header attempts were denied, and organization switching was ineffective. Cleanup verified deleted account and revoked token. Pinned fixtures deny Viewer membership, invitation, service-account and datasource writes. Actual tenant-human OIDC/login, sharing and lifecycle acceptance remain untested. The confirmed org-Admin membership bypass is why Admin/Editor are not exposed.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
     },
@@ -872,7 +872,7 @@
     {
       "source": "runtimeIdentity",
       "target": "loggingCollector",
-      "title": "Reviewed namespace stages via trusted Kubernetes pod/log API",
+      "title": "Cluster pod/log API discovery; delivery acceptance remains bounded",
       "status": "current"
     },
     {
@@ -890,7 +890,7 @@
     {
       "source": "loggingQuery",
       "target": "loggingGateway",
-      "title": "Read-only platform federation; tenant query mapping disabled",
+      "title": "Platform federation and fixed Portal query partition",
       "status": "current"
     },
     {
@@ -1022,7 +1022,7 @@
     {
       "source": "esoIdentity",
       "target": "loggingQuery",
-      "title": "Exact-record ESO delivery of read credentials; tenant exposure disabled",
+      "title": "Exact-record reader credentials; organization-bound query scopes",
       "status": "current"
     },
     {
@@ -1124,8 +1124,8 @@
     {
       "id": "loggingIdentity",
       "title": "Logging identity and trust flow",
-      "kicker": "IDENTITY / STAGED REAL-WORKLOAD COVERAGE",
-      "summary": "Trusted API collection → exact-record credential delivery → scoped gateway → platform datasource and pod-log dashboard. Real workload records, chained label/panel queries and dashboard preservation are verified; collection expansion and tenant exposure remain separate gates.",
+      "kicker": "IDENTITY / CLUSTER DISCOVERY AND CONTROLLED ACCESS",
+      "summary": "Trusted API discovery → exact-record writer/read custody → scoped gateway → organization-bound queries. Canonical tenant roles map to Viewer-only log access; native machine denials are verified, while actual tenant-human login, sharing/lifecycle and durable replay recovery remain open.",
       "nodes": [
         "human",
         "appInstaller",
@@ -1370,7 +1370,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T15:01:57Z",
+    "checkedAt": "2026-11-14T16:16:55Z",
     "scope": "Current identity observations · local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source-only and staged changes are not deployed capabilities. Compiled Portal assets now require a verified session; distinct private role-specific models remain separate work. Later changes require evidence review and a Portal release.",
     "records": [
@@ -1399,7 +1399,7 @@
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
         "state": "observed-active",
-        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana’s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed. New private platform operational channels have exact role-based membership and owner-confirmed visibility; a one-shot adapter is not continuous reconciliation. The new tenant deployment channel remains recovery-only. Four relay records and exact-record ESO consumers are synchronized; the receiver is Ready. Bounded replay of actual successful Helm conditions reached both locked deployment channels with native readback. Wrong-token and cross-route requests were denied, as was a foreign source. Native Flux routes remain suspended: this is not actual Flux-event delivery proof.",
+        "summary": "The native application and closed-signup baseline remain active. The owner verified Keycloak login and the private Portal-alerts destination; emergency access is separate with approved independent custody. All three new private operational channels are visually confirmed. Platform-alert native labeled delivery and genuine native platform-deployment posts are verified, not merely replay. Portal deployment replay/denial tests passed, but its first genuine final application-rollout event remains pending. Context membership is applied by a one-shot adapter, not a continuous controller; production firing/recovery/repeat scenarios remain separate acceptance.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {
@@ -1420,8 +1420,8 @@
         "id": "loggingGateway",
         "title": "Scoped logging identities and custody",
         "state": "observed-active",
-        "summary": "The active native collector now reads selected real workload logs using a distinct writer identity; platform queries use a separate read-only federation. Four exact-record OpenBao/ESO consumers are synchronized. Gateway queries return real Mattermost and platform reconciliation records; Portal is quiet. The measured collection stage covers selected reviewed namespaces, not the whole cluster. A credential-read denial caused a rollout collection gap, so lossless delivery is not claimed. Tenant reader mapping remains disabled; full cross-scope denial, expansion capacity, natural retention, restore and comprehensive redaction remain separate acceptance.",
-        "evidence": "https://github.com/perkforge/perkforge-platform/pull/436"
+        "summary": "Four exact OpenBao/ESO consumers deliver separate writer, platform read and scoped Portal read custody. The strict gateway fixes query scopes server-side and preserves legacy reads. The Portal reader partition and organization-bound datasource are live; all three authorized canonical tenant roles map only to Viewer. Native own-scope query, cross-org denial and temporary-account/token cleanup passed. No human memberships changed; actual tenant-human login and broader sharing/lifecycle acceptance remain unverified.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/448"
       },
       {
         "id": "loggingOwnership",
@@ -1434,8 +1434,8 @@
         "id": "loggingQuery",
         "title": "Scoped pod-log delivery transition",
         "state": "observed-active",
-        "summary": "The organization-bound platform datasource and native pod-log dashboard are active. All 41 existing dashboard UIDs are preserved. Actual namespace/pod/container queries and real log, volume and count panels passed through Grafana for both default-All and selected-pod forms. Newly ingested records now retain indexed pod labels; older records are not retroactively changed. The owner confirmed seeing pod logs in the dashboard; independent native query evidence remains separate from that visual acceptance. Tenant readers remain disabled pending cross-scope and identity/session denial checks; initial collection remains staged, not all-cluster coverage. The engineer-group entitlement and matching native org-Viewer configuration are live and read back; an actual engineer-only human login remains untested, distinct from native fixture coverage and administrator acceptance.",
-        "evidence": "https://github.com/perkforge/perkforge-platform/pull/439"
+        "summary": "Platform dashboard label/log/volume/count queries and owner visual acceptance are verified, preserving earlier dashboards. Platform-engineer and administrator authority remain distinct. The live tenant mapping grants only Viewer for each of the three authorized canonical roles. Temporary Viewer own-marker and foreign datasource UID/proxy/query/header denial probes passed again, with account deletion and token revocation verified. Pinned fixtures deny membership, invitations, service-account and datasource writes. Actual tenant-human login, sharing and lifecycle remain untested; no tenant administration is delivered.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/issues/218"
       },
       {
         "id": "appAuth",
@@ -1448,8 +1448,15 @@
         "id": "tenantAuthority",
         "title": "Tenant identity foundation, not enabled access",
         "state": "staged",
-        "summary": "Four canonical Portal groups and three noncomposite generic realm roles are provisioned and read back, with no human membership changes. The dedicated Grafana organization exists with only its inherent global recovery-creator administrator exception. Tenant OAuth mappings and query exposure remain disabled; controlled datasource/org denial tests and actual human OIDC/session proof are separate gates. Platform-engineer access is a distinct active entitlement, not a tenant role.",
+        "summary": "Canonical Portal groups and noncomposite generic realm roles are provisioned with exact leaf mappings. All authorized tenant roles now receive only organization-scoped Viewer log access, without human membership changes. The inherent global recovery-creator exception remains. A pinned org-Admin fixture demonstrated canonical-membership bypass; Admin/Editor exposure is therefore excluded. Machine scope/write-denial and token-cleanup proofs do not replace actual tenant-human OIDC/login, sharing or lifecycle acceptance.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/218"
+      },
+      {
+        "id": "loggingCollector",
+        "title": "Cluster discovery and replay limits",
+        "state": "observed-active",
+        "summary": "Cluster-wide discovery is active. The measured memory correction is Ready with no observed OOM. Trusted API timestamps feed an explicit 168-hour absolute-age cutoff; fresh CRI/Docker-shaped canaries passed. A fresh 15-minute observation had zero additional dropped entries/bytes and one retry of unknown cause, not a zero-retry or lossless claim. Restart replay had one-hour ordering rejections; positions remain ephemeral and durable migration is planned, not live. Three added delivery rules are healthy/inactive with prior rules/receivers preserved; writer/scrape telemetry does not prove source completeness.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/453"
       }
     ]
   },

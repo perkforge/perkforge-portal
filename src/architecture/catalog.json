@@ -934,7 +934,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T04:19:27Z",
+    "checkedAt": "2026-11-14T04:27:33Z",
     "scope": "Current identity observations \u00b7 local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release.",
     "records": [
@@ -949,7 +949,7 @@
         "id": "deploymentPublisher",
         "title": "Platform deployment publisher and engineer reader",
         "state": "observed-active",
-        "summary": "Dedicated machine publisher writes only the platform deployment topic; the existing engineer subscriber reads that topic. Existing tokens were retained. ESO delivers one exact publisher Secret. Live read/deny ACL checks pass; genuine Helm-event delivery and phone receipt remain pending. Only platform-namespace Helm releases are selected, not tenant Portal upgrades.",
+        "summary": "Dedicated machine publisher writes only the platform deployment topic; the existing engineer subscriber reads it. Existing tokens were retained and ESO delivers one exact publisher Secret. ACL checks and genuine native success/failure publication are verified; phone receipt remains unconfirmed. Only platform-namespace Helm releases are selected, not tenant Portal upgrades. Native timestamp-varying failures can produce repeated notifications.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/391#issuecomment-6871508930"
       },
       {

@@ -108,3 +108,27 @@ manage-group-membership plus exact group manage-membership; no broad user-admin
 role is assumed. GET-only readback accounts for permission-filtered pagination
 and explicitly does not verify ownership. No connected writer, durable storage,
 service credential, grant or native acceptance is introduced by these fixtures.
+
+## Scoped logging transition and namespace ownership
+
+The Portal runtime namespace now has a separately approved native ownership
+guard: its immutable UID, context and log epoch must remain bound together.
+Typechecking and native positive/negative admission checks passed; ordinary
+updates and existing foundation SSA remain accepted, while deletion and binding
+changes are denied. No namespace was deleted to test this. The independent offline
+CREATE fixture is not yet executed, and trusted platform administrators can alter
+the guard. Source and evidence are recorded in platform PR430/432.
+
+This guard is a prerequisite, not a log access grant. Reviewed source PR425/429/433
+prepares distinct writer and reader credentials, exact-record OpenBao/ESO custody,
+server-fixed query partitions and a platform-only dashboard. At this snapshot those
+changes remain source-only: live acceptance and staged collection measurements
+are still required. Tenant exposure stays disabled until server-side cross-scope
+and identity/session denial checks pass. Dashboard namespace filters never enforce
+authorization. Platform federation supports historical queries, not multi-tenant
+live tail. Namespace reuse needs a new ownership epoch after explicit revocation,
+not a one-time UID check alone.
+
+Portal compiled-asset authentication is now deployed and verified separately from
+role-specific private-model delivery. A later model release must preserve that
+boundary and accurately mark which logging stages are active.

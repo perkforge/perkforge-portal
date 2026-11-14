@@ -1,7 +1,7 @@
 {
-  "owner": "Platform Engineering \u00b7 reviewed in source; owner content review pending",
-  "reviewed": "2026-11-14 \u00b7 source model with separately dated deployment observations",
-  "disclosure": "Sanitized identity reference \u00b7 no credentials or private inventory",
+  "owner": "Platform Engineering · reviewed in source; owner content review pending",
+  "reviewed": "2026-11-14 · source model with separately dated deployment observations",
+  "disclosure": "Sanitized identity reference · no credentials or private inventory",
   "platformRevision": "1e9e455b0cd8fdef3f740fdd8a74379f02dbf915",
   "portalRevision": "5781db4d30af635f4ced0602619b0b8635682af1",
   "nodes": [
@@ -51,7 +51,7 @@
     },
     {
       "id": "platform.rancher",
-      "title": "Rancher \u00b7 PE only",
+      "title": "Rancher · PE only",
       "status": "unverified",
       "purpose": "Platform engineering cluster lifecycle management.",
       "usage": "Reserved for authorized platform administrators.",
@@ -150,7 +150,7 @@
     },
     {
       "id": "gitlab",
-      "title": "GitLab CI + Trivy intake \u00b7 planned",
+      "title": "GitLab CI + Trivy intake · planned",
       "status": "planned",
       "purpose": "Proposed artifact-intake validation and CVE scanning pipeline, not the deployment status of GitLab itself.",
       "usage": "Scan every copied platform; retain SBOM and gate evidence.",
@@ -161,7 +161,7 @@
     },
     {
       "id": "harbor",
-      "title": "Harbor intake publishing \u00b7 planned",
+      "title": "Harbor intake publishing · planned",
       "status": "planned",
       "purpose": "Proposed approved-intake publication workflow, not the deployment status of Harbor itself.",
       "usage": "Publish exact validated content through a protected publisher.",
@@ -455,6 +455,17 @@
       "runbook": "Verify native datasource health and an actual collected record; do not infer user or tenant isolation from dashboard visibility.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
+    },
+    {
+      "id": "loggingOwnership",
+      "title": "Namespace log-ownership guard",
+      "status": "current",
+      "purpose": "Keep a tenant log epoch bound to its approved runtime namespace identity.",
+      "usage": "The Portal runtime namespace has a native admission guard. Ordinary deletion and changed context or epoch annotations are denied; unchanged metadata and existing foundation reconciliation remain allowed.",
+      "configuration": "The guard pins the immutable namespace UID and two ownership annotations. Platform-owned policy is separate from tenant resources; trusted platform administrators can still alter it. No tenant query access is granted by this guard.",
+      "runbook": "Before ownership transfer, revoke old query and session access, stop old routing and retire the epoch through explicit review. Never assign a previous owner’s log partition to a new namespace owner.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/218",
+      "parent": null
     }
   ],
   "edges": [
@@ -733,6 +744,12 @@
       "target": "loggingQuery",
       "title": "Platform-admin pilot, no tenant datasource grant",
       "status": "current"
+    },
+    {
+      "source": "loggingOwnership",
+      "target": "loggingGateway",
+      "title": "Ownership epoch prerequisite; query authorization is separate",
+      "status": "current"
     }
   ],
   "views": [
@@ -828,7 +845,7 @@
       "id": "loggingIdentity",
       "title": "Logging identity and trust flow",
       "kicker": "IDENTITY / VERIFIED PILOT FLOW",
-      "summary": "Scoped installer \u2192 opt-in API-only collector \u2192 TLS/authenticated gateway \u2192 Grafana pilot query. Collection, query, scope checks and same-volume restart persistence are verified; retention, restore and production growth remain separate.",
+      "summary": "Verified pilot collection and same-volume persistence, plus a live namespace ownership guard. Scoped real-workload collection, separate writer/readers, platform federation and tenant isolation are a staged transition until their runtime acceptance is recorded.",
       "nodes": [
         "appInstaller",
         "loggingInstaller",
@@ -837,7 +854,8 @@
         "serviceCredentials",
         "loggingGateway",
         "loggingQuery",
-        "platformAuthority"
+        "platformAuthority",
+        "loggingOwnership"
       ]
     },
     {
@@ -918,8 +936,8 @@
     {
       "id": "intake",
       "title": "From external image to workload",
-      "kicker": "06 / JOURNEY \u00b7 PLANNED",
-      "summary": "External image \u2192 GitLab validation / Trivy \u2192 Harbor \u2192 Flux desired-state review \u2192 workloads. Flux carries references, while the runtime pulls bytes from Harbor.",
+      "kicker": "06 / JOURNEY · PLANNED",
+      "summary": "External image → GitLab validation / Trivy → Harbor → Flux desired-state review → workloads. Flux carries references, while the runtime pulls bytes from Harbor.",
       "nodes": [
         "external",
         "gitlab",
@@ -1036,9 +1054,9 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T07:13:26Z",
-    "scope": "Current identity observations \u00b7 local pilot",
-    "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release. Authenticated static serving is a source change until this image is deployed and verified.",
+    "checkedAt": "2026-11-14T14:14:31Z",
+    "scope": "Current identity observations · local pilot",
+    "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source-only and staged changes are not deployed capabilities. Compiled Portal assets now require a verified session; distinct private role-specific models remain separate work. Later changes require evidence review and a Portal release.",
     "records": [
       {
         "id": "platformAuthority",
@@ -1065,14 +1083,14 @@
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
         "state": "observed-active",
-        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana\u2019s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed.",
+        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana’s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {
         "id": "portalInventory",
         "title": "Portal enrollment inventory reader",
         "state": "observed-active",
-        "summary": "The released Portal now reads a verified, exact read-only inventory ConfigMap containing a pinned published-source baseline. Its declared application entries are not the cluster\u2019s current root, reconciliation health, customer tenants or user administration. Existing deployer authority is constrained to the named inventory object by RBAC and admission. Runtime remains tokenless without added secret or network access. Adapter and anonymous API denial are verified; fresh owner inventory UI acceptance remains unverified.",
+        "summary": "The released Portal now reads a verified, exact read-only inventory ConfigMap containing a pinned published-source baseline. Its declared application entries are not the cluster’s current root, reconciliation health, customer tenants or user administration. Existing deployer authority is constrained to the named inventory object by RBAC and admission. Runtime remains tokenless without added secret or network access. Adapter and anonymous API denial are verified; fresh owner inventory UI acceptance remains unverified.",
         "evidence": "https://github.com/perkforge/perkforge-platform-tenants/pull/66"
       },
       {
@@ -1088,6 +1106,20 @@
         "state": "observed-active",
         "summary": "Native operator/collector, backend and gateway are ready. Real opt-in pilot pod logs reach the API-only collector and authenticated TLS gateway; tested synthetic password fields were redacted and an identical unopted workload is excluded by collection filters, not a per-pod RBAC boundary. Actual Grafana datasource-proxy queries return the redacted records, with existing metrics and dashboards preserved. Gateway scope comes from authenticated identity, not caller tenant headers. An exact sentinel survived a controlled backend restart on the same persistent volume. Credentials remain manually staged, not ESO-managed; one platform-admin pilot write/query identity is not tenant isolation. Natural retention pruning, restore, production-volume growth and comprehensive redaction remain unverified.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/38"
+      },
+      {
+        "id": "loggingOwnership",
+        "title": "Portal namespace ownership and epoch",
+        "state": "observed-active",
+        "summary": "The native policy and Deny binding are live with typechecking accepted. Native server-side dry-runs accept unchanged metadata and foundation reconciliation, and reject ownership annotation removal, context/epoch changes and deletion. UID and existing namespace labels/security settings were preserved. This blocks ordinary namespace-name reuse while the guard remains bound; it does not prove tenant log authorization or prevent trusted platform administrators changing policy.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/432"
+      },
+      {
+        "id": "loggingQuery",
+        "title": "Scoped pod-log delivery transition",
+        "state": "source-only",
+        "summary": "Reviewed source prepares separate write-only collection and read-only platform federation, exact-record runtime custody, and an org-bound pod-log dashboard. Initial planned collection covers three reviewed workload namespaces, not all-cluster coverage. Tenant readers remain disabled pending real cross-scope, identity and stale-session denial checks. Source/native-fixture tests are not live deployment acceptance.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/433"
       }
     ]
   }

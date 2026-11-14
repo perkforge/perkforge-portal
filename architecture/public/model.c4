@@ -457,6 +457,17 @@ model {
     }
     style { color green }
   }
+  loggingOwnership = system "Namespace log-ownership guard" {
+    #current
+    description "CURRENT: Keep a tenant log epoch bound to its approved runtime namespace identity. The Portal runtime namespace has a native admission guard. Ordinary deletion and changed context or epoch annotations are denied; unchanged metadata and existing foundation reconciliation remain allowed."
+    link https://github.com/perkforge/perkforge-platform/issues/218 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
   platform.rancher -> platform.rke2 "UNVERIFIED: PE cluster lifecycle management only" { #unverified }
@@ -503,6 +514,7 @@ model {
   serviceCredentials -> loggingGateway "CURRENT: Manually staged protected custody, not ESO" { #current }
   loggingQuery -> loggingGateway "CURRENT: Authenticated pilot tenant query" { #current }
   platformAuthority -> loggingQuery "CURRENT: Platform-admin pilot, no tenant datasource grant" { #current }
+  loggingOwnership -> loggingGateway "CURRENT: Ownership epoch prerequisite; query authorization is separate" { #current }
 }
 views {
   view identityLifecycle {
@@ -537,8 +549,8 @@ views {
   }
   view loggingIdentity {
     title "Logging identity and trust flow"
-    description "Scoped installer → opt-in API-only collector → TLS/authenticated gateway → Grafana pilot query. Collection, query, scope checks and same-volume restart persistence are verified; retention, restore and production growth remain separate."
-    include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, serviceCredentials, loggingGateway, loggingQuery, platformAuthority
+    description "Verified pilot collection and same-volume persistence, plus a live namespace ownership guard. Scoped real-workload collection, separate writer/readers, platform federation and tenant isolation are a staged transition until their runtime acceptance is recorded."
+    include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, serviceCredentials, loggingGateway, loggingQuery, platformAuthority, loggingOwnership
     autoLayout LeftRight
   }
   view index {

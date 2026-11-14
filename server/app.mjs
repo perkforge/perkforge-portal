@@ -8,6 +8,7 @@ import * as oidc from 'openid-client';
 import { createRemoteJWKSet } from 'jose';
 import { Sessions, random, equal, safeReturn, validateAccess } from './security.mjs';
 import { listTenants } from './tenants.mjs';
+import { enrollmentStatus } from './enrollment.mjs';
 const cookieName = '__Host-portal';
 const cookieOptions = { path: '/', secure: true, httpOnly: true, sameSite: 'lax' };
 export async function buildApp(config, options = {}) {
@@ -90,6 +91,21 @@ export async function buildApp(config, options = {}) {
     if (!s?.token) return reply.code(401).send({ error: 'Sign in to view tenants' });
     // Same-process HTTP injection preserves the real bearer middleware without a network hop.
     const result = await app.inject({ method: 'GET', url: '/api/tenants', headers: { authorization: `Bearer ${s.token}` } });
+    return reply.code(result.statusCode).type('application/json').send(result.body);
+  });
+  // Platform enrollment metadata is not exposed to tenant-only identities.
+  app.get('/api/enrollment', async (req, reply) => {
+    const match = /^Bearer ([^\s]+)$/.exec(req.headers.authorization || '');
+    if (!match) return reply.code(401).send({ error: 'Bearer token required' });
+    let principal;
+    try { principal = await verify(match[1]); } catch { return reply.code(403).send({ error: 'Access denied' }); }
+    if (!Array.isArray(principal.groups) || !principal.groups.includes('/platform/admins')) return reply.code(403).send({ error: 'Platform administrator required' });
+    return enrollmentStatus({ enabled: config.enrollmentSource === 'github-public', fetcher: options.enrollmentFetch });
+  });
+  app.get('/bff/enrollment', async (req, reply) => {
+    const s = session(req);
+    if (!s?.token) return reply.code(401).send({ error: 'Sign in to view enrollment' });
+    const result = await app.inject({ method: 'GET', url: '/api/enrollment', headers: { authorization: `Bearer ${s.token}` } });
     return reply.code(result.statusCode).type('application/json').send(result.body);
   });
   // Audience-specific guidance is authorized server-side on every request. The

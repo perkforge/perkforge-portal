@@ -1,9 +1,9 @@
 {
   "owner": "Platform Engineering \u00b7 reviewed in source; owner content review pending",
-  "reviewed": "2026-11-14 \u00b7 source-backed identity review; live status is not inferred",
+  "reviewed": "2026-11-14 \u00b7 source model with separately dated deployment observations",
   "disclosure": "Sanitized identity reference \u00b7 no credentials or private inventory",
   "platformRevision": "1e9e455b0cd8fdef3f740fdd8a74379f02dbf915",
-  "portalRevision": "93929c1",
+  "portalRevision": "5781db4d30af635f4ced0602619b0b8635682af1",
   "nodes": [
     {
       "id": "platform",
@@ -367,6 +367,50 @@
       "runbook": "Document connection and token lifecycle, least-privileged SQL grants and negative tests.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/1e9e455b0cd8fdef3f740fdd8a74379f02dbf915/big-bang-bootstrap/configuration/authorization/MATRIX.md",
       "parent": null
+    },
+    {
+      "id": "deploymentPublisher",
+      "title": "Deployment notification machine identity",
+      "status": "current",
+      "purpose": "Writes permitted native Helm outcomes to one approved topic.",
+      "usage": "Keep machine publishing and human read rights separate; live delivery acceptance is distinct.",
+      "configuration": "Dedicated scoped secret delivery; no tenant-wide source wildcard.",
+      "runbook": "Verify denied reads/wrong topics and one genuine permitted event before closure.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/391",
+      "parent": null
+    },
+    {
+      "id": "incidentPublisher",
+      "title": "Incident notification machine identities",
+      "status": "current",
+      "purpose": "Separate platform incident publishers from deployment publishers.",
+      "usage": "Use exact audience/topic bindings, not general shared credentials.",
+      "configuration": "Platform-owned runtime custody with separate records and scoped ESO consumers.",
+      "runbook": "Review recipient entitlements and verify old routes after additive changes.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/39",
+      "parent": null
+    },
+    {
+      "id": "mattermostOperator",
+      "title": "Mattermost operator / application identities",
+      "status": "unverified",
+      "purpose": "Installer and runtime identities are separate staged prerequisites.",
+      "usage": "Do not equate configured ESO or operator authority with deployed application acceptance.",
+      "configuration": "Review operator permissions, application login and exact secret consumers separately.",
+      "runbook": "Verify real installation, application login and outcome routing before marking active.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/395",
+      "parent": null
+    },
+    {
+      "id": "portalInventory",
+      "title": "Portal inventory artifact reader",
+      "status": "unverified",
+      "purpose": "Reads reviewed enrollment evidence without becoming a cluster controller.",
+      "usage": "Keep source evidence distinct from deployed tenant health or mutable user management.",
+      "configuration": "Proposed named read-only ConfigMap mount; no Kubernetes token or broad API grant.",
+      "runbook": "Compare rendered artifact to exact source and verify runtime mount before marking active.",
+      "source": "https://github.com/perkforge/perkforge-portal/issues/5",
+      "parent": null
     }
   ],
   "edges": [
@@ -579,6 +623,30 @@
       "target": "rds",
       "title": "Cloud permission plus database-specific access",
       "status": "planned"
+    },
+    {
+      "source": "baoIdentity",
+      "target": "deploymentPublisher",
+      "title": "Scoped runtime custody and delivery; consult dated deployment state",
+      "status": "current"
+    },
+    {
+      "source": "baoIdentity",
+      "target": "incidentPublisher",
+      "title": "Scoped runtime custody and delivery; consult dated deployment state",
+      "status": "current"
+    },
+    {
+      "source": "baoIdentity",
+      "target": "mattermostOperator",
+      "title": "Scoped runtime custody and delivery; consult dated deployment state",
+      "status": "unverified"
+    },
+    {
+      "source": "gitops",
+      "target": "portalInventory",
+      "title": "Reviewed artifact evidence, not a tenant mutation authority",
+      "status": "unverified"
     }
   ],
   "views": [
@@ -651,6 +719,23 @@
         "serviceCredentials",
         "cloudTrust",
         "rds"
+      ]
+    },
+    {
+      "id": "activeIdentity",
+      "title": "Current identity observations",
+      "kicker": "05 / IDENTITY OPERATIONS",
+      "summary": "A reviewed operational snapshot, not automatic discovery. Consult the dated evidence and distinguish active, staged and source-only identities.",
+      "nodes": [
+        "platformAuthority",
+        "baoIdentity",
+        "esoIdentity",
+        "deploymentPublisher",
+        "incidentPublisher",
+        "mattermostOperator",
+        "portalInventory",
+        "runtimeIdentity",
+        "cloudTrust"
       ]
     },
     {
@@ -847,5 +932,54 @@
       ],
       "source": "https://github.com/perkforge/perkforge-portal/blob/89f3637e472802bf4be1ffcf99fea367ebae56e1/docs/security.md"
     }
-  ]
+  ],
+  "identitySnapshot": {
+    "checkedAt": "2026-11-14T04:31:45Z",
+    "scope": "Current identity observations \u00b7 local pilot",
+    "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release.",
+    "records": [
+      {
+        "id": "platformAuthority",
+        "title": "Portal administrator identity",
+        "state": "observed-active",
+        "summary": "Verified Portal access requires the exact signed platform-admin group, independently of tenant-reader membership. Runtime has no Kubernetes service-account token. Tenant creation and user administration are not enabled.",
+        "evidence": "https://github.com/perkforge/perkforge-portal/issues/10#issuecomment-6871410480"
+      },
+      {
+        "id": "deploymentPublisher",
+        "title": "Platform deployment publisher and engineer reader",
+        "state": "observed-active",
+        "summary": "Dedicated machine publisher writes only the platform deployment topic; the existing engineer subscriber reads it. Existing tokens were retained and ESO delivers one exact publisher Secret. ACL checks, genuine native success/failure publication and owner-confirmed phone receipt are verified. Only platform-namespace Helm releases are selected, not tenant Portal upgrades. Timestamp-varying native failures may still repeat.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/issues/391#issuecomment-6871508930"
+      },
+      {
+        "id": "incidentPublisher",
+        "title": "Platform incident notification identities",
+        "state": "observed-active",
+        "summary": "Separate machine publishers and exact-topic subscribers remain distinct from deployment notifications. Runtime credentials are platform-owned OpenBao records delivered by scoped ESO. Existing incident mounts and Portal identity remain preserved.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/386"
+      },
+      {
+        "id": "mattermostOperator",
+        "title": "Mattermost identities and installer authority",
+        "state": "staged",
+        "summary": "The native operator is installed and ready; application installation and real application login are not yet verified in this snapshot. Scoped ESO and application identity prerequisites are prepared. Operator readiness and a Helm wrapper event are not proof of application acceptance.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
+      },
+      {
+        "id": "portalInventory",
+        "title": "Portal enrollment inventory reader",
+        "state": "staged",
+        "summary": "Approved named-ConfigMap writer/admission prerequisites are applied: the existing deployer may create only the reviewed inventory object under admission, with named read/update/patch/delete rights. No inventory ConfigMap or reader feature is active in the observed Portal runtime. Runtime remains tokenless with no secret or network grant; the proposed mount is exact and read-only.",
+        "evidence": "https://github.com/perkforge/perkforge-platform-tenants/pull/66"
+      },
+      {
+        "id": "cloudTrust",
+        "title": "External tenant workload and database trust",
+        "state": "planned",
+        "summary": "Cloud workload federation and RDS/database authorization remain future design. They are not granted by a human platform-admin role or Kubernetes service-account name alone.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/issues/377"
+      }
+    ]
+  }
 }

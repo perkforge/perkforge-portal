@@ -141,3 +141,7 @@ service-account substitution, installer privilege retirement and external-resour
 cross-tenant denial. Record exact artifact/configuration versions, date, expected
 versus observed behavior and known gaps. Rendering this document is not a security
 proof. This first Portal delivery does not close the wider identity evidence issue.
+
+## Current identity state
+
+The dated identity observations panel separates observed-active, staged, source-only, planned and unverified state from source-code status. It explicitly reports pending native delivery/phone acceptance and staged Mattermost/inventory integrations. Maintain it as part of every identity change using [the identity definition of done](identity-maintenance.md). It is not automatic discovery. The current snapshot becomes visible only when its normal Portal release is promoted; a source merge alone does not update the running page.

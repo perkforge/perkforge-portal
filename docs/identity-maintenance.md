@@ -68,18 +68,18 @@ Review hardening binds the context snapshot to the verified JWT issuer, not mere
 a shared realm name. Unauthorized actors never load private context; opened-file
 stat and capped reads prevent unbounded allocation, and immutable UUID inputs
 reject noncanonical casing. These are source checks, not new runtime authority.
-## Logging pilot flow
+## Earlier logging pilot acceptance (superseded scope)
 
-The logging diagram distinguishes scoped installers, the own-namespace operator,
+The earlier pilot distinguished scoped installers, the own-namespace operator,
 an API-only collector account, the authenticated TLS gateway and Grafana query
-identity. The collector selects opted-in pilot pod logs, not host mounts or arbitrary
+identity. That pilot selected opted-in pod logs, not host mounts or arbitrary
 tenant logs. Opt-in labels are collection filters; the service account RBAC
 permits pod-log reads across the pilot namespace, not only labeled pods. Installer-only metadata exceptions are read-only node
 listing and get of its exact namespace. These metadata exceptions add no extra Secret or other-resource authority and
 do not expand collector permissions; existing Helm installer authority is separate.
-This pilot uses one platform-admin write/query machine identity: no tenant
-isolation claim is justified. Credentials are manually staged in protected runtime
-Secrets, not ESO-managed.
+That pilot used one platform-admin write/query machine identity: no tenant
+isolation claim is justified. Its credentials were manually staged in protected runtime
+Secrets, not ESO-managed. The current scoped transition below supersedes that custody and collector scope.
 
 Actual pilot collection is verified: opted-in synthetic records reach the
 collector through the Kubernetes API, tested synthetic password fields were redacted, and an
@@ -108,3 +108,67 @@ manage-group-membership plus exact group manage-membership; no broad user-admin
 role is assumed. GET-only readback accounts for permission-filtered pagination
 and explicitly does not verify ownership. No connected writer, durable storage,
 service credential, grant or native acceptance is introduced by these fixtures.
+
+## Scoped logging transition and namespace ownership
+
+The Portal runtime namespace now has a separately approved native ownership
+guard: its immutable UID, context and log epoch must remain bound together.
+Typechecking and native positive/negative admission checks passed; ordinary
+updates and existing foundation SSA remain accepted, while deletion and binding
+changes are denied. No namespace was deleted to test this. The independent offline
+CREATE fixture is not yet executed, and trusted platform administrators can alter
+the guard. Source and evidence are recorded in platform PR430/432.
+
+This guard is a prerequisite, not a log access grant. Reviewed source PR425/429/433
+provides distinct writer and reader credentials, exact-record OpenBao/ESO custody,
+server-fixed query partitions and a platform-only dashboard. The active platform-only
+stage is described below; expansion and tenant acceptance are not implied by
+source publication or pod readiness. Tenant exposure stays disabled until server-side cross-scope
+and identity/session denial checks pass. Dashboard namespace filters never enforce
+authorization. Platform federation supports historical queries, not multi-tenant
+live tail. Namespace reuse needs a new ownership epoch after explicit revocation,
+not a one-time UID check alone.
+
+Portal compiled-asset authentication is now deployed and verified separately from
+role-specific private-model delivery. A later model release must preserve that
+boundary and accurately mark which logging stages are active.
+
+The catalog `platformRevision` and `portalRevision` fields retain original model-source provenance, not current deployed release selectors. Per-node links and dated identity observations carry their own evidence; do not infer runtime state from those original revision fields.
+
+The Grafana identity-provider transport fix (platform PR431) adds only the exact ingress backend/translated TLS port to existing egress. TLS verification, client credentials and human roles remain unchanged. Workload discovery/token-path checks and owner browser login succeeded; tenant datasource isolation is a separate boundary.
+
+## Current platform-only scoped collection
+
+Phase A is active. Four dedicated runtime records are synchronized through
+exact-record OpenBao/ESO delivery. A distinct collector writer and platform reader
+replace shared write/query use; the preserved legacy pilot reader is not a writer.
+The collector has cluster pod metadata/log read authority plus get/watch on its
+one exact credential Secret, not unrestricted Secret access or host mounts.
+Trusted Kubernetes metadata selects an ownership epoch or platform-only fallback.
+
+Actual gateway queries return Mattermost and Flux workload records. Portal is
+currently quiet. Collection expands through reviewed namespace stages only as capacity is measured;
+cluster-wide authorization is not all-cluster coverage. Source selection and dated
+acceptance determine the stage; the view does not infer coverage from RBAC.
+The initial collector credential-read denial caused a collection gap. Monitoring-stage ingestion is now verified, but historical catch-up produced timestamp-too-old batch rejections; fresh post-catch-up measurements remain separate. No lossless
+rollout, natural-pruning, restore or comprehensive-redaction claim is made.
+
+The native platform dashboard is provisioned against a distinct read-only
+datasource and preserves all 41 earlier dashboard UIDs. Actual chained namespace/pod/container queries and log/volume/count panels passed
+through Grafana in both default-All and selected-pod forms. Newly ingested
+records retain indexed pod labels after the native processing correction; older
+records are not retroactively indexed. The owner confirmed visual pod-log receipt in the dashboard; the assistant
+verified native queries separately because no browser was registered. A Ready pod or provisioned dashboard
+alone would not have been query proof. Tenant reader mapping remains disabled, with
+cross-scope and identity/session denial gates still separate. Historical federation
+does not support multi-tenant live tail.
+
+## Delivery and recovery are part of the identity model
+
+The [current pipeline inventory](delivery-pipelines.md) distinguishes actual build/release paths, paused validation, manual promotion and planned intake. The [generic backup/restore model](backup-restore.md) separates paired capture, independent copy integrity, isolated application proof and reviewed cutover, including independent credential custody and unverified whole-cluster dependencies. No private recovery topology or runtime secrets are included.
+
+The existing canonical platform-engineer group now receives a dedicated, noncomposite Grafana-client entitlement and same-client scope mapping; live OAuth assigns platform-org Viewer while administrator authority remains separate. No human memberships changed. Native readback and fixture proof do not replace an actual engineer-only human login, which remains untested. Tenant org exposure remains off.
+
+New private operational Mattermost channels have role-based membership and owner-confirmed visibility. The one-shot adapter is not continuous reconciliation; the tenant deployment channel remains recovery-only at this checkpoint. Four relay records and their exact-record ESO consumers are synchronized, and the receiver is Ready. Bounded replay of actual successful Helm conditions reached both locked deployment channels with native readback; wrong-token/cross-route and foreign-source requests were denied. Native Flux routes remain suspended, so actual Flux-event delivery remains unverified. This dated checkpoint does not infer subsequent route activation.
+
+The Portal tenant foundation now has four canonical groups and three noncomposite generic realm roles with exact leaf mappings. No human memberships changed. Its dedicated Grafana organization is prepared with only the inherent existing global recovery-creator administrator exception. Tenant OAuth and datasource exposure remain disabled; controlled machine org-denial testing and actual human OIDC/session acceptance are separate gates, not implied by provisioning.

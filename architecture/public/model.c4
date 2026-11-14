@@ -28,15 +28,15 @@ model {
       style { color slate }
     }
     flux = system "Flux" {
-      #unverified
-      description "UNVERIFIED: Reconciles reviewed desired state from Git. Use Git changes for application reconciliation."
-      link https://github.com/perkforge/perkforge-platform/blob/a70bf98016a36a660523f22a80baff1517807cb0/big-bang-bootstrap/README.md "Source / evidence limits"
+      #current
+      description "CURRENT: Reconciles reviewed desired state from Git. Reconciles reviewed immutable sources into desired platform and application state. Reconciliation success and actual application acceptance are separate."
+      link https://github.com/perkforge/perkforge-platform/issues/391 "Source / evidence limits"
       metadata {
-        status "unverified"
+        status "current"
         owner "Platform Engineering · reviewed in source; owner content review pending"
         review "2026-11-14 · source model with separately dated deployment observations"
       }
-      style { color slate }
+      style { color green }
     }
     bigbang = system "Big Bang" {
       #unverified
@@ -424,9 +424,9 @@ model {
     }
     style { color green }
   }
-  loggingCollector = system "API-only pilot collector" {
+  loggingCollector = system "API-only scoped collector" {
     #current
-    description "CURRENT: Read only the explicitly approved pilot workload logs. A dedicated service account reads only opted-in pilot pod logs through the Kubernetes API; no node filesystem or host log mount. Included synthetic records are collected with tested synthetic password fields redacted; an otherwise identical unopted workload is excluded."
+    description "CURRENT: Collect reviewed workload namespaces using trusted Kubernetes metadata. Real Mattermost and platform reconciliation logs now reach the scoped backend. The observed stage selects reviewed workload namespaces; application and platform reconciliation records are verified, while a quiet Portal workload had no observed records at the checkpoint. This is staged coverage, not all-cluster collection."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
       status "current"
@@ -437,7 +437,7 @@ model {
   }
   loggingGateway = system "Authenticated logging gateway" {
     #current
-    description "CURRENT: Terminate verified TLS and map authenticated machine identity to the pilot logging tenant. Backend and gateway are ready. Actual scoped API-collector ingestion and authenticated query are verified. The gateway forces the mapped pilot identity despite a spoofed tenant header; wrong credentials are rejected."
+    description "CURRENT: Separate scoped write and read identities behind verified TLS. The active native gateway accepts the collector identity and serves platform read federation. Actual workload records are verified at the gateway; tenant query mapping remains disabled."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
       status "current"
@@ -448,7 +448,7 @@ model {
   }
   loggingQuery = system "Grafana logging query identity" {
     #current
-    description "CURRENT: Query the pilot logging tenant without changing existing metrics access. Native Grafana datasource-proxy queries return the actual redacted pilot records. Logging and existing Prometheus health are verified, and existing dashboards remain preserved."
+    description "CURRENT: Read a platform federation through an organization-bound datasource. The organization-bound pod-log dashboard has verified chained namespace/pod/container queries and real log, volume and count panels through the read-only platform datasource. Default-All and selected-pod forms work, with all earlier dashboards preserved."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
       status "current"
@@ -456,6 +456,171 @@ model {
       review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
+  }
+  loggingOwnership = system "Namespace log-ownership guard" {
+    #current
+    description "CURRENT: Keep a tenant log epoch bound to its approved runtime namespace identity. The Portal runtime namespace has a native admission guard. Ordinary deletion and changed context or epoch annotations are denied; unchanged metadata and existing foundation reconciliation remain allowed."
+    link https://github.com/perkforge/perkforge-platform/issues/218 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  portalImageBuild = system "Portal checks and image build" {
+    #current
+    description "CURRENT: Validate source and build the application image once. Push/PR checks and the image workflow run aggregate tests, dependency audit, a digest-pinned base build and a constrained runtime smoke test. PR/manual checks do not publish."
+    link https://github.com/perkforge/perkforge-portal/blob/0c17afcf7aa6b8c60b0c360df3e298d5275d4976/.github/workflows/image.yml "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  nextcloudImageBuild = system "Nextcloud SSO review and promotion" {
+    #current
+    description "CURRENT: Separate a manually reviewed image build from authorized publication. Manual review builds from pinned application and OIDC inputs, verifies bundled dependencies, and saves a review artifact with hashes. A separate manually gated promotion consumes that reviewed artifact."
+    link https://github.com/perkforge/perkforge-tenant-nextcloud/blob/c079cdff6a859064805abfa887cee67caaf8d255/.github/workflows/sso-image-promote.yml "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  configDelivery = system "Application configuration releases" {
+    #current
+    description "CURRENT: Carry immutable image references and deployment configuration separately from images. The Portal chart repository runs offline chart checks and versioned configuration releases. Nextcloud runs offline chart/SSO checks; its application-image promotion is separate."
+    link https://github.com/perkforge/perkforge-tenant-portal/blob/35d9894e2e0d7c0e76a9feceeca02c9aebde2096/.github/workflows/configuration-release.yml "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  enrollmentDelivery = system "Enrollment validation and releases" {
+    #current
+    description "CURRENT: Validate and version platform-owned enrollment selections and boundaries. Offline enrollment, Nextcloud candidate and Portal/ESO foundation workflows validate source and native admission fixtures. The configuration-release workflow creates reviewed versioned source releases."
+    link https://github.com/perkforge/perkforge-platform-tenants/blob/c1d105b9ff9ad359ecd128d2ffd1ba0f126239c0/.github/workflows/configuration-release.yml "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  platformDelivery = system "Platform source release · checks paused" {
+    #unverified
+    description "UNVERIFIED: Select immutable enrollment and native package sources for GitOps. Platform configuration-release remains defined. Its reusable validation jobs and release-checks are explicitly paused in source; the main source-release job can still run despite skipped checks."
+    link https://github.com/perkforge/perkforge-platform/blob/dfc0fb585910ea370b0e3854058f9fc866ef7866/.github/workflows/configuration-release.yml "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color slate }
+  }
+  imageRegistry = system "Published immutable images" {
+    #current
+    description "CURRENT: Store checked image bytes independently of target environment configuration. Portal publication and the gated Nextcloud SSO promotion use GHCR. Native Big Bang services consume selected upstream Registry One images rather than new PerkForge builds."
+    link https://github.com/perkforge/perkforge-portal/blob/0c17afcf7aa6b8c60b0c360df3e298d5275d4976/.github/workflows/image.yml "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  pipelineCoverage = system "Delivery inventory scope" {
+    #current
+    description "CURRENT: Keep current source workflows distinct from planned or absent automation. The reviewed eight nonarchived repositories contain thirteen GitHub Actions workflow definitions and two image Dockerfiles. The operator-recovery, earlier UI and field-guide repositories have no checked-in Actions workflow."
+    link https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/delivery-pipelines.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  backupCapture = system "Paired application recovery capture" {
+    #current
+    description "CURRENT: Capture files, database and required configuration as one consistent recovery generation. An application-aware capture pairs data with database and protected configuration, then records completion and integrity metadata. An incomplete run is not a recovery point."
+    link https://github.com/perkforge/perkforge-portal/blob/531f16048f4b9b574fbb389e59b7ad864b337287/docs/backup-restore.md "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  backupCopy = system "Independent copy and integrity" {
+    #current
+    description "CURRENT: Keep a verified recovery copy separate from its source. A completed secondary copy has matching destination hashes. Copy integrity is verified separately from application recovery; a second local disk is not automatically off-site or another failure domain."
+    link https://github.com/perkforge/perkforge-platform/issues/81 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  isolatedRestore = system "Isolated files and database restore" {
+    #current
+    description "CURRENT: Restore without overwriting production or the only surviving recovery set. Use compatible application/database tooling, a new volume or writable working copy and a disposable database. Inspect source media read-only and prevent unintended journal replay."
+    link https://github.com/perkforge/perkforge-platform/issues/81 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  restoreProof = system "Application recovery verification" {
+    #current
+    description "CURRENT: Prove usable recovered data rather than just successful copying or database startup. The accepted bounded primary-set drill passed app/database startup and active-file size/hash checks. Secondary-copy hash verification is separate and does not prove that copied set boots."
+    link https://github.com/perkforge/perkforge-platform/issues/81 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  reviewedCutover = system "Explicitly reviewed production cutover" {
+    #unverified
+    description "UNVERIFIED: Make a recovery result the production source only after a separate decision. Review recovery point and newer-data loss, downtime, desired-state ownership, storage/database references and identity before any replacement. This model performs no restore or cutover."
+    link https://github.com/perkforge/perkforge-platform/issues/81 "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color slate }
+  }
+  vaultRecovery = system "Independent credential recovery" {
+    #unverified
+    description "UNVERIFIED: Make recovery materials accessible without depending on the failed cluster or live vault. Encrypted export and downloaded-copy verification are distinct from replacement-vault import or account recovery. The export password and recovery access must be independently available."
+    link https://github.com/perkforge/perkforge-platform/issues/81 "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color slate }
+  }
+  clusterRecovery = system "Whole-cluster recovery dependencies" {
+    #unverified
+    description "UNVERIFIED: Show a generic dependency order, not a cluster-specific or tested disaster-recovery recipe. Recover source/artifact and credential/PKI access; re-establish hosts/network/DNS/time and supported control-plane recovery; then storage, identity/secrets, databases and applications."
+    link https://github.com/perkforge/perkforge-platform/issues/81 "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color slate }
   }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
@@ -498,11 +663,33 @@ model {
   gitops -> portalInventory "UNVERIFIED: Reviewed artifact evidence, not a tenant mutation authority" { #unverified }
   appInstaller -> loggingInstaller "CURRENT: Existing scoped installer authority" { #current }
   loggingInstaller -> loggingCollector "CURRENT: Own-namespace operator and dedicated collector account" { #current }
-  runtimeIdentity -> loggingCollector "CURRENT: Approved pilot pod logs via Kubernetes API only" { #current }
-  loggingCollector -> loggingGateway "CURRENT: Verified TLS and pilot machine authentication" { #current }
-  serviceCredentials -> loggingGateway "CURRENT: Manually staged protected custody, not ESO" { #current }
-  loggingQuery -> loggingGateway "CURRENT: Authenticated pilot tenant query" { #current }
-  platformAuthority -> loggingQuery "CURRENT: Platform-admin pilot, no tenant datasource grant" { #current }
+  runtimeIdentity -> loggingCollector "CURRENT: Reviewed namespace stages via trusted Kubernetes pod/log API" { #current }
+  loggingCollector -> loggingGateway "CURRENT: Distinct push-only writer over verified TLS" { #current }
+  serviceCredentials -> loggingGateway "CURRENT: Separate scoped writer and read identities; legacy reads retained" { #current }
+  loggingQuery -> loggingGateway "CURRENT: Read-only platform federation; tenant query mapping disabled" { #current }
+  platformAuthority -> loggingQuery "CURRENT: Separate platform-admin administration of logging access" { #current }
+  loggingOwnership -> loggingGateway "CURRENT: Ownership epoch prerequisite; query authorization is separate" { #current }
+  gitops -> portalImageBuild "CURRENT: Reviewed application source" { #current }
+  gitops -> nextcloudImageBuild "CURRENT: Reviewed manual image inputs" { #current }
+  portalImageBuild -> imageRegistry "CURRENT: Publish checked bytes on release" { #current }
+  nextcloudImageBuild -> imageRegistry "CURRENT: Explicit no-rebuild promotion" { #current }
+  imageRegistry -> configDelivery "CURRENT: Pin already published digest" { #current }
+  configDelivery -> enrollmentDelivery "CURRENT: Select released configuration" { #current }
+  enrollmentDelivery -> platformDelivery "CURRENT: Pin immutable enrollment source" { #current }
+  platformDelivery -> platform.flux "UNVERIFIED: Reviewed desired-state reference" { #unverified }
+  imageRegistry -> runtimeIdentity "CURRENT: Runtime pulls selected image bytes" { #current }
+  runtimeIdentity -> backupCapture "CURRENT: Application-aware paired capture" { #current }
+  backupCapture -> backupCopy "CURRENT: Verify independent bytes" { #current }
+  backupCapture -> isolatedRestore "CURRENT: Reviewed primary-set drill" { #current }
+  backupCopy -> isolatedRestore "UNVERIFIED: Copied-set application restore still untested" { #unverified }
+  isolatedRestore -> restoreProof "CURRENT: Boot and validate recovered data" { #current }
+  restoreProof -> reviewedCutover "UNVERIFIED: Separate owner decision" { #unverified }
+  vaultRecovery -> clusterRecovery "UNVERIFIED: Independent keys and recovery access" { #unverified }
+  clusterRecovery -> isolatedRestore "UNVERIFIED: Dependencies before app recovery" { #unverified }
+  esoIdentity -> loggingGateway "CURRENT: Exact-record ESO delivery of gateway authentication" { #current }
+  esoIdentity -> loggingCollector "CURRENT: Exact-record ESO delivery of collector write credential" { #current }
+  esoIdentity -> loggingQuery "CURRENT: Exact-record ESO delivery of read credentials; tenant exposure disabled" { #current }
+  human -> loggingQuery "CURRENT: Exact engineer-client entitlement grants platform-org Viewer" { #current }
 }
 views {
   view identityLifecycle {
@@ -537,8 +724,8 @@ views {
   }
   view loggingIdentity {
     title "Logging identity and trust flow"
-    description "Scoped installer → opt-in API-only collector → TLS/authenticated gateway → Grafana pilot query. Collection, query, scope checks and same-volume restart persistence are verified; retention, restore and production growth remain separate."
-    include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, serviceCredentials, loggingGateway, loggingQuery, platformAuthority
+    description "Trusted API collection → exact-record credential delivery → scoped gateway → platform datasource and pod-log dashboard. Real workload records, chained label/panel queries and dashboard preservation are verified; collection expansion and tenant exposure remain separate gates."
+    include human, appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, esoIdentity, serviceCredentials, loggingGateway, loggingQuery, platformAuthority, loggingOwnership
     autoLayout LeftRight
   }
   view index {
@@ -575,6 +762,18 @@ views {
     title "From external image to workload"
     description "External image → GitLab validation / Trivy → Harbor → Flux desired-state review → workloads. Flux carries references, while the runtime pulls bytes from Harbor."
     include external, gitlab, harbor, platform.flux, tenant.workload
+    autoLayout LeftRight
+  }
+  view deliveryPipelines {
+    title "Current pipelines and image builds"
+    description "Actual GitHub checks, manual image promotion, release tags, digest pins and GitOps are separate stages. Platform validation is paused; planned GitLab intake is not current automation. An image is built once and referenced across environments."
+    include gitops, portalImageBuild, nextcloudImageBuild, imageRegistry, configDelivery, enrollmentDelivery, platformDelivery, platform.flux, runtimeIdentity, pipelineCoverage
+    autoLayout LeftRight
+  }
+  view backupRecovery {
+    title "Backup and restore: generic flow"
+    description "Paired capture → verified independent copy → isolated restore → application proof → separately reviewed cutover. Primary-set bounded recovery passed; copied-set application restore and whole-cluster recovery remain unverified. No cluster identifiers or recovery secrets are modeled."
+    include runtimeIdentity, backupCapture, backupCopy, isolatedRestore, restoreProof, reviewedCutover, vaultRecovery, clusterRecovery
     autoLayout LeftRight
   }
   dynamic view identityLifecycleWalkthrough {

@@ -413,6 +413,50 @@ model {
     }
     style { color green }
   }
+  loggingInstaller = system "Logging installer identities" {
+    #current
+    description "CURRENT: Keep reconciliation authority separate from collection and query identities. Existing scoped installers deploy the native backend and own-namespace collector operator."
+    link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  loggingCollector = system "API-only pilot collector" {
+    #current
+    description "CURRENT: Read only the explicitly approved pilot workload logs. A dedicated service account reads only opted-in pilot pod logs through the Kubernetes API; no node filesystem or host log mount. Included synthetic records are collected with tested synthetic password fields redacted; an otherwise identical unopted workload is excluded."
+    link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  loggingGateway = system "Authenticated logging gateway" {
+    #current
+    description "CURRENT: Terminate verified TLS and map authenticated machine identity to the pilot logging tenant. Backend and gateway are ready. Actual scoped API-collector ingestion and authenticated query are verified. The gateway forces the mapped pilot identity despite a spoofed tenant header; wrong credentials are rejected."
+    link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  loggingQuery = system "Grafana logging query identity" {
+    #current
+    description "CURRENT: Query the pilot logging tenant without changing existing metrics access. Native Grafana datasource-proxy queries return the actual redacted pilot records. Logging and existing Prometheus health are verified, and existing dashboards remain preserved."
+    link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
   platform.rancher -> platform.rke2 "UNVERIFIED: PE cluster lifecycle management only" { #unverified }
@@ -452,6 +496,13 @@ model {
   baoIdentity -> incidentPublisher "CURRENT: Scoped runtime custody and delivery; consult dated deployment state" { #current }
   baoIdentity -> mattermostOperator "UNVERIFIED: Scoped runtime custody and delivery; consult dated deployment state" { #unverified }
   gitops -> portalInventory "UNVERIFIED: Reviewed artifact evidence, not a tenant mutation authority" { #unverified }
+  appInstaller -> loggingInstaller "CURRENT: Existing scoped installer authority" { #current }
+  loggingInstaller -> loggingCollector "CURRENT: Own-namespace operator and dedicated collector account" { #current }
+  runtimeIdentity -> loggingCollector "CURRENT: Approved pilot pod logs via Kubernetes API only" { #current }
+  loggingCollector -> loggingGateway "CURRENT: Verified TLS and pilot machine authentication" { #current }
+  serviceCredentials -> loggingGateway "CURRENT: Manually staged protected custody, not ESO" { #current }
+  loggingQuery -> loggingGateway "CURRENT: Authenticated pilot tenant query" { #current }
+  platformAuthority -> loggingQuery "CURRENT: Platform-admin pilot, no tenant datasource grant" { #current }
 }
 views {
   view identityLifecycle {
@@ -482,6 +533,12 @@ views {
     title "Current identity observations"
     description "A reviewed operational snapshot, not automatic discovery. Consult the dated evidence and distinguish active, staged and source-only identities."
     include platformAuthority, baoIdentity, esoIdentity, deploymentPublisher, incidentPublisher, mattermostOperator, portalInventory, runtimeIdentity, cloudTrust
+    autoLayout LeftRight
+  }
+  view loggingIdentity {
+    title "Logging identity and trust flow"
+    description "Scoped installer → opt-in API-only collector → TLS/authenticated gateway → Grafana pilot query. Collection, query, scope checks and same-volume restart persistence are verified; retention, restore and production growth remain separate."
+    include appInstaller, loggingInstaller, runtimeIdentity, loggingCollector, serviceCredentials, loggingGateway, loggingQuery, platformAuthority
     autoLayout LeftRight
   }
   view index {

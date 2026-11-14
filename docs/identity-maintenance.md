@@ -68,3 +68,31 @@ Review hardening binds the context snapshot to the verified JWT issuer, not mere
 a shared realm name. Unauthorized actors never load private context; opened-file
 stat and capped reads prevent unbounded allocation, and immutable UUID inputs
 reject noncanonical casing. These are source checks, not new runtime authority.
+## Logging pilot flow
+
+The logging diagram distinguishes scoped installers, the own-namespace operator,
+an API-only collector account, the authenticated TLS gateway and Grafana query
+identity. The collector selects opted-in pilot pod logs, not host mounts or arbitrary
+tenant logs. Opt-in labels are collection filters; the service account RBAC
+permits pod-log reads across the pilot namespace, not only labeled pods. Installer-only metadata exceptions are read-only node
+listing and get of its exact namespace. These metadata exceptions add no extra Secret or other-resource authority and
+do not expand collector permissions; existing Helm installer authority is separate.
+This pilot uses one platform-admin write/query machine identity: no tenant
+isolation claim is justified. Credentials are manually staged in protected runtime
+Secrets, not ESO-managed.
+
+Actual pilot collection is verified: opted-in synthetic records reach the
+collector through the Kubernetes API, tested synthetic password fields were redacted, and an
+otherwise identical unopted workload is excluded. The gateway enforces the
+authenticated identity mapping despite spoofed tenant headers and rejects invalid
+credentials. An actual Grafana datasource-proxy query returns the redacted records;
+native logging and existing metrics health and dashboards are preserved. A unique
+pre-restart direct-push sentinel survives a controlled backend-only restart on the
+same persistent volume, without relying on collector replay. Temporary synthetic
+workloads were cleaned up.
+
+Natural retention deletion, production-volume growth/debug policy, comprehensive
+redaction, tenant query isolation and restore remain separate, unverified
+acceptance. The logging ticket remains open. The owner also confirmed visual
+receipt of the private Mattermost native test; production alert firing/recovery
+and repeat behavior are separate from that contact-point test.

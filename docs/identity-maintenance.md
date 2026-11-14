@@ -54,15 +54,17 @@ The private pilot channel now has a channel-locked Grafana receiver: one labeled
 
 The logging diagram distinguishes scoped installers, the own-namespace operator,
 an API-only collector account, the authenticated TLS gateway and Grafana query
-identity. The collector is limited to opted-in pilot pod logs, not host mounts or
-arbitrary tenant logs. Installer-only metadata exceptions are read-only node
-listing and get of its exact namespace. They do not expand collector authority.
+identity. The collector selects opted-in pilot pod logs, not host mounts or arbitrary
+tenant logs. Opt-in labels are collection filters; the service account RBAC
+permits pod-log reads across the pilot namespace, not only labeled pods. Installer-only metadata exceptions are read-only node
+listing and get of its exact namespace. These metadata exceptions add no extra Secret or other-resource authority and
+do not expand collector permissions; existing Helm installer authority is separate.
 This pilot uses one platform-admin write/query machine identity: no tenant
 isolation claim is justified. Credentials are manually staged in protected runtime
 Secrets, not ESO-managed.
 
 Actual pilot collection is verified: opted-in synthetic records reach the
-collector through the Kubernetes API, sensitive fields are redacted, and an
+collector through the Kubernetes API, tested synthetic password fields were redacted, and an
 otherwise identical unopted workload is excluded. The gateway enforces the
 authenticated identity mapping despite spoofed tenant headers and rejects invalid
 credentials. An actual Grafana datasource-proxy query returns the redacted records;

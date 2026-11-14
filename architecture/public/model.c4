@@ -426,7 +426,7 @@ model {
   }
   loggingCollector = system "API-only pilot collector" {
     #current
-    description "CURRENT: Read only the explicitly approved pilot workload logs. A dedicated service account reads only opted-in pilot pod logs through the Kubernetes API; no node filesystem or host log mount. Included synthetic records are collected and redacted; an otherwise identical unopted workload is excluded."
+    description "CURRENT: Read only the explicitly approved pilot workload logs. A dedicated service account reads only opted-in pilot pod logs through the Kubernetes API; no node filesystem or host log mount. Included synthetic records are collected with tested synthetic password fields redacted; an otherwise identical unopted workload is excluded."
     link https://github.com/perkforge/perkforge-platform/issues/38 "Source / evidence limits"
     metadata {
       status "current"

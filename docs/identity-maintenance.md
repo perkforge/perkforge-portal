@@ -63,3 +63,8 @@ but is not delivered. Only eligible existing-subject developer/viewer membership
 proposals are supported; customer templates and admin-membership policy remain
 blocked. Responses are neither persisted nor submitted. Current pilot admission,
 shared-account protections and native role definitions remain unchanged.
+
+Review hardening binds the context snapshot to the verified JWT issuer, not merely
+a shared realm name. Unauthorized actors never load private context; opened-file
+stat and capped reads prevent unbounded allocation, and immutable UUID inputs
+reject noncanonical casing. These are source checks, not new runtime authority.

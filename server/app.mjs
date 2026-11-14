@@ -10,7 +10,7 @@ import { Sessions, random, equal, safeReturn, validateAccess } from './security.
 import { listTenants } from './tenants.mjs';
 import { enrollmentStatus } from './enrollment.mjs';
 import { loginHtml, loginScript } from './login-shell.mjs';
-import { previewTenantRequest, loadTenantRequestSnapshot } from './tenant-request-preview.mjs';
+import { previewTenantRequest, authorizeTenantRequest, loadTenantRequestSnapshot } from './tenant-request-preview.mjs';
 const cookieName = '__Host-portal';
 const cookieOptions = { path: '/', secure: true, httpOnly: true, sameSite: 'lax' };
 export async function buildApp(config, options = {}) {
@@ -116,6 +116,8 @@ export async function buildApp(config, options = {}) {
     if (!match) return reply.code(401).send({ error: 'Bearer token required' });
     let principal;
     try { principal = await verify(match[1]); } catch { return reply.code(403).send({ error: 'Access denied' }); }
+    const denied = authorizeTenantRequest(principal, req.body);
+    if (denied) return reply.code(denied.status === 'denied' ? 403 : 400).send(denied);
     if (!config.tenantRequestDigest) return reply.code(503).send({ error: 'Tenant request preview unavailable' });
     const snapshot = await loadTenantRequestSnapshot(config, options.tenantRequestRead);
     const preview = previewTenantRequest(principal, req.body, snapshot);

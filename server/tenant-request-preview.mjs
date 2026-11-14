@@ -1,13 +1,14 @@
-import { readFile } from 'node:fs/promises';
+import { open } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 const roles = ['tenant-admin', 'tenant-developer', 'tenant-viewer'];
 const leaf = { 'tenant-admin': 'admins', 'tenant-developer': 'developers', 'tenant-viewer': 'viewers' };
 const reserved = new Set(['platform', 'system', 'kube-system', 'default', 'bigbang', 'cattle-system', 'keycloak', 'openbao', 'headlamp', 'longhorn-system']);
-const uuid = value => typeof value === 'string' && /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(value);
+const uuid = value => typeof value === 'string' && /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(value);
 const slug = value => typeof value === 'string' && /^[a-z][a-z0-9-]{0,30}$/.test(value) && !reserved.has(value);
 const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value) && Object.keys(value).sort().join() === [...keys].sort().join();
-function validSnapshot(s, now) {
-  if (!exact(s, ['schemaVersion', 'realm', 'sourceCommit', 'capturedAt', 'customerProfiles', 'contexts']) || s.schemaVersion !== 1 || s.realm !== 'perkforge'
+function validSnapshot(s, now, issuer) {
+  if (!exact(s, ['schemaVersion', 'realm', 'issuer', 'sourceCommit', 'capturedAt', 'customerProfiles', 'contexts']) || s.schemaVersion !== 1 || s.realm !== 'perkforge'
+    || typeof issuer !== 'string' || !issuer.startsWith('https://') || s.issuer !== issuer
     || typeof s.sourceCommit !== 'string' || !/^[a-f0-9]{40}$/.test(s.sourceCommit)
     || typeof s.capturedAt !== 'string' || !Number.isFinite(Date.parse(s.capturedAt))
     || now - Date.parse(s.capturedAt) > 900000 || Date.parse(s.capturedAt) - now > 60000
@@ -40,7 +41,7 @@ function result(status, reason, extra = {}) {
 }
 // Caller supplies only a signature/issuer/audience/azp/expiry-verified principal.
 // This additional operation check never grants login or broadens the pilot policy.
-export function previewTenantRequest(principal, request, snapshot, now = Date.now()) {
+export function authorizeTenantRequest(principal, request) {
   if (!slug(request?.tenant)) return result('invalid', 'invalid-tenant-request');
   const groups = Array.isArray(principal?.groups) ? principal.groups : [];
   const platformAdmin = groups.includes('/platform/admins');
@@ -48,7 +49,12 @@ export function previewTenantRequest(principal, request, snapshot, now = Date.no
     && Array.isArray(principal?.realm_access?.roles) && principal.realm_access.roles.includes('tenant-admin');
   if (!principal?.sub || !(platformAdmin || tenantAdmin)) return result('denied', 'access-denied');
   if (request.operation === 'create-customer' && !platformAdmin) return result('denied', 'access-denied');
-  if (!validSnapshot(snapshot, now)) return result('blocked', 'reviewed-context-unavailable');
+  return undefined;
+}
+export function previewTenantRequest(principal, request, snapshot, now = Date.now()) {
+  const denied = authorizeTenantRequest(principal, request);
+  if (denied) return denied;
+  if (!validSnapshot(snapshot, now, principal.iss)) return result('blocked', 'reviewed-context-unavailable');
   const context = snapshot.contexts.find(c => c.id === request.tenant);
   if (request.operation === 'create-customer') {
     if (!exact(request, ['operation', 'tenant', 'profile']) || typeof request.profile !== 'string' || !/^[a-z][a-z0-9-]{0,62}$/.test(request.profile)) return result('invalid', 'invalid-tenant-request');
@@ -71,7 +77,23 @@ export function previewTenantRequest(principal, request, snapshot, now = Date.no
     notice: 'No request saved or sent; no account, membership, role or deployment changed.',
   });
 }
-export async function loadTenantRequestSnapshot(config, reader = readFile) {
+export async function readBoundedTenantRequestSnapshot(path, opener = open) {
+  const file = await opener(path, 'r');
+  try {
+    const stat = await file.stat();
+    if (!stat.isFile() || stat.size > 262144) throw new Error('Invalid context artifact');
+    // One extra byte detects growth after stat without an unbounded allocation/read.
+    const buffer = Buffer.alloc(262145); let total = 0;
+    while (total < buffer.length) {
+      const { bytesRead } = await file.read(buffer, total, buffer.length - total, total);
+      if (!bytesRead) break;
+      total += bytesRead;
+    }
+    if (total > 262144) throw new Error('Oversize context artifact');
+    return buffer.subarray(0, total);
+  } finally { await file.close(); }
+}
+export async function loadTenantRequestSnapshot(config, reader = readBoundedTenantRequestSnapshot) {
   if (!config.tenantRequestDigest) return undefined;
   try {
     const bytes = await reader('/etc/portal/tenant-requests/context.json');

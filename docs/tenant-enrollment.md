@@ -143,13 +143,18 @@ read-only `/etc/portal/tenant-requests/context.json` and configure its exact
 credentials, network access or deployment values. SHA256 binds bytes to reviewed
 configuration, **not** live Keycloak truth or repository provenance. A trusted
 producer must verify ownership and IDs; browser payloads cannot supply this file.
-The fixed-path reader rejects mismatched/oversized JSON and the planner rejects
+Operation authorization happens before reading private context. The fixed-path
+reader stats the opened regular file and reads at most 256 KiB plus one overflow
+byte, closing the handle on every outcome; it rejects mismatched/oversized JSON and the planner rejects
 snapshots older than 15 minutes or over one minute in the future. No refresher or
 live reader is implemented; stale input deliberately becomes unavailable.
 
-Snapshot v1 fields: `schemaVersion:1`, `realm:"perkforge"`, immutable
+Snapshot v1 fields: `schemaVersion:1`, `realm:"perkforge"`, exact HTTPS `issuer`
+matching the signature-verified JWT issuer (not browser input), immutable
 `sourceCommit`, ISO `capturedAt`, empty `customerProfiles`, and `contexts`.
-Each context has canonical `id`, `groups` keyed by the three existing generic
+A matching realm name in another environment is insufficient. UUIDs must use
+canonical lowercase form to avoid case-variant collision ambiguity. Each context
+has canonical `id`, `groups` keyed by the three existing generic
 roles (each exact immutable `id` and tenant-qualified `path`), and
 `eligibleSubjects` records (`subject` UUID and `memberGroupIds` limited to that
 context). Eligibility means separately reviewed existing-subject/context linkage,

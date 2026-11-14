@@ -13,7 +13,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color slate }
     rke2 = system "RKE2" {
@@ -23,7 +23,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -34,7 +34,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -45,7 +45,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -56,7 +56,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -67,7 +67,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -78,7 +78,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -89,7 +89,7 @@ model {
       metadata {
         status "current"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color green }
     }
@@ -101,7 +101,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color slate }
     workload = system "Tenant workloads" {
@@ -111,7 +111,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -122,7 +122,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-14 · source-backed identity review; live status is not inferred"
+        review "2026-11-14 · source model with separately dated deployment observations"
       }
       style { color slate }
     }
@@ -134,7 +134,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -145,7 +145,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color amber }
   }
@@ -156,7 +156,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color amber }
   }
@@ -167,7 +167,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color amber }
   }
@@ -178,7 +178,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -189,7 +189,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -200,7 +200,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -211,7 +211,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -222,7 +222,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -233,7 +233,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -244,7 +244,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -255,7 +255,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -266,7 +266,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -277,7 +277,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -288,7 +288,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color slate }
   }
@@ -299,7 +299,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -310,7 +310,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -321,7 +321,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -332,7 +332,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color green }
   }
@@ -343,7 +343,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color slate }
   }
@@ -354,7 +354,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color amber }
   }
@@ -365,9 +365,53 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-14 · source-backed identity review; live status is not inferred"
+      review "2026-11-14 · source model with separately dated deployment observations"
     }
     style { color amber }
+  }
+  deploymentPublisher = system "Deployment notification machine identity" {
+    #current
+    description "CURRENT: Writes permitted native Helm outcomes to one approved topic. Keep machine publishing and human read rights separate; live delivery acceptance is distinct."
+    link https://github.com/perkforge/perkforge-platform/issues/391 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  incidentPublisher = system "Incident notification machine identities" {
+    #current
+    description "CURRENT: Separate platform incident publishers from deployment publishers. Use exact audience/topic bindings, not general shared credentials."
+    link https://github.com/perkforge/perkforge-platform/issues/391 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color green }
+  }
+  mattermostOperator = system "Mattermost operator / application identities" {
+    #unverified
+    description "UNVERIFIED: Installer and runtime identities are separate staged prerequisites. Do not equate configured ESO or operator authority with deployed application acceptance."
+    link https://github.com/perkforge/perkforge-platform/issues/395 "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color slate }
+  }
+  portalInventory = system "Portal inventory artifact reader" {
+    #unverified
+    description "UNVERIFIED: Reads reviewed enrollment evidence without becoming a cluster controller. Keep source evidence distinct from deployed tenant health or mutable user management."
+    link https://github.com/perkforge/perkforge-portal/issues/5 "Source / evidence limits"
+    metadata {
+      status "unverified"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-14 · source model with separately dated deployment observations"
+    }
+    style { color slate }
   }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
@@ -404,6 +448,10 @@ model {
   appInstaller -> recovery "UNVERIFIED: Separate emergency custody" { #unverified }
   runtimeIdentity -> cloudTrust "PLANNED: Future federated workload trust" { #planned }
   cloudTrust -> rds "PLANNED: Cloud permission plus database-specific access" { #planned }
+  baoIdentity -> deploymentPublisher "CURRENT: Scoped runtime custody and delivery; consult dated deployment state" { #current }
+  baoIdentity -> incidentPublisher "CURRENT: Scoped runtime custody and delivery; consult dated deployment state" { #current }
+  baoIdentity -> mattermostOperator "UNVERIFIED: Scoped runtime custody and delivery; consult dated deployment state" { #unverified }
+  gitops -> portalInventory "UNVERIFIED: Reviewed artifact evidence, not a tenant mutation authority" { #unverified }
 }
 views {
   view identityLifecycle {
@@ -428,6 +476,12 @@ views {
     title "Secrets & workload identity"
     description "Dedicated workload and secret-delivery identities today; external cloud and RDS identity is explicitly planned."
     include gitops, appInstaller, runtimeIdentity, baoIdentity, esoIdentity, serviceCredentials, cloudTrust, rds
+    autoLayout LeftRight
+  }
+  view activeIdentity {
+    title "Current identity observations"
+    description "A reviewed operational snapshot, not automatic discovery. Consult the dated evidence and distinguish active, staged and source-only identities."
+    include platformAuthority, baoIdentity, esoIdentity, deploymentPublisher, incidentPublisher, mattermostOperator, portalInventory, runtimeIdentity, cloudTrust
     autoLayout LeftRight
   }
   view index {

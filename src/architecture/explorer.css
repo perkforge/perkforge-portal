@@ -2,3 +2,5 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 .map-canvas>.likec4-view{height:100%;width:100%}
+
+.identity-observations{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem}.identity-observation{padding:1rem;border:1px solid #3c5746;border-radius:12px}.identity-observation h3{font-size:1rem}.identity-observation p{font-size:.9rem}

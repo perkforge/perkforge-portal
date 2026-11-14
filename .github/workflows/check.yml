@@ -7,10 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
+      - name: Require current identity model with identity-sensitive changes
+        if: github.event_name == 'pull_request'
+        env:
+          IDENTITY_BASE: ${{ github.event.pull_request.base.sha }}
+          IDENTITY_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/check-identity-docs.mjs "$IDENTITY_BASE" "$IDENTITY_HEAD"
       - run: npm ci
       - run: npm run check
       - run: npm audit --omit=dev --audit-level=high

@@ -934,7 +934,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T04:27:33Z",
+    "checkedAt": "2026-11-14T04:31:45Z",
     "scope": "Current identity observations \u00b7 local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release.",
     "records": [
@@ -942,14 +942,14 @@
         "id": "platformAuthority",
         "title": "Portal administrator identity",
         "state": "observed-active",
-        "summary": "Active Portal v0.4.0 requires the exact signed platform-admin group, independently of tenant-reader membership. Runtime has no Kubernetes service-account token. Tenant creation and user administration are not enabled.",
+        "summary": "Verified Portal access requires the exact signed platform-admin group, independently of tenant-reader membership. Runtime has no Kubernetes service-account token. Tenant creation and user administration are not enabled.",
         "evidence": "https://github.com/perkforge/perkforge-portal/issues/10#issuecomment-6871410480"
       },
       {
         "id": "deploymentPublisher",
         "title": "Platform deployment publisher and engineer reader",
         "state": "observed-active",
-        "summary": "Dedicated machine publisher writes only the platform deployment topic; the existing engineer subscriber reads it. Existing tokens were retained and ESO delivers one exact publisher Secret. ACL checks and genuine native success/failure publication are verified; phone receipt remains unconfirmed. Only platform-namespace Helm releases are selected, not tenant Portal upgrades. Native timestamp-varying failures can produce repeated notifications.",
+        "summary": "Dedicated machine publisher writes only the platform deployment topic; the existing engineer subscriber reads it. Existing tokens were retained and ESO delivers one exact publisher Secret. ACL checks, genuine native success/failure publication and owner-confirmed phone receipt are verified. Only platform-namespace Helm releases are selected, not tenant Portal upgrades. Timestamp-varying native failures may still repeat.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/391#issuecomment-6871508930"
       },
       {
@@ -963,14 +963,14 @@
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
         "state": "staged",
-        "summary": "Operator, application identity and scoped ESO prerequisites are prepared. Mattermost deployment, real application login and notification outcome are not verified in this snapshot. Prepared credentials are not evidence of an active application.",
+        "summary": "The native operator is installed and ready; application installation and real application login are not yet verified in this snapshot. Scoped ESO and application identity prerequisites are prepared. Operator readiness and a Helm wrapper event are not proof of application acceptance.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {
         "id": "portalInventory",
         "title": "Portal enrollment inventory reader",
         "state": "staged",
-        "summary": "Approved named-ConfigMap writer/admission prerequisites are applied: the existing deployer may create only the reviewed inventory object under admission, with named read/update/patch/delete rights. No inventory ConfigMap or reader feature is active in observed Portal v0.4.0. Runtime remains tokenless with no secret or network grant; the proposed mount is exact and read-only.",
+        "summary": "Approved named-ConfigMap writer/admission prerequisites are applied: the existing deployer may create only the reviewed inventory object under admission, with named read/update/patch/delete rights. No inventory ConfigMap or reader feature is active in the observed Portal runtime. Runtime remains tokenless with no secret or network grant; the proposed mount is exact and read-only.",
         "evidence": "https://github.com/perkforge/perkforge-platform-tenants/pull/66"
       },
       {

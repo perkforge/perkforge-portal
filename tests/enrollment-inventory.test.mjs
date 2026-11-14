@@ -30,3 +30,16 @@ test('projection strips unknown fields; duplicates and missing source refs fail'
   const bad = structuredClone(data); bad.selections.local[0].source.ref = {}; assert.throws(() => validateInventory(bad, 'local'));
   assert.deepEqual(validateInventory({ ...data, selections: { local: [] } }, 'local'), []);
 });
+
+test('GitOps mount reads bounded projection without network and fails closed', async () => {
+  const { readMountedInventory } = await import('../server/enrollment-inventory.mjs');
+  const result = await readMountedInventory({ commit, selector: 'local', readFile: async () => Buffer.from(JSON.stringify(data)) });
+  assert.equal(result.state, 'available'); assert.equal(result.transport, 'gitops-configmap'); assert.deepEqual(result.entries, [entry]);
+  for (const readFile of [async () => { throw new Error('missing'); }, async () => Buffer.alloc(131073), async () => 'invalid']) {
+    assert.equal((await readMountedInventory({ commit, selector: 'local', readFile })).state, 'unavailable');
+  }
+  const { enrollmentStatus } = await import('../server/enrollment.mjs');
+  const status = await enrollmentStatus({ mounted: true, fetcher: () => { throw new Error('must not request network'); } });
+  assert.equal(status.source.state, 'disabled'); assert.equal(status.inventory.state, 'disabled');
+  assert.equal(readConfig({ ENROLLMENT_SOURCE: 'gitops-configmap' }).enrollmentSource, 'gitops-configmap');
+});

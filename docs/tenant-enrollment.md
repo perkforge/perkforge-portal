@@ -65,3 +65,19 @@ fixed public repo/artifact using a bounded response, rejects redirects, validate
 schema, and omits unknown fields. Missing old-release artifacts, blocked egress,
 rate limits or malformed content are unavailable, never empty successful inventory.
 Entries are application enrollments, not inferred customer tenants/users.
+
+### Preferred restricted-cluster transport
+
+Set `ENROLLMENT_SOURCE=gitops-configmap` and project the derived artifact read-only
+at `/etc/portal/enrollment/enrollment-inventory.json`. Set the selected source
+commit and selector as above through GitOps configuration. The mount and metadata
+must come from the same pinned source release, enforced by configuration CI. This
+mode performs **no GitHub requests**, needs no service-account token, and leaves
+latest-release metadata disabled. Source commit is configuration provenance, not
+live Flux observation. The image is unchanged between environments.
+
+Delivery must be automated through existing app/enrollment release manifests, not
+an operator snapshot or ad-hoc kubectl ConfigMap. Runtime namespace permissions
+remain owned by the existing deployer; enrollment must not gain runtime write
+authority just to deliver this data. This PR implements the reader only: mount
+wiring and cross-repository pin checks are still required before activation.

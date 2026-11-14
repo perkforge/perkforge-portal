@@ -11,7 +11,7 @@ export function readConfig(env = process.env) {
   const mode = env.TENANT_SOURCE || 'disabled';
   if (!['disabled', 'mock'].includes(mode)) throw new Error('GitLab live access is not implemented');
   const enrollmentSource = env.ENROLLMENT_SOURCE || 'disabled';
-  if (!['disabled', 'github-public'].includes(enrollmentSource)) throw new Error('Unsupported enrollment source');
+  if (!['disabled', 'github-public', 'gitops-configmap'].includes(enrollmentSource)) throw new Error('Unsupported enrollment source');
   const inventoryCommit = env.ENROLLMENT_SOURCE_COMMIT;
   const inventorySelector = env.ENROLLMENT_SELECTOR;
   if (Boolean(inventoryCommit) !== Boolean(inventorySelector) || (inventoryCommit && (!/^[a-f0-9]{40}$/.test(inventoryCommit) || !selectors.includes(inventorySelector)))) throw new Error('Enrollment inventory requires exact commit and supported selector');

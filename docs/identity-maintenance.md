@@ -154,9 +154,13 @@ cause, while sending new records; peak memory was 64.67% of its 512Mi limit.
 This is not zero-retry or lossless acceptance. The explicit 168-hour historical
 cutoff matches the backend **absolute-age** rejection bound using trusted API
 timestamps. Fresh CRI/Docker-shaped payload canaries passed. Restart replay still
-encountered the separate one-hour per-stream ordering window. Cursor positions
-remain ephemeral; guarded migration to durable storage is planned source work,
-not deployed or restart-tested. Natural pruning, complete source coverage and
+encountered the separate one-hour per-stream ordering window. Cursor state was captured and seeded through a guarded migration into a retained
+dedicated volume. Exact seed readback matched; all prior targets were retained
+with nondecreasing cursors, and advancing plus new targets were observed. The
+StatefulSet collector is Ready without a restart. Early post-migration process-lifetime counters show new entries sent with zero
+dropped entries/bytes or retries and no memory/OOM events. This bounded readback
+is not a long-duration guarantee. No wire-level sinceTime audit, second restart or backend
+acknowledgment proof is claimed; durable storage alone is not lossless delivery. Natural pruning, complete source coverage and
 comprehensive redaction remain separate acceptance.
 
 Platform dashboard chained labels and log/volume/count panels passed native query
@@ -192,10 +196,12 @@ the final Portal rollout remains pending. Metric firing/recovery/repeat scenario
 remain separate acceptance. Exact-record relay credential delivery is active.
 
 The exact ServiceMonitor is applied and scrape/counters/expressions are verified.
-Three new unpaused delivery rules are loaded with native health OK/inactive; the
+Three unpaused numeric delivery rules are loaded with native health OK/inactive; the
 prior nine rules and existing platform/Portal Mattermost and ntfy receivers are
 preserved. These signals cover writer drops/retries and missing scrape/counters,
 not source-discovery completeness. Pinned Kubernetes source health means valid
 configuration, not that every source is being tailed; debug metadata is separate.
 Do not label these rules "all log collection healthy" or infer actual firing and
 recovery delivery merely from loaded healthy rules.
+
+The guarded cursor migration is source-owned in [PR457](https://github.com/perkforge/perkforge-platform/pull/457), with first-consumer storage preflight in [PR459](https://github.com/perkforge/perkforge-platform/pull/459). [Logging-health issue449](https://github.com/perkforge/perkforge-platform/issues/449) is complete for its numeric writer/scrape signals, not production firing/recovery or complete discovery.

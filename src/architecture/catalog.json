@@ -430,7 +430,7 @@
       "purpose": "Collect reviewed workload namespaces using trusted Kubernetes metadata.",
       "usage": "Cluster-wide discovery is active and platform queries observe records from many namespaces. A bounded fresh observation had no additional transport drops and one retry of unknown cause, with no observed OOM. This does not prove complete delivery or lossless restart recovery.",
       "configuration": "The collector reads cluster pod metadata/logs and only its exact credential Secret, without host mounts. Trusted Kubernetes metadata chooses an ownership epoch or platform-only fallback. Collector memory was raised after measurement; no OOM was observed. API-provided timestamps are protected from application-shaped CRI/Docker envelopes, and an explicit 168-hour per-entry historical cutoff matches the backend absolute-age rejection bound.",
-      "runbook": "Separate intentional absolute-age exclusions from transport drops and per-stream ordering rejection. Restart replay encountered the one-hour ordering window; positions remain on bounded ephemeral storage. Durable cursor storage and guarded migration are planned source work, not live acceptance. Three active writer/scrape health rules do not measure source-discovery completeness. Do not infer complete coverage or comprehensive redaction from Ready status.",
+      "runbook": "Separate absolute-age exclusions, transport drops and per-stream ordering rejection. A guarded capture/seed migration now retains cursor state on a dedicated PVC. Readback verified the exact seed, all prior targets retained with nondecreasing cursors, and both advancing and new targets; the collector is Ready without a restart. An early bounded post-migration readback shows new entries sent with zero process-lifetime drops or retries and no memory/OOM events; it is not a long-duration guarantee. This does not prove wire-level sinceTime, a second restart, backend acknowledgment or lossless delivery. Writer/scrape alerts do not measure source-discovery completeness.",
       "source": "https://github.com/perkforge/perkforge-platform/issues/38",
       "parent": null
     },
@@ -1370,7 +1370,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T16:16:55Z",
+    "checkedAt": "2026-11-14T17:10:23Z",
     "scope": "Current identity observations · local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source-only and staged changes are not deployed capabilities. Compiled Portal assets now require a verified session; distinct private role-specific models remain separate work. Later changes require evidence review and a Portal release.",
     "records": [
@@ -1455,8 +1455,8 @@
         "id": "loggingCollector",
         "title": "Cluster discovery and replay limits",
         "state": "observed-active",
-        "summary": "Cluster-wide discovery is active. The measured memory correction is Ready with no observed OOM. Trusted API timestamps feed an explicit 168-hour absolute-age cutoff; fresh CRI/Docker-shaped canaries passed. A fresh 15-minute observation had zero additional dropped entries/bytes and one retry of unknown cause, not a zero-retry or lossless claim. Restart replay had one-hour ordering rejections; positions remain ephemeral and durable migration is planned, not live. Three added delivery rules are healthy/inactive with prior rules/receivers preserved; writer/scrape telemetry does not prove source completeness.",
-        "evidence": "https://github.com/perkforge/perkforge-platform/pull/453"
+        "summary": "Cluster discovery, measured memory correction and trusted-timestamp absolute-age filtering are active. The earlier fresh observation had zero new drops and one retry of unknown cause. Guarded migration seeded the retained volume; exact seed readback and all prior targets with nondecreasing cursors were verified, with advancing and new targets. The StatefulSet collector is Ready with no restart observed. Early post-migration counters show fresh sent entries with zero process-lifetime drops/retries and no memory/OOM events. This bounded observation is not long-duration proof; wire sinceTime, second restart, backend acknowledgment and lossless delivery are not claimed. Numeric writer/scrape rules remain distinct from source completeness.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/pull/457"
       }
     ]
   },

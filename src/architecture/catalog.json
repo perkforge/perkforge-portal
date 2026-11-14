@@ -411,6 +411,50 @@
       "runbook": "Verify artifact hash and runtime adapter separately from fresh user-interface acceptance. Never present this baseline as live cluster reconciliation state.",
       "source": "https://github.com/perkforge/perkforge-portal/issues/5",
       "parent": null
+    },
+    {
+      "id": "loggingInstaller",
+      "title": "Logging installer identities",
+      "status": "unverified",
+      "purpose": "Keep reconciliation authority separate from collection and query identities.",
+      "usage": "Existing scoped installers deploy the native backend and own-namespace collector operator.",
+      "configuration": "Named existing registry references and namespaced workload authority; no new tenant or host access.",
+      "runbook": "Verify rendered operator resources and effective namespace scope before marking collection accepted.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/38",
+      "parent": null
+    },
+    {
+      "id": "loggingCollector",
+      "title": "API-only pilot collector",
+      "status": "unverified",
+      "purpose": "Read only the explicitly approved pilot workload logs.",
+      "usage": "A dedicated service account reads pod logs through the Kubernetes API; no node filesystem or host log mount.",
+      "configuration": "Collection is restricted to the pilot namespace. The single pilot machine credential is not tenant isolation.",
+      "runbook": "Verify real collected records, labels and scope denials independently of backend readiness.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/38",
+      "parent": null
+    },
+    {
+      "id": "loggingGateway",
+      "title": "Authenticated logging gateway",
+      "status": "unverified",
+      "purpose": "Terminate verified TLS and map authenticated machine identity to the pilot logging tenant.",
+      "usage": "Backend and gateway are running with the original persistent volume; collection acceptance remains incomplete.",
+      "configuration": "TLS/auth credentials are manually staged in protected runtime Secrets, not ESO-managed. Existing private-registry credentials are reused.",
+      "runbook": "Test authenticated ingestion and querying without revealing credentials; verify persistence and retention separately.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/38",
+      "parent": null
+    },
+    {
+      "id": "loggingQuery",
+      "title": "Grafana logging query identity",
+      "status": "unverified",
+      "purpose": "Query the pilot logging tenant without changing existing metrics access.",
+      "usage": "An additive logging datasource preserves the existing Prometheus datasource.",
+      "configuration": "The pilot uses one platform-admin machine identity for write/query; independent tenant credentials and tenant datasource isolation are not implemented.",
+      "runbook": "Verify native datasource health and an actual collected record; do not infer user or tenant isolation from dashboard visibility.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/38",
+      "parent": null
     }
   ],
   "edges": [
@@ -647,6 +691,48 @@
       "target": "portalInventory",
       "title": "Reviewed artifact evidence, not a tenant mutation authority",
       "status": "unverified"
+    },
+    {
+      "source": "appInstaller",
+      "target": "loggingInstaller",
+      "title": "Existing scoped installer authority",
+      "status": "current"
+    },
+    {
+      "source": "loggingInstaller",
+      "target": "loggingCollector",
+      "title": "Own-namespace operator and dedicated collector account",
+      "status": "unverified"
+    },
+    {
+      "source": "runtimeIdentity",
+      "target": "loggingCollector",
+      "title": "Approved pilot pod logs via Kubernetes API only",
+      "status": "unverified"
+    },
+    {
+      "source": "loggingCollector",
+      "target": "loggingGateway",
+      "title": "Verified TLS and pilot machine authentication",
+      "status": "unverified"
+    },
+    {
+      "source": "serviceCredentials",
+      "target": "loggingGateway",
+      "title": "Manually staged protected custody, not ESO",
+      "status": "current"
+    },
+    {
+      "source": "loggingQuery",
+      "target": "loggingGateway",
+      "title": "Authenticated pilot tenant query",
+      "status": "unverified"
+    },
+    {
+      "source": "platformAuthority",
+      "target": "loggingQuery",
+      "title": "Platform-admin pilot, no tenant datasource grant",
+      "status": "current"
     }
   ],
   "views": [
@@ -736,6 +822,22 @@
         "portalInventory",
         "runtimeIdentity",
         "cloudTrust"
+      ]
+    },
+    {
+      "id": "loggingIdentity",
+      "title": "Logging identity and trust flow",
+      "kicker": "IDENTITY / PILOT ACTIVATION",
+      "summary": "Scoped installer \u2192 API-only collector \u2192 TLS/authenticated gateway \u2192 pilot tenant query. Backend readiness is not proof of collection, persistence or retention.",
+      "nodes": [
+        "appInstaller",
+        "loggingInstaller",
+        "runtimeIdentity",
+        "loggingCollector",
+        "serviceCredentials",
+        "loggingGateway",
+        "loggingQuery",
+        "platformAuthority"
       ]
     },
     {
@@ -934,7 +1036,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-14T05:49:50Z",
+    "checkedAt": "2026-11-14T06:45:37Z",
     "scope": "Current identity observations \u00b7 local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source/current tags below do not mean deployed. Later changes require a new evidence review and Portal release. Authenticated static serving is a source change until this image is deployed and verified.",
     "records": [
@@ -963,7 +1065,7 @@
         "id": "mattermostOperator",
         "title": "Mattermost identities and installer authority",
         "state": "observed-active",
-        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana\u2019s channel-locked receiver delivered a labeled native test, verified by channel readback, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed.",
+        "summary": "Native operator and application are ready, with closed signup. The owner verified Keycloak browser login and visibility of the private pilot channel in the shared platform team. A separate native emergency administrator is outside Keycloak; its credential is held in the approved password vault, and temporary bootstrap access is disabled. Grafana\u2019s channel-locked receiver delivered a labeled native test, verified by channel readback and owner-confirmed visual receipt, while preserving the existing phone receiver. Production firing, recovery and repeat scenarios remain separate acceptance; continuous tenant membership reconciliation is not deployed.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/395"
       },
       {
@@ -979,6 +1081,13 @@
         "state": "planned",
         "summary": "Cloud workload federation and RDS/database authorization remain future design. They are not granted by a human platform-admin role or Kubernetes service-account name alone.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/377"
+      },
+      {
+        "id": "loggingGateway",
+        "title": "Logging pilot identities and custody",
+        "state": "staged",
+        "summary": "Backend and gateway are running with the original persistent volume. Scoped installers, own-namespace operator and dedicated API-only collector authority are configured, but collector startup and end-to-end ingestion are not yet verified. Existing protected TLS/auth Secrets are manually staged, not ESO-managed. One platform-admin pilot machine identity covers write/query; no tenant grant or datasource isolation is claimed. Persistence and retention acceptance remain unverified.",
+        "evidence": "https://github.com/perkforge/perkforge-platform/issues/38"
       }
     ]
   }

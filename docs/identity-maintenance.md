@@ -230,7 +230,7 @@ This is not a fresh human-login test, project rights or complete #334 acceptance
 
 A sequencing defect was observed: attestor ran before foundation because stale Ready
 passed a held transition. The final membership capsule independently fenced writes.
-Repair source PR111/509 is merged and adopted: platform `3f7fd900` and enrollment
+Separately verified at 22:05 UTC, repair source PR111/509 is merged and adopted: platform `3f7fd900` and enrollment
 `8095` have current Ready roots/children. Corrected guards are installed; all six
 retained Job identities/status and issuer UID/bytes/data ownership are unchanged.
 No replay was performed, so this is not a new correctly ordered attempt.

@@ -43,3 +43,23 @@ test('current logging edges match scoped ESO custody and read/write boundaries',
   assert.match(c.nodes.find(n=>n.id==='pipelineCoverage').source,/\/docs\/delivery-pipelines\.md$/);
   assert.match(c.nodes.find(n=>n.id==='backupCapture').source,/\/docs\/backup-restore\.md$/);
 });
+
+test('GitLab onboarding identity inventory separates provisioned custody from finite runtime', async () => {
+  const c=JSON.parse(await readFile(new URL('../src/architecture/catalog.json',import.meta.url)));
+  const view=c.views.find(v=>v.id==='gitlabOnboardingIdentity');
+  for(const id of ['glNamedAdmin','glTestHuman','glRootIssuer','glSetupOperators','glEso','glParentBot','glAdminReader','glKcReader','glRuntime','glFoundation','glAttestor','glWriter']) assert.ok(view.nodes.includes(id));
+  const get=id=>c.nodes.find(n=>n.id===id);
+  assert.match(get('glNamedAdmin').configuration,/not automatic/);
+  assert.match(get('glParentBot').configuration,/parent subtree, not one child/);
+  assert.match(get('glAdminReader').configuration,/Broad instance read/);
+  assert.match(get('glWriter').configuration,/No Kubernetes service-account token/);
+  assert.match(get('glSetupOperators').configuration,/revoked with accessor readback/);
+  assert.match(get('glSetupOperators').configuration,/Persistent policies, ESO roles/);
+  assert.match(get('glKcReader').configuration,/member-profile/);
+  assert.match(get('glKcReader').runbook,/descendant/);
+  assert.match(get('glRuntime').configuration,/no initializer Pod, helper or finite Jobs/);
+  assert.match(get('glRuntime').configuration,/eight Deny bindings are active/);
+  assert.equal(get('glRuntime').status,'planned');
+  assert.equal(c.identitySnapshot.records.find(r=>r.id==='glRuntime').state,'staged');
+  assert.doesNotMatch(JSON.stringify(view),/portal-test-admin|parent.?id|192\.168|10\.42/);
+});

@@ -205,3 +205,36 @@ Do not label these rules "all log collection healthy" or infer actual firing and
 recovery delivery merely from loaded healthy rules.
 
 The guarded cursor migration is source-owned in [PR457](https://github.com/perkforge/perkforge-platform/pull/457), with first-consumer storage preflight in [PR459](https://github.com/perkforge/perkforge-platform/pull/459). [Logging-health issue449](https://github.com/perkforge/perkforge-platform/issues/449) is complete for its numeric writer/scrape signals, not production firing/recovery or complete discovery.
+
+## GitLab onboarding identity checkpoint (2026-11-15, draft awaiting final receipts)
+
+The dedicated onboarding view records each distinct human, bootstrap, setup,
+service/bot, persistent ESO and proposed workload identity. Its immutable source
+baseline is platform v0.46.0 and enrollment v2.7.1. Named native platform-admin
+assignment is not automatic synchronization of a Keycloak platform-admin group.
+The test human's first login, OTP and manual account approval do not establish
+GitLab tenant-group membership. The intended Owner grant remains pending.
+
+Provisioned custody is not a running workflow: the three finite revision-triggered
+Jobs, exact evidence admission and workload/controller grants require their own
+receipts. Root bootstrap never runs application workloads. Temporary one-hour
+operators, persistent exact-record ESO roles, the broad native read-only observer
+and parent-subtree writer bot must remain distinct. GitLab credentials have an
+explicit midnight-UTC expiry and no automatic rotation. Record setup revocation
+only after verified cleanup, and reader activation only after native scope tests.
+
+Before publishing this snapshot, request current provider and runtime receipts and
+refresh only the corresponding observed/planned states. Do not copy token values,
+native account IDs, host details, private receipt paths or operational inventories.
+Project/event integration, offboarding and complete PA visibility remain open.
+
+Latest bounded receipt: the dedicated reader has verified exact custody, selected
+reads, foreign read/manage denials and an actual 300-second token. Operator logout
+and artifact cleanup are verified; both exact setup tokens are revoked with accessor readback and a cleaned receipt.
+All eight admission policies have zero native type warnings and eight Deny bindings
+are active. Two tokenless worker service accounts exist; 24 native phase Job/Pod
+cases passed. Five exact evidence-RBAC objects are active. Native impersonation confirms only
+named-evidence get/patch and denies ConfigMap listing, Secret reads and Job/ConfigMap
+creation. Metadata-only ownership handoff remains the next guarded step.
+No initializer Pod, helper or finite Jobs are created. Initializer default-shape
+compatibility and staged membership hold are source-review gates, not deployed work.

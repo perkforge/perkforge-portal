@@ -757,7 +757,7 @@ model {
   glKcOperator = system "Privileged Keycloak setup session · ended" {
     #current
     description "CURRENT: A separately approved privileged native operator configured FGAP and the dedicated reader; it is not an OpenBao setup token or runtime identity. Inspect the bounded native setup and cleanup receipt; no standing workload use."
-    link https://github.com/perkforge/perkforge-platform/pull/492 "Source / evidence limits"
+    link https://github.com/perkforge/perkforge-platform/blob/4e2ec57d2f2c1ffbcd8493a71b3958d423e00a3a/big-bang-bootstrap/configuration/packages/gitlab/enrollment/setup/README.md "Source / evidence limits"
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"

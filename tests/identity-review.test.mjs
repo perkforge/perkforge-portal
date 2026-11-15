@@ -62,6 +62,8 @@ test('GitLab onboarding identity inventory separates provisioned custody from fi
   assert.match(get('glKcOperator').runbook,/logout/);
   assert.match(get('glRuntime').configuration,/All three finite Jobs completed/);
   assert.match(get('glRuntime').runbook,/stale Ready/);
+  assert.match(get('glRuntime').runbook,/no replay/);
+  assert.match(get('glRuntime').runbook,/does not retroactively prove/);
   assert.match(get('glRuntime').runbook,/separate Todo in #508/);
   assert.match(get('glRuntime').configuration,/Ten admission policies typecheck clear/);
   assert.equal(get('glRuntime').status,'current');
@@ -76,7 +78,7 @@ test('GitLab build-once artifacts do not imply arbitrary adopter portability', a
   assert.match(runtime.runbook,/arbitrary portability is not proven/);
   assert.match(runtime.runbook,/unsupported storage providers fail closed/);
   assert.match(runtime.runbook,/not an identical full bundle/);
-  assert.match(runtime.runbook,/exact 24 executable\/adapter bytes/);
+  assert.match(runtime.runbook,/24 executable\/adapter files with identical bytes/);
   assert.equal(c.nodes.find(n=>n.id==='glFoundationOwner').status,'current');
   assert.match(c.nodes.find(n=>n.id==='glFoundation').configuration,/existing live pilot is Portal-only/);
 });

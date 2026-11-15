@@ -860,7 +860,7 @@ model {
   glParentBot -> glWriter "CURRENT: Parent subtree api/Owner authority, owned-grant constraint" { #current }
   gitops -> glRuntime "CURRENT: Reviewed finite revision attempt; no polling/Cron" { #current }
   glRuntime -> glFoundation "CURRENT: Scoped deployer and exact source/image admission" { #current }
-  glFoundation -> glAttestor "UNVERIFIED: Ordering violated by stale Ready; repair adoption unverified" { #unverified }
+  glFoundation -> glAttestor "UNVERIFIED: Historical ordering defect; corrected guards adopted, no replay" { #unverified }
   glAttestor -> glWriter "CURRENT: Exact UID-bound short-lived evidence, immutable attempt" { #current }
   glWriter -> glTestHuman "CURRENT: Direct private tenant-group Owner independently verified" { #current }
   human -> glKcOperator "CURRENT: Separate specifically approved native privileged setup session" { #current }
@@ -955,7 +955,7 @@ views {
   }
   view gitlabOnboardingIdentity {
     title "GitLab onboarding: every identity and boundary"
-    description "Provider custody, foundation GitOps ownership and one completed finite onboarding attempt are distinct. Direct tenant-group Owner is verified; premature attestor sequencing requires repair. Project/events remain planned; offboarding is separate #508. No complete lifecycle acceptance is claimed."
+    description "Provider custody, foundation GitOps ownership and one completed finite onboarding attempt are distinct. Direct tenant-group Owner is verified; premature attestor sequencing was repaired without replay. Project/events remain planned; offboarding is separate #508. No complete lifecycle acceptance is claimed."
     include glNamedAdmin, glTestHuman, glRootIssuer, glSetupOperators, glKcOperator, glEso, glParentBot, glAdminReader, glKcReader, glRuntime, glFoundation, glAttestor, glWriter, glFoundationOwner
     autoLayout LeftRight
   }

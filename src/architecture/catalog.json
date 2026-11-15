@@ -726,7 +726,7 @@
       "status": "current",
       "purpose": "Separate namespace and identity combine Keycloak group observation with GitLab read-only account lookup.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
-      "configuration": "Separate observer credentials and exact evidence get/patch authority remain isolated from the writer. The attestor completed but started before foundation during a held transition because stale Ready passed sequencing. The final membership capsule independently fenced writes. Sequencing repair source is merged; live adoption is not yet verified in this snapshot.",
+      "configuration": "Separate observer credentials and exact evidence get/patch authority remain isolated from the writer. The attestor completed but started before foundation during a held transition because stale Ready passed sequencing. The final membership capsule independently fenced writes. Corrected sequencing guards are now adopted with all roots/children Ready. All six retained Job identities/status and issuer UID/bytes/data ownership were preserved; no replay was performed.",
       "runbook": "Publish bounded short-lived evidence; two matching reads are non-atomic and do not promise instantaneous revocation.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md",
       "parent": null
@@ -749,7 +749,7 @@
       "purpose": "All three finite onboarding Jobs completed, with current phase and parent Flux readiness at the recorded checkpoint.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
       "configuration": "Foundation GitOps adopted 52 original-UID objects with controller Apply ownership. Ten admission policies typecheck clear and three ESO consumers are Ready. A dedicated retained one-GiB Longhorn receipt/state volume was initialized privately, write-tested and detached after helper cleanup; it is not backup or GitLab repository storage. Nonempty evidence SSA dry-run/no-op preserved issuer data/hash/UID and ownership; the controller does not own evidence data. All three finite Jobs completed and native API independently verified one direct Owner grant.",
-      "runbook": "Build once: immutable image/bundle identity is distinct from environment readiness; arbitrary portability is not proven. Supported Longhorn safety remains explicit; unsupported storage providers fail closed. Portal and tested alternate profiles share exact 24 executable/adapter bytes and maintained image digest, not an identical full bundle. Attestor started early due to stale Ready; membership capsule independently fenced writes. Sequencing repair source is merged but live adoption is not yet verified. No continuous membership synchronization. Project/events remain planned; offboarding is a separate Todo in #508, not implemented here.",
+      "runbook": "Build once: immutable image/bundle identity is distinct from environment readiness; arbitrary portability is not proven. Supported Longhorn safety remains explicit; unsupported storage providers fail closed. Portal and tested alternate profiles share 24 executable/adapter files with identical bytes and maintained image digest, not an identical full bundle. Attestor started early due to stale Ready; membership capsule independently fenced writes. Corrected guards are adopted and Ready; retained Jobs and issuer evidence were unchanged, with no replay. This does not retroactively prove the original ordering or a new successful sequence. No continuous membership synchronization. Project/events remain planned; offboarding is a separate Todo in #508, not implemented here.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md",
       "parent": null
     },
@@ -1284,7 +1284,7 @@
     {
       "source": "glFoundation",
       "target": "glAttestor",
-      "title": "Ordering violated by stale Ready; repair adoption unverified",
+      "title": "Historical ordering defect; corrected guards adopted, no replay",
       "status": "unverified"
     },
     {
@@ -1558,7 +1558,7 @@
       "id": "gitlabOnboardingIdentity",
       "title": "GitLab onboarding: every identity and boundary",
       "kicker": "IDENTITY / FINITE ONBOARDING",
-      "summary": "Provider custody, foundation GitOps ownership and one completed finite onboarding attempt are distinct. Direct tenant-group Owner is verified; premature attestor sequencing requires repair. Project/events remain planned; offboarding is separate #508. No complete lifecycle acceptance is claimed.",
+      "summary": "Provider custody, foundation GitOps ownership and one completed finite onboarding attempt are distinct. Direct tenant-group Owner is verified; premature attestor sequencing was repaired without replay. Project/events remain planned; offboarding is separate #508. No complete lifecycle acceptance is claimed.",
       "nodes": [
         "glNamedAdmin",
         "glTestHuman",
@@ -1776,7 +1776,7 @@
         "id": "glRuntime",
         "title": "GitLab finite onboarding checkpoint",
         "state": "observed-active",
-        "summary": "Verified bounded onboarding: 52 original-UID foundation objects adopted, ten admission policies typecheck clear and three ESO consumers Ready. Private retained receipt/state volume initialized and helper cleaned up. Three finite Jobs completed; independent native API verified one active non-instance-admin subject with direct private Portal group Owner. Nonempty evidence SSA preservation passed. Attestor started before foundation due to stale Ready; membership capsule independently fenced writes. Sequencing repair source is merged, live adoption not yet verified. Project/events and complete platform visibility remain open; offboarding is separate Todo #508, not implemented here. Earlier operator cleanup and alternate-profile fixtures retain their own evidence limits.",
+        "summary": "Verified bounded onboarding: 52 original-UID foundation objects adopted, ten admission policies typecheck clear and three ESO consumers Ready. Private retained receipt/state volume initialized and helper cleaned up. Three finite Jobs completed; independent native API verified one active non-instance-admin subject with direct private Portal group Owner. Nonempty evidence SSA preservation passed. Attestor started before foundation due to stale Ready; membership capsule independently fenced writes. Corrected guards are adopted with current roots/children Ready; six retained Job identities/status and issuer UID/bytes/data ownership were preserved without replay. A new correctly ordered attempt is not claimed. Project/events and complete platform visibility remain open; offboarding is separate Todo #508, not implemented here. Earlier operator cleanup and alternate-profile fixtures retain their own evidence limits.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/334"
       }
     ]

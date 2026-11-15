@@ -230,7 +230,10 @@ This is not a fresh human-login test, project rights or complete #334 acceptance
 
 A sequencing defect was observed: attestor ran before foundation because stale Ready
 passed a held transition. The final membership capsule independently fenced writes.
-Repair source PR111/509 is merged; live adoption is not yet verified in this draft.
+Repair source PR111/509 is merged and adopted: platform `3f7fd900` and enrollment
+`8095` have current Ready roots/children. Corrected guards are installed; all six
+retained Job identities/status and issuer UID/bytes/data ownership are unchanged.
+No replay was performed, so this is not a new correctly ordered attempt.
 Do not imply intended ordering was followed. Partial success is not rollback: retain
 owned receipts and inspect native state before retry; logout does not reverse effects.
 Offboarding is explicitly separate Todo #508, with no implementation here. No CronJob,
@@ -260,10 +263,10 @@ Keycloak session cleanup was separately verified. Provider bootstrap stays one-t
 
 Environment and context are separately validated; Longhorn support is explicit,
 not arbitrary provider portability. Candidate Portal and passed alternate profiles
-share 24 executable/adapter bytes, SHA-256
+share 24 executable/adapter files with identical bytes, aggregate SHA-256
 `a88d60e8c8f9e521e3468be797155c2aba6fcd7063e22d57a958c1dc12100e25`,
 and maintained image digest. Config/policy/revision/manifest legitimately differ;
 complete bundles are not identical. A synthetic profile is not another live tenant.
 
-This draft is not published or deployed. Refresh repair adoption from final receipts
-before release. No native private IDs, credentials or receipt paths belong in C4.
+This C4 draft is not published or deployed. Its repair-adoption claims describe the
+separately verified infrastructure checkpoint, not a Portal release. No native private IDs, credentials or receipt paths belong in C4.

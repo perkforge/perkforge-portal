@@ -761,7 +761,7 @@
       "usage": "Inspect the bounded native setup and cleanup receipt; no standing workload use.",
       "configuration": "Master-operator authentication/refresh is confined to the one-shot setup coordinator. It configures realm permissions, client and authorization associations; the restricted reader never receives this administrative session.",
       "runbook": "Native logout and protected artifact cleanup were verified. Do not infer that OpenBao token revocation logs out Keycloak, or permit automatic remint/refresh by runtime Jobs. Representation/refresh fixes require their own reviewed source. Executed reviewed operator source 4e2ec57 is distinct from later PR492 merge 8e823e2 and the pinned runtime source.",
-      "source": "https://github.com/perkforge/perkforge-platform/pull/492",
+      "source": "https://github.com/perkforge/perkforge-platform/blob/4e2ec57d2f2c1ffbcd8493a71b3958d423e00a3a/big-bang-bootstrap/configuration/packages/gitlab/enrollment/setup/README.md",
       "parent": null
     }
   ],

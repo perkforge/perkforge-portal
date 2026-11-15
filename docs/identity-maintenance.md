@@ -205,3 +205,68 @@ Do not label these rules "all log collection healthy" or infer actual firing and
 recovery delivery merely from loaded healthy rules.
 
 The guarded cursor migration is source-owned in [PR457](https://github.com/perkforge/perkforge-platform/pull/457), with first-consumer storage preflight in [PR459](https://github.com/perkforge/perkforge-platform/pull/459). [Logging-health issue449](https://github.com/perkforge/perkforge-platform/issues/449) is complete for its numeric writer/scrape signals, not production firing/recovery or complete discovery.
+
+## GitLab onboarding identity checkpoint (held draft, 2026-11-15)
+
+The ledger separates humans, native bots/readers, privileged setup sessions,
+revoked short-lived custody operators, persistent ESO roles, continuous foundation
+ownership and finite workload identities. Named native administration is not
+Keycloak PA-group synchronization. Root/setup sessions never become workload identities.
+
+### Verified live milestone
+
+Foundation GitOps adopted 52 original-UID objects with controller Apply ownership;
+ten admission policies typecheck clear and three ESO consumers are Ready. Managed
+inventory excludes Secret payloads, evidence data, PVC and root guards/grants.
+The dedicated retained one-GiB Longhorn receipt/state volume was privately initialized,
+write-tested and detached after helper cleanup. It is not backup or GitLab repository
+storage. Nonempty evidence SSA dry-run/no-op preserved issuer data/hash/UID/ownership;
+the controller does not own evidence data.
+
+All three finite phase Jobs completed with current phase/parent readiness. The
+supplied 21:12 UTC independent native API readback verified a private Portal child
+group and an active non-instance-admin subject with direct Owner and no expiry.
+This is not a fresh human-login test, project rights or complete #334 acceptance.
+
+A sequencing defect was observed: attestor ran before foundation because stale Ready
+passed a held transition. The final membership capsule independently fenced writes.
+Separately verified at 22:05 UTC, repair source PR111/509 is merged and adopted: platform `3f7fd900` and enrollment
+`8095` have current Ready roots/children. Corrected guards are installed; all six
+retained Job identities/status and issuer UID/bytes/data ownership are unchanged.
+No replay was performed, so this is not a new correctly ordered attempt.
+Do not imply intended ordering was followed. Partial success is not rollback: retain
+owned receipts and inspect native state before retry; logout does not reverse effects.
+Offboarding is explicitly separate Todo #508, with no implementation here. No CronJob,
+continuous membership synchronization or automatic first-login callback is claimed.
+
+### Remaining project/event flow
+
+Reuse existing platform packages/gitlab/events policy/README and metrics/README,
+plus Mattermost channel/context runbooks rather than duplicate integration design.
+Desired failed/recovered pipelines, failed scan execution and failed deployments
+remain disabled with empty project IDs and no selected receiver. Exact CI-event
+channel/topic mapping cannot be inferred from existing Flux routes. Viewers are
+Mattermost-channel-only in that contract; built-in Alertmanager owns repeat/grouping.
+Polling is latest-state monitoring, not a complete event ledger; intermediate events
+can be missed and LastDeployment does not prove failed-deployment coverage.
+Native compatibility, freshness/credential-failure visibility, deduplication/recovery,
+project rights and cross-tenant delivery remain unimplemented acceptance gates.
+Extend existing setup/containment/retry documentation, not an automatic rollback promise.
+
+### Build-once and setup provenance
+
+Released executable pins are platform v0.47.0 (`b904017`) and enrollment v2.8.0
+(`5621e9b`); later desired-state revisions are separate. Provider setup executed
+reviewed `4e2ec57`, later merged as PR492 `8e823e2`; later source is not retroactive
+execution evidence. Both setup tokens were revoked with accessor readback; privileged
+Keycloak session cleanup was separately verified. Provider bootstrap stays one-time.
+
+Environment and context are separately validated; Longhorn support is explicit,
+not arbitrary provider portability. Candidate Portal and passed alternate profiles
+share 24 executable/adapter files with identical bytes, aggregate SHA-256
+`a88d60e8c8f9e521e3468be797155c2aba6fcd7063e22d57a958c1dc12100e25`,
+and maintained image digest. Config/policy/revision/manifest legitimately differ;
+complete bundles are not identical. A synthetic profile is not another live tenant.
+
+This C4 draft is not published or deployed. Its repair-adoption claims describe the
+separately verified infrastructure checkpoint, not a Portal release. No native private IDs, credentials or receipt paths belong in C4.

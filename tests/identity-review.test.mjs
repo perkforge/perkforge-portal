@@ -43,3 +43,42 @@ test('current logging edges match scoped ESO custody and read/write boundaries',
   assert.match(c.nodes.find(n=>n.id==='pipelineCoverage').source,/\/docs\/delivery-pipelines\.md$/);
   assert.match(c.nodes.find(n=>n.id==='backupCapture').source,/\/docs\/backup-restore\.md$/);
 });
+
+test('GitLab onboarding identity inventory separates provisioned custody from finite runtime', async () => {
+  const c=JSON.parse(await readFile(new URL('../src/architecture/catalog.json',import.meta.url)));
+  const view=c.views.find(v=>v.id==='gitlabOnboardingIdentity');
+  for(const id of ['glNamedAdmin','glTestHuman','glRootIssuer','glSetupOperators','glKcOperator','glEso','glParentBot','glAdminReader','glKcReader','glRuntime','glFoundation','glAttestor','glWriter']) assert.ok(view.nodes.includes(id));
+  const get=id=>c.nodes.find(n=>n.id===id);
+  assert.match(get('glNamedAdmin').configuration,/not automatic/);
+  assert.match(get('glParentBot').configuration,/parent subtree, not one child/);
+  assert.match(get('glAdminReader').configuration,/Broad instance read/);
+  assert.match(get('glWriter').configuration,/No Kubernetes service-account token/);
+  assert.match(get('glSetupOperators').configuration,/revoked with accessor readback/);
+  assert.match(get('glSetupOperators').configuration,/Persistent policies, ESO roles/);
+  assert.match(get('glKcReader').configuration,/member-profile/);
+  assert.match(get('glKcReader').runbook,/descendant/);
+  assert.doesNotMatch(get('glKcReader').runbook,/revocation is not yet confirmed/);
+  assert.match(get('glKcOperator').configuration,/Master-operator authentication/);
+  assert.match(get('glKcOperator').runbook,/logout/);
+  assert.match(get('glRuntime').configuration,/All three finite Jobs completed/);
+  assert.match(get('glRuntime').runbook,/stale Ready/);
+  assert.match(get('glRuntime').runbook,/no replay/);
+  assert.match(get('glRuntime').runbook,/does not retroactively prove/);
+  assert.match(get('glRuntime').runbook,/separate Todo in #508/);
+  assert.match(get('glRuntime').configuration,/Ten admission policies typecheck clear/);
+  assert.equal(get('glRuntime').status,'current');
+  assert.equal(c.identitySnapshot.records.find(r=>r.id==='glRuntime').state,'observed-active');
+  assert.doesNotMatch(JSON.stringify(view),/portal-test-admin|parent.?id|192\.168|10\.42/);
+});
+
+test('GitLab build-once artifacts do not imply arbitrary adopter portability', async () => {
+  const c=JSON.parse(await readFile(new URL('../src/architecture/catalog.json',import.meta.url)));
+  const runtime=c.nodes.find(n=>n.id==='glRuntime');
+  assert.match(runtime.runbook,/immutable image\/bundle identity is distinct from environment readiness/);
+  assert.match(runtime.runbook,/arbitrary portability is not proven/);
+  assert.match(runtime.runbook,/unsupported storage providers fail closed/);
+  assert.match(runtime.runbook,/not an identical full bundle/);
+  assert.match(runtime.runbook,/24 executable\/adapter files with identical bytes/);
+  assert.equal(c.nodes.find(n=>n.id==='glFoundationOwner').status,'current');
+  assert.match(c.nodes.find(n=>n.id==='glFoundation').configuration,/existing live pilot is Portal-only/);
+});

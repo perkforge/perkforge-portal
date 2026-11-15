@@ -754,6 +754,17 @@ model {
     }
     style { color amber }
   }
+  glKcOperator = system "Privileged Keycloak setup session · ended" {
+    #current
+    description "CURRENT: A separately approved privileged native operator configured FGAP and the dedicated reader; it is not an OpenBao setup token or runtime identity. Inspect the bounded native setup and cleanup receipt; no standing workload use."
+    link https://github.com/perkforge/perkforge-platform/pull/492 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+    }
+    style { color green }
+  }
   platform.flux -> platform.bigbang "UNVERIFIED: reconciles selected package configuration" { #unverified }
   platform.bigbang -> platform.rke2 "UNVERIFIED: defines curated packages on Kubernetes" { #unverified }
   platform.rancher -> platform.rke2 "UNVERIFIED: PE cluster lifecycle management only" { #unverified }
@@ -841,6 +852,8 @@ model {
   glFoundation -> glAttestor "PLANNED: Fresh matching GroupReady prerequisite" { #planned }
   glAttestor -> glWriter "PLANNED: Exact UID-bound short-lived evidence, immutable attempt" { #planned }
   glWriter -> glTestHuman "PLANNED: Intended exact tenant-group Owner grant; NOT applied" { #planned }
+  human -> glKcOperator "CURRENT: Separate specifically approved native privileged setup session" { #current }
+  glKcOperator -> glKcReader "CURRENT: FGAP/client setup and bounded probes; operator session ended" { #current }
 }
 views {
   view identityLifecycle {
@@ -930,7 +943,7 @@ views {
   view gitlabOnboardingIdentity {
     title "GitLab onboarding: every identity and boundary"
     description "Provisioned human, native bot and custody authority are distinct from the not-yet-deployed three-Job runtime. Named platform administration is not automatic PA-group synchronization. No tenant membership grant or complete lifecycle acceptance is claimed."
-    include glNamedAdmin, glTestHuman, glRootIssuer, glSetupOperators, glEso, glParentBot, glAdminReader, glKcReader, glRuntime, glFoundation, glAttestor, glWriter
+    include glNamedAdmin, glTestHuman, glRootIssuer, glSetupOperators, glKcOperator, glEso, glParentBot, glAdminReader, glKcReader, glRuntime, glFoundation, glAttestor, glWriter
     autoLayout LeftRight
   }
   dynamic view identityLifecycleWalkthrough {

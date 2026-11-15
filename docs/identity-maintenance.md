@@ -238,3 +238,13 @@ named-evidence get/patch and denies ConfigMap listing, Secret reads and Job/Conf
 creation. Metadata-only ownership handoff remains the next guarded step.
 No initializer Pod, helper or finite Jobs are created. Initializer default-shape
 compatibility and staged membership hold are source-review gates, not deployed work.
+
+The privileged Keycloak master-operator session is a separate setup identity from
+the OpenBao root issuer and its two restricted custody tokens. Native refresh is
+confined to the one-shot coordinator, never runtime Jobs. Its native logout and
+protected artifact cleanup were independently verified; Bao revocation alone would
+not prove that logout. The reader never receives the operator administrative session.
+
+Operator provenance: setup executed reviewed source `4e2ec57`; PR492 later merged
+as `8e823e2`. The later merge is not the executed commit and neither replaces the
+separately pinned runtime contract. No additional live write followed that merge.

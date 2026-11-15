@@ -694,7 +694,7 @@
       "purpose": "Dedicated confidential service-account reader passed bounded native access and custody acceptance.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
       "configuration": "Native FGAP limits selected group-subtree/member-profile observation without broad realm-management roles. Exact secret custody/readback and selected reads, foreign-group read denial and manage denial were verified; actual access token lifetime is 300 seconds.",
-      "runbook": "Browser/direct/implicit flows and fullScopeAllowed remain off. Member-profile/descendant access is broader than field-only identity read. Operator logout/artifact cleanup passed; temporary setup-token revocation is not yet confirmed. This does not prove runtime Jobs or tenant grants.",
+      "runbook": "Browser/direct/implicit flows and fullScopeAllowed remain off. Member-profile/descendant access is broader than field-only identity read. Operator logout/artifact cleanup and both exact temporary setup-token revocations were separately verified. This does not prove runtime Jobs or tenant grants.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/setup/keycloak-custody.md",
       "parent": null
     },
@@ -751,6 +751,17 @@
       "configuration": "Two isolated namespaces, precreated evidence object, retained one-GiB claim awaiting first consumer and four NetworkPolicies exist. All eight native admission policies have zero type warnings and eight Deny bindings are active; two tokenless worker service accounts exist. Five exact evidence-RBAC objects are active: each impersonated identity can only get/patch the named evidence ConfigMap; list ConfigMaps, read Secrets and create Jobs/ConfigMaps are denied. Metadata-only ownership handoff remains next; no initializer Pod, helper or finite Jobs are created.",
       "runbook": "Pin reviewed declaration/source/image and exact evidence UID; verify ordering, custody, admission, scheduling and native outcomes before activation.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md",
+      "parent": null
+    },
+    {
+      "id": "glKcOperator",
+      "title": "Privileged Keycloak setup session · ended",
+      "status": "current",
+      "purpose": "A separately approved privileged native operator configured FGAP and the dedicated reader; it is not an OpenBao setup token or runtime identity.",
+      "usage": "Inspect the bounded native setup and cleanup receipt; no standing workload use.",
+      "configuration": "Master-operator authentication/refresh is confined to the one-shot setup coordinator. It configures realm permissions, client and authorization associations; the restricted reader never receives this administrative session.",
+      "runbook": "Native logout and protected artifact cleanup were verified. Do not infer that OpenBao token revocation logs out Keycloak, or permit automatic remint/refresh by runtime Jobs. Representation/refresh fixes require their own reviewed source. Executed reviewed operator source 4e2ec57 is distinct from later PR492 merge 8e823e2 and the pinned runtime source.",
+      "source": "https://github.com/perkforge/perkforge-platform/pull/492",
       "parent": null
     }
   ],
@@ -1276,6 +1287,18 @@
       "target": "glTestHuman",
       "title": "Intended exact tenant-group Owner grant; NOT applied",
       "status": "planned"
+    },
+    {
+      "source": "human",
+      "target": "glKcOperator",
+      "title": "Separate specifically approved native privileged setup session",
+      "status": "current"
+    },
+    {
+      "source": "glKcOperator",
+      "target": "glKcReader",
+      "title": "FGAP/client setup and bounded probes; operator session ended",
+      "status": "current"
     }
   ],
   "views": [
@@ -1518,6 +1541,7 @@
         "glTestHuman",
         "glRootIssuer",
         "glSetupOperators",
+        "glKcOperator",
         "glEso",
         "glParentBot",
         "glAdminReader",

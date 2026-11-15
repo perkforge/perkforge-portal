@@ -47,7 +47,7 @@ test('current logging edges match scoped ESO custody and read/write boundaries',
 test('GitLab onboarding identity inventory separates provisioned custody from finite runtime', async () => {
   const c=JSON.parse(await readFile(new URL('../src/architecture/catalog.json',import.meta.url)));
   const view=c.views.find(v=>v.id==='gitlabOnboardingIdentity');
-  for(const id of ['glNamedAdmin','glTestHuman','glRootIssuer','glSetupOperators','glEso','glParentBot','glAdminReader','glKcReader','glRuntime','glFoundation','glAttestor','glWriter']) assert.ok(view.nodes.includes(id));
+  for(const id of ['glNamedAdmin','glTestHuman','glRootIssuer','glSetupOperators','glKcOperator','glEso','glParentBot','glAdminReader','glKcReader','glRuntime','glFoundation','glAttestor','glWriter']) assert.ok(view.nodes.includes(id));
   const get=id=>c.nodes.find(n=>n.id===id);
   assert.match(get('glNamedAdmin').configuration,/not automatic/);
   assert.match(get('glParentBot').configuration,/parent subtree, not one child/);
@@ -57,6 +57,9 @@ test('GitLab onboarding identity inventory separates provisioned custody from fi
   assert.match(get('glSetupOperators').configuration,/Persistent policies, ESO roles/);
   assert.match(get('glKcReader').configuration,/member-profile/);
   assert.match(get('glKcReader').runbook,/descendant/);
+  assert.doesNotMatch(get('glKcReader').runbook,/revocation is not yet confirmed/);
+  assert.match(get('glKcOperator').configuration,/Master-operator authentication/);
+  assert.match(get('glKcOperator').runbook,/logout/);
   assert.match(get('glRuntime').configuration,/no initializer Pod, helper or finite Jobs/);
   assert.match(get('glRuntime').configuration,/eight Deny bindings are active/);
   assert.equal(get('glRuntime').status,'planned');

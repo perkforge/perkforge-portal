@@ -1,6 +1,6 @@
 {
   "owner": "Platform Engineering · reviewed in source; owner content review pending",
-  "reviewed": "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence",
+  "reviewed": "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence",
   "disclosure": "Sanitized identity reference · no credentials or private inventory",
   "platformRevision": "1e9e455b0cd8fdef3f740fdd8a74379f02dbf915",
   "portalRevision": "5781db4d30af635f4ced0602619b0b8635682af1",
@@ -638,7 +638,7 @@
       "status": "current",
       "purpose": "A real test human completed identity profile and OTP and has an active manually approved native GitLab account.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
-      "configuration": "Exact immutable identity-provider subject is bound to an active, nonadmin native account after manual approval. Canonical Portal administrator membership and tenant-admin identity do not yet grant GitLab tenant-group Owner. Global manual approval remains enabled; first login and explicit retry stay manual.",
+      "configuration": "Immutable identity-provider subject is bound to an active non-instance-admin native account after manual approval. The completed finite attempt granted direct Owner on the private Portal child group, independently verified by native API. No expiry was configured. This is not fresh interactive login or project-rights acceptance.",
       "runbook": "Require immutable subject/native-account binding; never link by guessed email or treat account approval as tenant membership.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md",
       "parent": null
@@ -704,7 +704,7 @@
       "status": "current",
       "purpose": "Provisioned persistent delivery roles remain separate from temporary setup operators.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
-      "configuration": "Three persistent exact-record roles separate Keycloak reader, GitLab read observer and GitLab writer consumers. All three credential custody records are verified; role/record provisioning alone does not prove synchronized consumers or ready Jobs.",
+      "configuration": "Three exact-record roles separate Keycloak reader, GitLab observer and writer consumers; all three ESO consumers are Ready. Temporary setup operators remain revoked. Completed phase evidence is distinct from provisioning.",
       "runbook": "Verify each dedicated workload service account, Store/ExternalSecret, exact destination and payload readback before runtime activation.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/setup/README.md",
       "parent": null
@@ -712,10 +712,10 @@
     {
       "id": "glFoundation",
       "title": "Finite foundation Job identity",
-      "status": "planned",
-      "purpose": "One reviewed Flux declaration attempt establishes the native tenant child group and fresh GroupReady result.",
+      "status": "current",
+      "purpose": "The finite foundation Job completed and the private Portal child group was independently verified.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
-      "configuration": "Uses only parent-scoped writer custody and the whole-context lock. Root bootstrap never runs workloads; scoped deployer, source/image and admission guards remain runtime gates.",
+      "configuration": "Uses only parent-scoped writer custody and the whole-context lock. Root bootstrap never runs workloads. The existing live pilot is Portal-only; reviewed alternate-context source and fixture evidence do not establish a new tenant or runtime grant. Environment profile and central context selection remain distinct, validated inputs.",
       "runbook": "Keep completed Jobs retained; no CronJob, automatic callback or polling. Fresh matching result must precede membership.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md",
       "parent": null
@@ -723,10 +723,10 @@
     {
       "id": "glAttestor",
       "title": "Isolated evidence attestor identity",
-      "status": "planned",
+      "status": "current",
       "purpose": "Separate namespace and identity combine Keycloak group observation with GitLab read-only account lookup.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
-      "configuration": "Separate observer credentials are isolated from the writer. Exact evidence ConfigMap get/patch authority is now provisioned and natively tested; UID/resourceVersion/attempt guards and field-level admission remain mandatory. The attestor Job itself is not created; no account approval or membership writes.",
+      "configuration": "Separate observer credentials and exact evidence get/patch authority remain isolated from the writer. The attestor completed but started before foundation during a held transition because stale Ready passed sequencing. The final membership capsule independently fenced writes. Sequencing repair source is merged; live adoption is not yet verified in this snapshot.",
       "runbook": "Publish bounded short-lived evidence; two matching reads are non-atomic and do not promise instantaneous revocation.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md",
       "parent": null
@@ -734,8 +734,8 @@
     {
       "id": "glWriter",
       "title": "Tokenless membership writer workload",
-      "status": "planned",
-      "purpose": "Consumes fixed evidence and parent-group writer credentials to apply only reviewed owned direct grants.",
+      "status": "current",
+      "purpose": "The finite membership writer completed one subject; direct tenant-group Owner was independently read back.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
       "configuration": "No Kubernetes service-account token. Isolated observer credentials never reach writer; issuer-controlled evidence projection, source/digest/admission guards and retained ownership receipts are prerequisites.",
       "runbook": "Pending first login, account approval or role replacement requires explicit handling; partial failure is not rollback; broad project/inherited access is not removed.",
@@ -745,11 +745,11 @@
     {
       "id": "glRuntime",
       "title": "Scoped Flux runtime and receipt boundary",
-      "status": "planned",
-      "purpose": "Finite revision-triggered foundation → isolated attestor → writer Jobs are not yet deployed.",
+      "status": "current",
+      "purpose": "All three finite onboarding Jobs completed, with current phase and parent Flux readiness at the recorded checkpoint.",
       "usage": "Inspect the dated onboarding identity ledger; source design is not runtime acceptance.",
-      "configuration": "Two isolated namespaces, precreated evidence object, retained one-GiB claim awaiting first consumer and four NetworkPolicies exist. All eight native admission policies have zero type warnings and eight Deny bindings are active; two tokenless worker service accounts exist. Five exact evidence-RBAC objects are active: each impersonated identity can only get/patch the named evidence ConfigMap; list ConfigMaps, read Secrets and create Jobs/ConfigMaps are denied. Metadata-only ownership handoff remains next; no initializer Pod, helper or finite Jobs are created.",
-      "runbook": "Pin reviewed declaration/source/image and exact evidence UID; verify ordering, custody, admission, scheduling and native outcomes before activation.",
+      "configuration": "Foundation GitOps adopted 52 original-UID objects with controller Apply ownership. Ten admission policies typecheck clear and three ESO consumers are Ready. A dedicated retained one-GiB Longhorn receipt/state volume was initialized privately, write-tested and detached after helper cleanup; it is not backup or GitLab repository storage. Nonempty evidence SSA dry-run/no-op preserved issuer data/hash/UID and ownership; the controller does not own evidence data. All three finite Jobs completed and native API independently verified one direct Owner grant.",
+      "runbook": "Build once: immutable image/bundle identity is distinct from environment readiness; arbitrary portability is not proven. Supported Longhorn safety remains explicit; unsupported storage providers fail closed. Portal and tested alternate profiles share exact 24 executable/adapter bytes and maintained image digest, not an identical full bundle. Attestor started early due to stale Ready; membership capsule independently fenced writes. Sequencing repair source is merged but live adoption is not yet verified. No continuous membership synchronization. Project/events remain planned; offboarding is a separate Todo in #508, not implemented here.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md",
       "parent": null
     },
@@ -762,6 +762,17 @@
       "configuration": "Master-operator authentication/refresh is confined to the one-shot setup coordinator. It configures realm permissions, client and authorization associations; the restricted reader never receives this administrative session.",
       "runbook": "Native logout and protected artifact cleanup were verified. Do not infer that OpenBao token revocation logs out Keycloak, or permit automatic remint/refresh by runtime Jobs. Representation/refresh fixes require their own reviewed source. Executed reviewed operator source 4e2ec57 is distinct from later PR492 merge 8e823e2 and the pinned runtime source.",
       "source": "https://github.com/perkforge/perkforge-platform/blob/4e2ec57d2f2c1ffbcd8493a71b3958d423e00a3a/big-bang-bootstrap/configuration/packages/gitlab/enrollment/setup/README.md",
+      "parent": null
+    },
+    {
+      "id": "glFoundationOwner",
+      "title": "Foundation GitOps reconciler",
+      "status": "current",
+      "purpose": "Existing platform reconciler owns exact foundation objects continuously, separate from finite provider Jobs.",
+      "usage": "Native adoption preserved 52 original object UIDs and bodies with controller Apply ownership.",
+      "configuration": "Owner-approved root guards and exact adoption authority are active. Managed resources exclude Secret payloads, evidence data, PVC and root guards/grants; no broad role-authoring authority.",
+      "runbook": "Preserve guarded source ownership. Finite completed Jobs do not imply continuous membership synchronization or automatic offboarding.",
+      "source": "https://github.com/perkforge/perkforge-platform/issues/334",
       "parent": null
     }
   ],
@@ -1225,68 +1236,68 @@
     {
       "source": "glEso",
       "target": "glFoundation",
-      "title": "Exact writer credential delivery; consumer acceptance pending",
-      "status": "planned"
+      "title": "Exact writer delivery; ESO Ready and finite attempt complete",
+      "status": "current"
     },
     {
       "source": "glEso",
       "target": "glAttestor",
       "title": "Two isolated observer credentials; no writer token",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "glEso",
       "target": "glWriter",
       "title": "Writer credential only; no Kubernetes token",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "glKcReader",
       "target": "glAttestor",
       "title": "Three group subtrees and member-profile observations",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "glAdminReader",
       "target": "glAttestor",
       "title": "Native account read only; cannot approve users",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "glParentBot",
       "target": "glWriter",
       "title": "Parent subtree api/Owner authority, owned-grant constraint",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "gitops",
       "target": "glRuntime",
       "title": "Reviewed finite revision attempt; no polling/Cron",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "glRuntime",
       "target": "glFoundation",
       "title": "Scoped deployer and exact source/image admission",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "glFoundation",
       "target": "glAttestor",
-      "title": "Fresh matching GroupReady prerequisite",
-      "status": "planned"
+      "title": "Ordering violated by stale Ready; repair adoption unverified",
+      "status": "unverified"
     },
     {
       "source": "glAttestor",
       "target": "glWriter",
       "title": "Exact UID-bound short-lived evidence, immutable attempt",
-      "status": "planned"
+      "status": "current"
     },
     {
       "source": "glWriter",
       "target": "glTestHuman",
-      "title": "Intended exact tenant-group Owner grant; NOT applied",
-      "status": "planned"
+      "title": "Direct private tenant-group Owner independently verified",
+      "status": "current"
     },
     {
       "source": "human",
@@ -1298,6 +1309,18 @@
       "source": "glKcOperator",
       "target": "glKcReader",
       "title": "FGAP/client setup and bounded probes; operator session ended",
+      "status": "current"
+    },
+    {
+      "source": "gitops",
+      "target": "glFoundationOwner",
+      "title": "Exact foundation adoption and guarded ownership verified",
+      "status": "current"
+    },
+    {
+      "source": "glFoundationOwner",
+      "target": "glRuntime",
+      "title": "Root-owned RBAC templates bound named reconciliation privileges",
       "status": "current"
     }
   ],
@@ -1535,7 +1558,7 @@
       "id": "gitlabOnboardingIdentity",
       "title": "GitLab onboarding: every identity and boundary",
       "kicker": "IDENTITY / FINITE ONBOARDING",
-      "summary": "Provisioned human, native bot and custody authority are distinct from the not-yet-deployed three-Job runtime. Named platform administration is not automatic PA-group synchronization. No tenant membership grant or complete lifecycle acceptance is claimed.",
+      "summary": "Provider custody, foundation GitOps ownership and one completed finite onboarding attempt are distinct. Direct tenant-group Owner is verified; premature attestor sequencing requires repair. Project/events remain planned; offboarding is separate #508. No complete lifecycle acceptance is claimed.",
       "nodes": [
         "glNamedAdmin",
         "glTestHuman",
@@ -1549,7 +1572,8 @@
         "glRuntime",
         "glFoundation",
         "glAttestor",
-        "glWriter"
+        "glWriter",
+        "glFoundationOwner"
       ]
     }
   ],
@@ -1660,7 +1684,7 @@
     }
   ],
   "identitySnapshot": {
-    "checkedAt": "2026-11-15T03:13:03Z",
+    "checkedAt": "2026-11-15T21:12:14Z",
     "scope": "Current identity observations · local pilot",
     "notice": "Reviewed snapshot, not automatic discovery or a live health feed. Source-only and staged changes are not deployed capabilities. Compiled Portal assets now require a verified session; distinct private role-specific models remain separate work. Later changes require evidence review and a Portal release. This refresh adds GitLab onboarding only; other entries retain their earlier bounded evidence, not a new whole-platform audit.",
     "records": [
@@ -1751,8 +1775,8 @@
       {
         "id": "glRuntime",
         "title": "GitLab finite onboarding checkpoint",
-        "state": "staged",
-        "summary": "Private parent, separate nonadmin parent-Owner writer bot and administrator-owned read_api custody are verified. Dedicated Keycloak reader custody and bounded native selected-read/foreign-read/manage-denial checks passed with an actual 300-second token. Operator logout/artifact cleanup and both exact setup-token revocations/accessor readbacks are verified; persistent delivery roles and runtime credentials remain separate. All eight admission policies have zero native type warnings and eight Deny bindings are active; two tokenless worker service accounts exist and 24 native phase Job/Pod cases passed. Five exact evidence-RBAC objects are created; native impersonation confirms named-object get/patch and denies ConfigMap listing, Secret reads and Job/ConfigMap creation. Metadata-only evidence ownership handoff remains next. No initializer Pod, helper, runtime Jobs or tenant membership grant exists. Initializer argument-default compatibility and staged membership-hold source remain under review. Project/event integration, offboarding and automatic platform-admin visibility remain separate gaps.",
+        "state": "observed-active",
+        "summary": "Verified bounded onboarding: 52 original-UID foundation objects adopted, ten admission policies typecheck clear and three ESO consumers Ready. Private retained receipt/state volume initialized and helper cleaned up. Three finite Jobs completed; independent native API verified one active non-instance-admin subject with direct private Portal group Owner. Nonempty evidence SSA preservation passed. Attestor started before foundation due to stale Ready; membership capsule independently fenced writes. Sequencing repair source is merged, live adoption not yet verified. Project/events and complete platform visibility remain open; offboarding is separate Todo #508, not implemented here. Earlier operator cleanup and alternate-profile fixtures retain their own evidence limits.",
         "evidence": "https://github.com/perkforge/perkforge-platform/issues/334"
       }
     ]

@@ -13,7 +13,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
     rke2 = system "RKE2" {
@@ -23,7 +23,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color slate }
     }
@@ -34,7 +34,7 @@ model {
       metadata {
         status "current"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color green }
     }
@@ -45,7 +45,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color slate }
     }
@@ -56,7 +56,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color slate }
     }
@@ -67,7 +67,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color slate }
     }
@@ -78,7 +78,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color slate }
     }
@@ -89,7 +89,7 @@ model {
       metadata {
         status "current"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color green }
     }
@@ -101,7 +101,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
     workload = system "Tenant workloads" {
@@ -111,7 +111,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color slate }
     }
@@ -122,7 +122,7 @@ model {
       metadata {
         status "unverified"
         owner "Platform Engineering · reviewed in source; owner content review pending"
-        review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+        review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
       }
       style { color slate }
     }
@@ -134,7 +134,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -145,7 +145,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color amber }
   }
@@ -156,7 +156,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color amber }
   }
@@ -167,7 +167,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color amber }
   }
@@ -178,7 +178,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -189,7 +189,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -200,7 +200,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -211,7 +211,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -222,7 +222,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -233,7 +233,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -244,7 +244,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -255,7 +255,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -266,7 +266,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -277,7 +277,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -288,7 +288,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
   }
@@ -299,7 +299,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -310,7 +310,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -321,7 +321,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -332,7 +332,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -343,7 +343,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
   }
@@ -354,7 +354,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color amber }
   }
@@ -365,7 +365,7 @@ model {
     metadata {
       status "planned"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color amber }
   }
@@ -376,7 +376,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -387,7 +387,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -398,7 +398,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -409,7 +409,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -420,7 +420,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -431,7 +431,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -442,7 +442,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -453,7 +453,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -464,7 +464,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -475,7 +475,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -486,7 +486,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -497,7 +497,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -508,7 +508,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -519,7 +519,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
   }
@@ -530,7 +530,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -541,7 +541,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -552,7 +552,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -563,7 +563,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -574,7 +574,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -585,7 +585,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -596,7 +596,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
   }
@@ -607,7 +607,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
   }
@@ -618,7 +618,7 @@ model {
     metadata {
       status "unverified"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color slate }
   }
@@ -629,7 +629,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -640,7 +640,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -651,7 +651,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -662,7 +662,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -673,7 +673,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -684,7 +684,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -695,7 +695,7 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -706,53 +706,53 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
   glFoundation = system "Finite foundation Job identity" {
-    #planned
-    description "PLANNED: One reviewed Flux declaration attempt establishes the native tenant child group and fresh GroupReady result. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
+    #current
+    description "CURRENT: The finite foundation Job completed and the private Portal child group was independently verified. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
     link https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md "Source / evidence limits"
     metadata {
-      status "planned"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
-    style { color amber }
+    style { color green }
   }
   glAttestor = system "Isolated evidence attestor identity" {
-    #planned
-    description "PLANNED: Separate namespace and identity combine Keycloak group observation with GitLab read-only account lookup. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
+    #current
+    description "CURRENT: Separate namespace and identity combine Keycloak group observation with GitLab read-only account lookup. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
     link https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md "Source / evidence limits"
     metadata {
-      status "planned"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
-    style { color amber }
+    style { color green }
   }
   glWriter = system "Tokenless membership writer workload" {
-    #planned
-    description "PLANNED: Consumes fixed evidence and parent-group writer credentials to apply only reviewed owned direct grants. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
+    #current
+    description "CURRENT: The finite membership writer completed one subject; direct tenant-group Owner was independently read back. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
     link https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md "Source / evidence limits"
     metadata {
-      status "planned"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
-    style { color amber }
+    style { color green }
   }
   glRuntime = system "Scoped Flux runtime and receipt boundary" {
-    #planned
-    description "PLANNED: Finite revision-triggered foundation → isolated attestor → writer Jobs are not yet deployed. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
+    #current
+    description "CURRENT: All three finite onboarding Jobs completed, with current phase and parent Flux readiness at the recorded checkpoint. Inspect the dated onboarding identity ledger; source design is not runtime acceptance."
     link https://github.com/perkforge/perkforge-platform/blob/c0129f44faf33f0ed809ef904cc853067d219daa/big-bang-bootstrap/configuration/packages/gitlab/enrollment/phases/README.md "Source / evidence limits"
     metadata {
-      status "planned"
+      status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
-    style { color amber }
+    style { color green }
   }
   glKcOperator = system "Privileged Keycloak setup session · ended" {
     #current
@@ -761,7 +761,18 @@ model {
     metadata {
       status "current"
       owner "Platform Engineering · reviewed in source; owner content review pending"
-      review "2026-11-15 · GitLab onboarding source review; other observations retain their earlier evidence"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
+    }
+    style { color green }
+  }
+  glFoundationOwner = system "Foundation GitOps reconciler" {
+    #current
+    description "CURRENT: Existing platform reconciler owns exact foundation objects continuously, separate from finite provider Jobs. Native adoption preserved 52 original object UIDs and bodies with controller Apply ownership."
+    link https://github.com/perkforge/perkforge-platform/issues/334 "Source / evidence limits"
+    metadata {
+      status "current"
+      owner "Platform Engineering · reviewed in source; owner content review pending"
+      review "2026-11-15 · GitLab onboarding live milestone; other observations retain earlier evidence"
     }
     style { color green }
   }
@@ -841,19 +852,21 @@ model {
   glRootIssuer -> glEso "CURRENT: Three exact-record persistent delivery roles" { #current }
   glSetupOperators -> glParentBot "CURRENT: GitLab custody operator; bounded exact records" { #current }
   glSetupOperators -> glKcReader "CURRENT: Separate Keycloak custody and bounded native reader acceptance" { #current }
-  glEso -> glFoundation "PLANNED: Exact writer credential delivery; consumer acceptance pending" { #planned }
-  glEso -> glAttestor "PLANNED: Two isolated observer credentials; no writer token" { #planned }
-  glEso -> glWriter "PLANNED: Writer credential only; no Kubernetes token" { #planned }
-  glKcReader -> glAttestor "PLANNED: Three group subtrees and member-profile observations" { #planned }
-  glAdminReader -> glAttestor "PLANNED: Native account read only; cannot approve users" { #planned }
-  glParentBot -> glWriter "PLANNED: Parent subtree api/Owner authority, owned-grant constraint" { #planned }
-  gitops -> glRuntime "PLANNED: Reviewed finite revision attempt; no polling/Cron" { #planned }
-  glRuntime -> glFoundation "PLANNED: Scoped deployer and exact source/image admission" { #planned }
-  glFoundation -> glAttestor "PLANNED: Fresh matching GroupReady prerequisite" { #planned }
-  glAttestor -> glWriter "PLANNED: Exact UID-bound short-lived evidence, immutable attempt" { #planned }
-  glWriter -> glTestHuman "PLANNED: Intended exact tenant-group Owner grant; NOT applied" { #planned }
+  glEso -> glFoundation "CURRENT: Exact writer delivery; ESO Ready and finite attempt complete" { #current }
+  glEso -> glAttestor "CURRENT: Two isolated observer credentials; no writer token" { #current }
+  glEso -> glWriter "CURRENT: Writer credential only; no Kubernetes token" { #current }
+  glKcReader -> glAttestor "CURRENT: Three group subtrees and member-profile observations" { #current }
+  glAdminReader -> glAttestor "CURRENT: Native account read only; cannot approve users" { #current }
+  glParentBot -> glWriter "CURRENT: Parent subtree api/Owner authority, owned-grant constraint" { #current }
+  gitops -> glRuntime "CURRENT: Reviewed finite revision attempt; no polling/Cron" { #current }
+  glRuntime -> glFoundation "CURRENT: Scoped deployer and exact source/image admission" { #current }
+  glFoundation -> glAttestor "UNVERIFIED: Ordering violated by stale Ready; repair adoption unverified" { #unverified }
+  glAttestor -> glWriter "CURRENT: Exact UID-bound short-lived evidence, immutable attempt" { #current }
+  glWriter -> glTestHuman "CURRENT: Direct private tenant-group Owner independently verified" { #current }
   human -> glKcOperator "CURRENT: Separate specifically approved native privileged setup session" { #current }
   glKcOperator -> glKcReader "CURRENT: FGAP/client setup and bounded probes; operator session ended" { #current }
+  gitops -> glFoundationOwner "CURRENT: Exact foundation adoption and guarded ownership verified" { #current }
+  glFoundationOwner -> glRuntime "CURRENT: Root-owned RBAC templates bound named reconciliation privileges" { #current }
 }
 views {
   view identityLifecycle {
@@ -942,8 +955,8 @@ views {
   }
   view gitlabOnboardingIdentity {
     title "GitLab onboarding: every identity and boundary"
-    description "Provisioned human, native bot and custody authority are distinct from the not-yet-deployed three-Job runtime. Named platform administration is not automatic PA-group synchronization. No tenant membership grant or complete lifecycle acceptance is claimed."
-    include glNamedAdmin, glTestHuman, glRootIssuer, glSetupOperators, glKcOperator, glEso, glParentBot, glAdminReader, glKcReader, glRuntime, glFoundation, glAttestor, glWriter
+    description "Provider custody, foundation GitOps ownership and one completed finite onboarding attempt are distinct. Direct tenant-group Owner is verified; premature attestor sequencing requires repair. Project/events remain planned; offboarding is separate #508. No complete lifecycle acceptance is claimed."
+    include glNamedAdmin, glTestHuman, glRootIssuer, glSetupOperators, glKcOperator, glEso, glParentBot, glAdminReader, glKcReader, glRuntime, glFoundation, glAttestor, glWriter, glFoundationOwner
     autoLayout LeftRight
   }
   dynamic view identityLifecycleWalkthrough {
